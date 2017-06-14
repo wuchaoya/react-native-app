@@ -1,27 +1,24 @@
-/**
- * 排行页面
- * @author wuchao
- * @date 2017-06-14
- */
 import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    View
+    Navigator,
+    Image,
+    View,
+    DeviceEventEmitter
 } from 'react-native';
 import ComStyle from '../style/CommonStyle'
 
-export default class RankingContainer extends Component {
+export default class TitleTxt extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+        }
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text>排行</Text>
-            </View>
+            <Text style={[styles.font_title]}></Text>
         );
     }
 }
@@ -30,9 +27,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    image: {
-        height: 26,
-        width: 26,
+    font_title:{
     }
 });
 

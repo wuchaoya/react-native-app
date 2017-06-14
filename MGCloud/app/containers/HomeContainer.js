@@ -9,6 +9,7 @@ import {
     Text,
     View
 } from 'react-native';
+import ComStyle from '../style/CommonStyle'
 
 export default class HomeContainer extends Component {
     constructor(props) {

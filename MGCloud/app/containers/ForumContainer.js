@@ -10,6 +10,7 @@ import {
     Image,
     View
 } from 'react-native';
+import ComStyle from '../style/CommonStyle'
 
 export default class ForumContainer extends Component {
     constructor(props) {
@@ -19,8 +20,8 @@ export default class ForumContainer extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text>论坛</Text>
+            <View style={[styles.container,ComStyle.center]}>
+              <Text>论坛</Text>
             </View>
         );
     }
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
     image: {
         height: 26,
         width: 26,
-    }
+    },
+    
 });
 
