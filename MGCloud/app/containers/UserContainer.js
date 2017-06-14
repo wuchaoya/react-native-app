@@ -8,42 +8,35 @@ import {
 } from 'react-native';
 import { Button} from 'native-base';
 import ComStyle from '../style/CommonStyle'
+import UserHead from '../components/UserHead'
+import TextConst from '../const/TextConst'
 const marginTopNmuber = StatusBar.currentHeight
 
 export default class user extends Component {
     render() {
         return (
             <View style={styles.centering}>
-                {/*用户头像*/}
-                <View style={styles.topImg}>
-                    <Image  style={styles.icon_setup} source={require('../static/img/setting_icon.png')} />
-                    <Image source={require('../static/img/user_head_icon.jpg')} />
-                    <Text style={{color:'#fff',paddingTop:4}}>18695912990</Text>
-                </View>
-                {/*会员购买*/}
-                <Text style={styles.text_vip}>会员购买</Text>
-                {/*15块*/}
+                <UserHead/>
+                <Text style={styles.text_vip}>{TextConst.VipBuyText.title}</Text>
                 <View style={[styles.card,{ borderColor:'#F4A460',backgroundColor:'#FAF0E6',}]}>
-                    <Text style={[styles.fonSize_13]}>咪咕娱乐云游戏尊享包</Text>
-                    <Text style={styles.fonSize_13}><Text style={styles.color_darkorange}>15 </Text>元/月</Text>
+                    <Text style={[styles.fonSize_13]}>{TextConst.VipBuyText.Exclusive.name}</Text>
+                    <Text style={styles.fonSize_13}><Text style={styles.color_darkorange}>{TextConst.VipBuyText.Exclusive.Price}</Text>{TextConst.VipBuyText.Exclusive.SingleMonth}</Text>
                     <View style={{alignItems:'flex-end'}}>
                         <Button rounded  style={{height:30,backgroundColor:'darkorange'}}>
-                            <Text style={[styles.fonSize_13,{color:'white'}]}>开通</Text>
+                            <Text style={[styles.fonSize_13,{color:'white'}]}>{TextConst.VipBuyText.Exclusive.open}</Text>
                         </Button>
                     </View>
-
                 </View>
-                {/*6块*/}
                 <View style={[styles.card,{ borderColor:'#DDDDDD',backgroundColor:'#fff',}]}>
-                    <Text style={[styles.fonSize_13]}>咪咕娱乐云游戏精选包</Text>
-                    <Text style={styles.fonSize_13}><Text style={styles.color_darkorange}>6 </Text>元/月</Text>
+                    <Text style={[styles.fonSize_13]}>{TextConst.VipBuyText.Featured.name}</Text>
+                    <Text style={styles.fonSize_13}><Text style={styles.color_darkorange}>{TextConst.VipBuyText.Featured.Price}</Text>{TextConst.VipBuyText.Featured.SingleMonth}</Text>
                     <View style={{alignItems:'flex-end'}}>
                         <Button rounded  style={{height:30,backgroundColor:'rgba(109, 174, 49, 1)'}}>
-                            <Text style={[styles.fonSize_13,{color:'white'}]}>开通</Text>
+                            <Text style={[styles.fonSize_13,{color:'white'}]}>{TextConst.VipBuyText.Featured.open}</Text>
                         </Button>
                     </View>
                 </View>
-                <Text style={styles.text_vip}>会员权益</Text>
+                <Text style={styles.text_vip}>{TextConst.equityText.title}</Text>
             </View>
         );
     }

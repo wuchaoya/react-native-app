@@ -10,7 +10,7 @@ import {
     View
 } from 'react-native';
 import ComStyle from '../style/CommonStyle'
-
+import Banner from '../components/Banner';
 export default class HomeContainer extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +20,7 @@ export default class HomeContainer extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>首页</Text>
+                <Banner/>
             </View>
         );
     }

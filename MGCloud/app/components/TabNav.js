@@ -9,25 +9,30 @@ import RankingContainer from '../containers/RankingContainer'
 import UserContainer from '../containers/UserContainer'
 import ForumContainer from '../containers/ForumContainer'
 import ComStyle from '../style/CommonStyle'
-const icon = {
-    i_home: require('../static/img/i-首页.png'),
-    i_home_select: require('../static/img/i-首页_selected.png'),
-    i_ranKing: require('../static/img/i-排行.png'),
-    i_ranKing_select: require('../static/img/i-排行_selected.png'),
-    i_forum: require('../static/img/i-论坛.png'),
-    i_forum_select: require('../static/img/i-论坛_selected.png'),
-    i_user: require('../static/img/i-我的.png'),
-    i_user_select: require('../static/img/i-我的_selected.png'),
-}
-
+import TextConst from '../const/TextConst'
+import ColorStyle from '../style/ColorStyle'
 export default class TabNav extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
             selectedTab: 'Home',
             theme: {
-                color: 'red'
+                color:ColorStyle.colorGreen
             },
+            efaultIcon:{
+                home: require('../static/img/home_icon.png'),
+                ranKing: require('../static/img/ranking_icon.png'),
+                forum: require('../static/img/forum_icon.png'),
+                user: require('../static/img/user_icon.png'),
+            },
+            selectIcon:{
+                home: require('../static/img/home_selected_icon.png'),
+                ranKing: require('../static/img/ranking_icon_selected.png'),
+                forum: require('../static/img/forum_icon_selected.png'),
+                user: require('../static/img/user_icon_selected.png'),
+            }
+
         }
     }
 
@@ -37,8 +42,9 @@ export default class TabNav extends Component {
                 selected={this.state.selectedTab === selectedTab}
                 selectedTitleStyle={this.state.theme}
                 title={title}
-                renderIcon={() => <Image style={styles.img} source={iconImg }/>}//默认图标
-                renderSelectedIcon={() => <Image style={styles.img} source={selectedIconImg}/>}//选中图标
+                titleStyle={styles.titleTextColor}
+                renderIcon={() => <Image style={styles.iconStyle} source={iconImg }/>}//默认图标
+                renderSelectedIcon={() => <Image style={styles.iconStyle} source={selectedIconImg}/>}//选中图标
                 onPress={() => this.setState({selectedTab: selectedTab})}>
                 <Component/>
             </TabNavigator.Item>
@@ -48,10 +54,10 @@ export default class TabNav extends Component {
     render() {
         return (
             <TabNavigator tabBarStyle={ComStyle.center}>
-                {this._renderTab(HomeContainer, 'Home', '首页', icon.i_home, icon.i_home_select)}
-                {this._renderTab(RankingContainer, 'Ranking', '排行', icon.i_ranKing, icon.i_ranKing_select)}
-                {this._renderTab(ForumContainer, 'Forum', '论坛', icon.i_forum, icon.i_forum_select)}
-                {this._renderTab(UserContainer, 'User', '我的', icon.i_user, icon.i_user_select)}
+                {this._renderTab(HomeContainer, 'Home',TextConst.TabNavText.Home,this.state.efaultIcon.home,this.state.selectIcon.home)}
+                {this._renderTab(RankingContainer, 'Ranking',TextConst.TabNavText.Ranking, this.state.efaultIcon.ranKing,this.state.selectIcon.ranKing)}
+                {this._renderTab(ForumContainer, 'Forum',TextConst.TabNavText.Forum, this.state.efaultIcon.forum,this.state.selectIcon.forum)}
+                {this._renderTab(UserContainer, 'User', TextConst.TabNavText.User,this.state.efaultIcon.user,this.state.selectIcon.user)}
             </TabNavigator>
         );
     }
@@ -65,8 +71,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    img: {
+    iconStyle: {
         width: 21,
         height: 18,
     },
+    titleTextColor:{
+        color:ColorStyle.colorSlategray
+    }
 });

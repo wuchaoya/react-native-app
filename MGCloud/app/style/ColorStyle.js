@@ -1,7 +1,8 @@
 const ColorStyle = {
-    color_green: '#6dae31',
-    color_gray :'#797979'
-
+    colorGreen: '#6dae31',
+    colorGray :'#797979',
+    colorSlategray:'#888888',
+    ColorBlack:'#000000'
 };
 
 module.exports=ColorStyle;
