@@ -1,24 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-    AppRegistry,
     StyleSheet,
-    Text,
-    View,
-    StatusBar,
-   
+    View
 } from 'react-native';
-import MyTabNavigator from '../components/TabNav'
-export default class MGCloud extends Component {
+import TabNav from '../components/TabNav'
+
+export default class BaseApp extends Component {
     render() {
         return (
             <View style={styles.container}>
-            <MyTabNavigator/>
-        </View>
+                <TabNav/>
+            </View>
         );
     }
 }

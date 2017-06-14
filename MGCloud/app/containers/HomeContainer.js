@@ -1,25 +1,25 @@
 /**
- * Created by wuchao on 2017/6/12.
+ * 首页页面
+ * @author wuchao
+ * @date 2017-06-14
  */
 import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    Navigator,
-    Image,
-    View,
-    DeviceEventEmitter
+    View
 } from 'react-native';
-export default class Ranking extends Component {
+
+export default class HomeContainer extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        }
+        this.state = {}
     }
+
     render() {
         return (
             <View style={styles.container}>
-                <Text>排行</Text>
+                <Text>首页</Text>
             </View>
         );
     }
