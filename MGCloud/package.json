@@ -1,24 +1,25 @@
 {
-  "name": "MGCloud",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
-  },
-  "dependencies": {
-    "native-base": "file:node_modules\\native-base",
-    "react": "16.0.0-alpha.12",
-    "react-native": "0.45.1",
-    "react-native-tab-navigator": "file:node_modules\\react-native-tab-navigator"
-  },
-  "devDependencies": {
-    "babel-jest": "20.0.3",
-    "babel-preset-react-native": "1.9.2",
-    "jest": "20.0.4",
-    "react-test-renderer": "16.0.0-alpha.12"
-  },
-  "jest": {
-    "preset": "react-native"
-  }
+	"name": "AwesomeProject",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest"
+	},
+	"dependencies": {
+		"native-base": "^2.1.5",
+		"react": "16.0.0-alpha.12",
+		"react-native": "0.45.1",
+		"react-native-tab-navigator": "^0.3.3",
+		"react-navigation": "^1.0.0-beta.11"
+	},
+	"devDependencies": {
+		"babel-jest": "20.0.3",
+		"babel-preset-react-native": "1.9.2",
+		"jest": "20.0.4",
+		"react-test-renderer": "16.0.0-alpha.12"
+	},
+	"jest": {
+		"preset": "react-native"
+	}
 }
