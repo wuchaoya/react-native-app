@@ -42,6 +42,10 @@ const TextConst = {
             gameList:['崩坏3RD','魔女之权魔女之权魔女之权魔女之权魔女之权魔女之权魔女之权']
         }
         
+    },
+    RankingText:{
+        title:'排行榜',
+        subtitle:['热玩榜','新品榜','预约榜']
     }
 }
 

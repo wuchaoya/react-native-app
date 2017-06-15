@@ -9,18 +9,28 @@ import {
     Text,
     View
 } from 'react-native';
-import ComStyle from '../style/CommonStyle'
-
+import TextConst from '../const/TextConst'
+import ColorStyle from '../style/ColorStyle'
+import Star from '../components/Star'
+import RankingTabNav from '../components/RankingTabNav'
 export default class RankingContainer extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            starNumber:1
+        }
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <Text>排行</Text>
+                <View style={styles.head}>
+                    <Text style={styles.title}>
+                        {TextConst.RankingText.title}
+                    </Text>
+
+                </View>
+                <RankingTabNav></RankingTabNav>
             </View>
         );
     }
@@ -30,9 +40,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    image: {
-        height: 26,
-        width: 26,
+    head: {
+        height:60,
+        backgroundColor:ColorStyle.colorGreen,
+        justifyContent:'center',
+        alignItems: 'center',
+    },
+    title:{
+        fontSize:24,
+        fontWeight:'900',
+        color:ColorStyle.colorWhite,
+        fontFamily:'Arial',
     }
 });
 

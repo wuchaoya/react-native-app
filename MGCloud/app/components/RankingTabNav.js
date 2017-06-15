@@ -4,22 +4,17 @@ import {
     Image
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
-import HomeContainer from '../containers/HomeContainer'
-import RankingContainer from '../containers/RankingContainer'
-import UserContainer from '../containers/UserContainer'
-import ForumContainer from '../containers/ForumContainer'
 import ComStyle from '../style/CommonStyle'
-import TextConst from '../const/TextConst'
 import ColorStyle from '../style/ColorStyle'
-
+import GameList from '../components/GameList'
 export default class TabNav extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'Ranking',
+            selectedTab: 'HotPlay',
             theme: {
-                color:ColorStyle.colorGreen
+                color:ColorStyle.colorGreen,
             },
             efaultIcon:{
                 home: require('../static/img/home_icon.png'),
@@ -36,28 +31,28 @@ export default class TabNav extends Component {
         }
     }
 
-    _renderTab(Component, selectedTab, title, iconImg, selectedIconImg) {
+    _renderTab(Component, selectedTab, title) {
         return (
             <TabNavigator.Item
                 selected={this.state.selectedTab === selectedTab}
                 selectedTitleStyle={this.state.theme}
                 title={title}
                 titleStyle={styles.titleTextColor}
-                renderIcon={() => <Image style={styles.iconStyle} source={iconImg }/>}//默认图标
-                renderSelectedIcon={() => <Image style={styles.iconStyle} source={selectedIconImg}/>}//选中图标
                 onPress={() => this.setState({selectedTab: selectedTab})}>
-                <Component/>
+                <Component name={title}/>
             </TabNavigator.Item>
         )
     }
 
     render() {
         return (
-            <TabNavigator tabBarStyle={ComStyle.center}>
-                {this._renderTab(HomeContainer, 'Home',TextConst.TabNavText.Home,this.state.efaultIcon.home,this.state.selectIcon.home)}
-                {this._renderTab(RankingContainer, 'Ranking',TextConst.TabNavText.Ranking, this.state.efaultIcon.ranKing,this.state.selectIcon.ranKing)}
-                {this._renderTab(ForumContainer, 'Forum',TextConst.TabNavText.Forum, this.state.efaultIcon.forum,this.state.selectIcon.forum)}
-                {this._renderTab(UserContainer, 'User', TextConst.TabNavText.User,this.state.efaultIcon.user,this.state.selectIcon.user)}
+            <TabNavigator
+                sceneStyle={{marginTop:60}}
+                tabBarStyle={[ComStyle.center,{position: 'absolute',
+        top:0,height: 50}]}>
+                {this._renderTab(GameList,'HotPlay','热玩榜')}
+                {this._renderTab(GameList,'NewProducts','新品榜')}
+                {this._renderTab(GameList,'Reserve','预约榜')}
             </TabNavigator>
         );
     }
@@ -65,11 +60,12 @@ export default class TabNav extends Component {
 
 const styles = StyleSheet.create({
     flex: {
-        flex: 1,
+
     },
     center: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+
     },
     iconStyle: {
         width: 21,
