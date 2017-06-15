@@ -11,6 +11,7 @@ import ForumContainer from '../containers/ForumContainer'
 import ComStyle from '../style/CommonStyle'
 import TextConst from '../const/TextConst'
 import ColorStyle from '../style/ColorStyle'
+
 export default class TabNav extends Component {
 
     constructor(props) {

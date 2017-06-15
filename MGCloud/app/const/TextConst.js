@@ -30,6 +30,18 @@ const TextConst = {
     },
     equityText:{
         title:'会员权益'
+    },
+    HomeContainerText:{
+        gameTheme:{
+            title:'游戏专题',
+            subtitle:'ACT ACT FTC RPG ... 我们都为您选好了'
+        },
+        gameHighlights:{
+            title:'游戏精选',
+            more:'更多 >',
+            gameList:['崩坏3RD','魔女之权魔女之权魔女之权魔女之权魔女之权魔女之权魔女之权']
+        }
+        
     }
 }
 

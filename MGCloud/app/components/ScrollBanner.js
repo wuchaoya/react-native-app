@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {
     AppRegistry,
@@ -7,6 +6,7 @@ import {
     View,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
+import ColorStyle from '../style/ColorStyle'
 
 export default class HomeComponent extends Component {
     render() {
@@ -14,10 +14,13 @@ export default class HomeComponent extends Component {
             <View style={styles.container}>
                 <Swiper style={styles.wrapper}
                         height={200}
-                        showsButtons={true}
+                        loop
+                        autoplay
+                        showsButtons={false}
                         paginationStyle={{bottom:10}}
-                        dot={<View style={{width:8,height:8,backgroundColor:'white',borderRadius:4,marginLeft:3,marginRight:3}}></View>}
-                        activeDot={<View style={{width:8,height:8,backgroundColor:'orange',borderRadius:4,marginLeft:3,marginRight:3}}></View>}
+                        autoplayTimeout={3}
+                        dot={<View style={[styles.dot,{backgroundColor:ColorStyle.colorSlateGray}]}></View>}
+                        activeDot={<View style={[styles.dot,{backgroundColor:ColorStyle.colorGreenYellow}]}></View>}
                 >
                     <View style={styles.slide1}>
                         <Text style={styles.text}>1</Text>
@@ -62,5 +65,13 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 30,
         fontWeight: 'bold',
+    },
+    dot:{
+        width:8,
+        height:8,
+        backgroundColor:'rgba(0,0,0,.2)',
+        borderRadius:4,
+        marginLeft:3,
+        marginRight:3
     }
 });

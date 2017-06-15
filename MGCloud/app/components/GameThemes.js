@@ -8,6 +8,7 @@ import {
     DeviceEventEmitter
 } from 'react-native';
 import ComStyle from '../style/CommonStyle'
+
 export default class GameThemes extends Component {
     constructor(props) {
         super(props);
