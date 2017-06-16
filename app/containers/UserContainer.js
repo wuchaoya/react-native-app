@@ -10,6 +10,7 @@ import { Button} from 'native-base';
 import ComStyle from '../style/CommonStyle'
 import UserHead from '../components/UserHead'
 import TextConst from '../const/TextConst'
+
 const marginTopNmuber = StatusBar.currentHeight
 
 export default class user extends Component {

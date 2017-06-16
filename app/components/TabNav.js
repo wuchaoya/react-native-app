@@ -11,12 +11,13 @@ import ForumContainer from '../containers/ForumContainer'
 import ComStyle from '../style/CommonStyle'
 import TextConst from '../const/TextConst'
 import ColorStyle from '../style/ColorStyle'
+
 export default class TabNav extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'Home',
+            selectedTab: 'Ranking',
             theme: {
                 color:ColorStyle.colorGreen
             },
@@ -32,7 +33,6 @@ export default class TabNav extends Component {
                 forum: require('../static/img/forum_icon_selected.png'),
                 user: require('../static/img/user_icon_selected.png'),
             }
-
         }
     }
 

@@ -8,7 +8,9 @@ import {
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
 import TextConst from '../const/TextConst'
+
 const marginTopNmuber = StatusBar.currentHeight
+
 export default class UserHead extends Component {
     render() {
         return (
@@ -20,6 +22,7 @@ export default class UserHead extends Component {
         );
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         backgroundColor:ColorStyle.colorGreen,
