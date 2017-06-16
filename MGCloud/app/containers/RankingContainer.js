@@ -28,7 +28,6 @@ export default class RankingContainer extends Component {
                     <Text style={styles.title}>
                         {TextConst.RankingText.title}
                     </Text>
-
                 </View>
                 <RankingTabNav></RankingTabNav>
             </View>

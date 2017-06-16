@@ -14,7 +14,7 @@ export default class BaseApp extends Component {
                     backgroundColor="rgba(0,0,0,0)"
                     translucent={true}
                     barStyle="light-content"
-                    hidden={true}
+                    hidden={false}
                 />
                 <TabNav/>
             </View>

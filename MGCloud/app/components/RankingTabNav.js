@@ -7,7 +7,82 @@ import TabNavigator from 'react-native-tab-navigator';
 import ComStyle from '../style/CommonStyle'
 import ColorStyle from '../style/ColorStyle'
 import GameList from '../components/GameList'
-export default class TabNav extends Component {
+
+const gameListDataHotPlay = [
+    {
+        gameImg: require('../static/img/user_head_icon.jpg'),
+        gameName:'崩坏3RD',
+        gameStar:9,
+        gameClass:['益智','塔防'],
+        gamePlayed:false
+    },
+    {
+        gameImg: require('../static/img/game2_img.png'),
+        gameName:'崩坏3RD',
+        gameStar:9,
+        gameClass:['益智','塔防'],
+        gamePlayed:true
+    },
+    {
+        gameImg: require('../static/img/game2_img.png'),
+        gameName:'崩坏3RD',
+        gameStar:9,
+        gameClass:['益智','塔防'],
+        gamePlayed:true
+    },
+    {
+        gameImg: require('../static/img/game2_img.png'),
+        gameName:'崩坏3RD',
+        gameStar:9,
+        gameClass:['益智','塔防'],
+        gamePlayed:true
+    },
+    {
+        gameImg: require('../static/img/game2_img.png'),
+        gameName:'崩坏3RD',
+        gameStar:9,
+        gameClass:['益智','塔防'],
+        gamePlayed:true
+    }
+]
+const gameListDataReserve = [
+    {
+        gameImg: require('../static/img/game1_img.png'),
+        gameName:'崩坏3RD',
+        gameStar:9,
+        gameClass:['益智','塔防'],
+        gameReserve:false
+    },
+    {
+        gameImg: require('../static/img/game2_img.png'),
+        gameName:'崩坏3RD',
+        gameStar:9,
+        gameClass:['益智','塔防'],
+        gameReserve:true
+    },
+    {
+        gameImg: require('../static/img/game2_img.png'),
+        gameName:'崩坏3RD',
+        gameStar:9,
+        gameClass:['益智','塔防'],
+        gameReserve:false
+    },
+    {
+        gameImg: require('../static/img/game2_img.png'),
+        gameName:'崩坏3RD',
+        gameStar:9,
+        gameClass:['益智','塔防'],
+        gameReserve:false
+    },
+    {
+        gameImg: require('../static/img/game2_img.png'),
+        gameName:'崩坏3RD',
+        gameStar:9,
+        gameClass:['益智','塔防'],
+        gameReserve:false
+    }
+]
+export default class RankingTabNav extends Component {
 
     constructor(props) {
         super(props);
@@ -16,30 +91,22 @@ export default class TabNav extends Component {
             theme: {
                 color:ColorStyle.colorGreen,
             },
-            efaultIcon:{
-                home: require('../static/img/home_icon.png'),
-                ranKing: require('../static/img/ranking_icon.png'),
-                forum: require('../static/img/forum_icon.png'),
-                user: require('../static/img/user_icon.png'),
-            },
-            selectIcon:{
-                home: require('../static/img/home_selected_icon.png'),
-                ranKing: require('../static/img/ranking_icon_selected.png'),
-                forum: require('../static/img/forum_icon_selected.png'),
-                user: require('../static/img/user_icon_selected.png'),
-            }
+            lineIcon : require('../static/img/line_icon.png'),
+            lineGreenIcon : require('../static/img/line_green_icon.png'),
         }
     }
 
-    _renderTab(Component, selectedTab, title) {
+    _renderTab(Component, selectedTab, title, iconImg,selectedIconImg,data) {
         return (
             <TabNavigator.Item
                 selected={this.state.selectedTab === selectedTab}
                 selectedTitleStyle={this.state.theme}
                 title={title}
                 titleStyle={styles.titleTextColor}
+                renderIcon={() => <Image style={styles.iconStyle} source={iconImg }/>}//默认图标
+                renderSelectedIcon={() => <Image style={styles.iconStyle} source={selectedIconImg}/>}//选中图标
                 onPress={() => this.setState({selectedTab: selectedTab})}>
-                <Component name={title}/>
+                <Component name={title} data={data}/>
             </TabNavigator.Item>
         )
     }
@@ -47,12 +114,11 @@ export default class TabNav extends Component {
     render() {
         return (
             <TabNavigator
-                sceneStyle={{marginTop:60}}
-                tabBarStyle={[ComStyle.center,{position: 'absolute',
-        top:0,height: 50}]}>
-                {this._renderTab(GameList,'HotPlay','热玩榜')}
-                {this._renderTab(GameList,'NewProducts','新品榜')}
-                {this._renderTab(GameList,'Reserve','预约榜')}
+                sceneStyle={{marginTop:30,}}
+                tabBarStyle={[styles.center,styles.tabBarStyle]}>
+                {this._renderTab(GameList,'HotPlay','热玩榜',this.state.lineIcon,this.state.lineGreenIcon,gameListDataHotPlay)}
+                {this._renderTab(GameList,'NewProducts','新品榜',this.state.lineIcon,this.state.lineGreenIcon,gameListDataHotPlay)}
+                {this._renderTab(GameList,'Reserve','预约榜',this.state.lineIcon,this.state.lineGreenIcon,gameListDataReserve)}
             </TabNavigator>
         );
     }
@@ -68,10 +134,24 @@ const styles = StyleSheet.create({
 
     },
     iconStyle: {
-        width: 21,
-        height: 18,
+        width: 60,
+        height: 4,
+        position: 'absolute',
+        bottom:-39,
+        left:-30
     },
     titleTextColor:{
-        color:ColorStyle.colorSlategray
+        fontSize: 18,
+        color:ColorStyle.colorSlategray,
+        fontWeight:'800',
+        paddingBottom:8
+    },
+    tabBarStyle:{
+        position: 'absolute',
+        top:0,
+        height: 40,
+        paddingLeft: 40,
+        paddingRight: 40,
+
     }
 });

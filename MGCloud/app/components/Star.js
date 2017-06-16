@@ -29,8 +29,8 @@ export default class Star extends Component {
             grayStarNumber = 5-yellowStarNumber
            return(
             <Text>
-                <Text style={styles.yellowStar}>{this.getStar(yellowStarNumber)}</Text>
-                <Text style={styles.grayStar}>{this.getStar(grayStarNumber)}</Text>
+                <Text style={[styles.yellowStar,this.props.style]}>{this.getStar(yellowStarNumber)}</Text>
+                <Text style={[styles.grayStar,this.props.style]}>{this.getStar(grayStarNumber)}</Text>
             </Text>
            )
     }
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     yellowStar:{
-        color:'yellow'
+        color:'#ff8800'
     },
     grayStar:{
         color:'gray'
