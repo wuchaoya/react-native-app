@@ -14,10 +14,11 @@ import TextConst from '../const/TextConst'
 const marginTopNmuber = StatusBar.currentHeight
 
 export default class user extends Component {
+
     render() {
         return (
             <View style={styles.centering}>
-                <UserHead/>
+                <UserHead navigation={this.props.navigation}/>
                 <Text style={styles.text_vip}>{TextConst.VipBuyText.title}</Text>
                 <View style={[styles.card,{ borderColor:'#F4A460',backgroundColor:'#FAF0E6',}]}>
                     <Text style={[styles.fonSize_13]}>{TextConst.VipBuyText.Exclusive.name}</Text>

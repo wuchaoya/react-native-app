@@ -76,7 +76,7 @@ const gameListDataReserve = [
     },
     {
         gameImg: require('../static/img/game2_img.png'),
-        gameName:'崩坏3RD',
+        gameName:'崩坏3RD111111111111111111111111111111111111111111111111111111111111111111111111111',
         gameStar:9,
         gameClass:['益智','塔防'],
         gameReserve:false
@@ -114,7 +114,7 @@ export default class RankingTabNav extends Component {
     render() {
         return (
             <TabNavigator
-                sceneStyle={{marginTop:30,}}
+                sceneStyle={{marginTop:30,paddingBottom:0}}
                 tabBarStyle={[styles.center,styles.tabBarStyle]}>
                 {this._renderTab(GameList,'HotPlay','热玩榜',this.state.lineIcon,this.state.lineGreenIcon,gameListDataHotPlay)}
                 {this._renderTab(GameList,'NewProducts','新品榜',this.state.lineIcon,this.state.lineGreenIcon,gameListDataHotPlay)}

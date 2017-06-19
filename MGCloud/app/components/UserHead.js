@@ -12,12 +12,17 @@ import TextConst from '../const/TextConst'
 const marginTopNmuber = StatusBar.currentHeight
 
 export default class UserHead extends Component {
+
     render() {
+        const { navigate } = this.props.navigation;
+        console.log(navigate)
         return (
             <View style={styles.container}>
                 <Image  style={styles.iconSetup} source={require('../static/img/setting_icon.png')} />
-                <Image source={require('../static/img/user_head_icon.jpg')} />
-                <Text style={styles.userNameText}>{TextConst.UserHeadText.userNameText}</Text>
+                <Image source={require('../static/img/user_head_icon.jpg')}
+
+                />
+                <Text onPress={() => navigate('UserHead')} style={styles.userNameText}>{TextConst.UserHeadText.userNameText}</Text>
             </View>
         );
     }

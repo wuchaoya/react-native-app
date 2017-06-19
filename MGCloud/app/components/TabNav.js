@@ -17,7 +17,7 @@ export default class TabNav extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'Ranking',
+            selectedTab: 'Home',
             theme: {
                 color:ColorStyle.colorGreen
             },
@@ -46,7 +46,7 @@ export default class TabNav extends Component {
                 renderIcon={() => <Image style={styles.iconStyle} source={iconImg }/>}//默认图标
                 renderSelectedIcon={() => <Image style={styles.iconStyle} source={selectedIconImg}/>}//选中图标
                 onPress={() => this.setState({selectedTab: selectedTab})}>
-                <Component/>
+                <Component navigation={this.props.navigation}/>
             </TabNavigator.Item>
         )
     }

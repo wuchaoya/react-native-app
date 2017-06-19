@@ -3,14 +3,37 @@ import {
     Text,
     View,
     Image,
-    Dimensions
+    Dimensions,
+    TouchableHighlight
 } from 'react-native'
 import Swiper from 'react-native-swiper'
-
 const { width } = Dimensions.get('window')
-
+import HttpUitl from '../common/HttpUitl'
+import WebHost from '../common/WebHost'
 export default class extends Component {
+    constructor(props) {
+        super(props);
+    }
+    getHomeBannerImg(){
+        fetch('https://mywebsite.com/endpoint/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                firstParam: 'yourValue',
+                secondParam: 'yourOtherValue',
+            })
+        }).then(function(response) {
+            //获取数据,数据处理
+
+            console.log(response)
+            return response
+        });
+    }
     render () {
+        const { navigate } = this.props.navigation;
         return (
             <View>
                 <Swiper style={styles.wrapper} height={260}
@@ -22,7 +45,9 @@ export default class extends Component {
           }}
                         loop>
                     <View style={styles.slide} title={<Text numberOfLines={1}>1</Text>}>
-                        <Image resizeMode='stretch' style={styles.image} source={require('../static/img/u53.png')} />
+                        <TouchableHighlight onPress={() => navigate('TopicDetails')} style={styles.image}>
+                            <Image resizeMode='stretch' style={styles.image} source={require('../static/img/u53.png')}  />
+                        </TouchableHighlight>
                     </View>
                     <View style={styles.slide} title={<Text numberOfLines={1}>2</Text>}>
                         <Image resizeMode='stretch' style={styles.image} source={require('../static/img/u55.png')} />
@@ -31,6 +56,7 @@ export default class extends Component {
                         <Image resizeMode='stretch' style={styles.image} source={require('../static/img/u57.png')} />
                     </View>
                 </Swiper>
+
             </View>
         )
     }

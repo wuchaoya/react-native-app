@@ -1,42 +1,36 @@
 /**
- * 排行页面
- * @author wuchao
- * @date 2017-06-14
+ * Created by wuchao on 2017/6/16.
  */
 import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    View
+    Navigator,
+    Image,
+    View,
+    DeviceEventEmitter
 } from 'react-native';
-import TextConst from '../const/TextConst'
 import ColorStyle from '../style/ColorStyle'
-import Star from '../components/Star'
-import RankingTabNav from '../components/RankingTabNav'
-import Head from '../components/Head'
-export default class RankingContainer extends Component {
+export default class Head extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            starNumber:1
+            
         }
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <Head title="排行榜"/>
-                <RankingTabNav/>
+            <View style={styles.head}>
+                <Text style={styles.title}>
+                    {this.props.title}
+                </Text>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-       
-    },
     head: {
         height:60,
         backgroundColor:ColorStyle.colorGreen,
@@ -49,5 +43,6 @@ const styles = StyleSheet.create({
         color:ColorStyle.colorWhite,
         fontFamily:'Arial',
     }
+
 });
 

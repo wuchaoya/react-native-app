@@ -40,7 +40,7 @@ export default class GameList extends Component{
                         <Text style={[{fontSize:20},Number(rowID)<3?{color:'#ff8800'}:{color:'#dddddd'}]}>{Number(rowID)+1}</Text>
                         <Image style={styles.thumb} source={rowData.gameImg} />
                         <View style={{width:160}}>
-                            <Text style={styles.gameName}>{rowData.gameName}</Text>
+                            <Text numberOfLines={1}  style={styles.gameName}>{rowData.gameName}</Text>
                             <View style={{flexDirection:'row'}}>
                                 <Star starNumber={rowData.gameStar}style={{fontSize:12}}></Star>
                                 <Text style={{fontSize:12,marginLeft:4}}>{rowData.gameStar}</Text>

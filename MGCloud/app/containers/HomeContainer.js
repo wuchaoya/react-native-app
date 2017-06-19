@@ -30,18 +30,18 @@ export default class HomeContainer extends Component {
         return (
         <ScrollView>
             <View style={styles.container}>
-                <Banner/>
+                <Banner navigation={this.props.navigation}/>
                 <View style={CommonStyle.container}>
                     <Title titleText={TextConst.HomeContainerText.gameTheme.title}></Title>
                     <Text style={styles.subtitle}>{TextConst.HomeContainerText.gameTheme.subtitle}</Text>
-                    <ScrollGameThemes></ScrollGameThemes>
+                    <ScrollGameThemes navigation={this.props.navigation}></ScrollGameThemes>
                 </View>
                 <View style={CommonStyle.container}>
                     <View style={styles.homeContainer}>
                         <Title titleText={TextConst.HomeContainerText.gameHighlights.title}></Title>
                         <Text style={styles.more}>{TextConst.HomeContainerText.gameHighlights.more}</Text>
                     </View>
-                    <ScrollGameHighlights></ScrollGameHighlights>
+                    <ScrollGameHighlights navigation={this.props.navigation}></ScrollGameHighlights>
                 </View>
             </View>
         </ScrollView>
