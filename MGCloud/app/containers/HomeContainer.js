@@ -18,6 +18,7 @@ import CommonStyle from '../style/CommonStyle'
 import TextConst from '../const/TextConst'
 import ScrollGameThemes from '../components/ScrollGameThemes'
 import ScrollGameHighlights from '../components/ScrollGameHighlights'
+import HttpRequest from '../common/HttpRequest'
 
 const marginTopNmuber = StatusBar.currentHeight
 
@@ -27,6 +28,7 @@ export default class HomeContainer extends Component {
         this.state = {}
     }
     render() {
+        {HttpRequest.getHomeImg}
         return (
         <ScrollView>
             <View style={styles.container}>

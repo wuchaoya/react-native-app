@@ -1,4 +1,5 @@
 const WebHost = {
-    url: 'http://op-hmop.haimawan.com/'
+    url: 'http://172.16.70.215'
 }
+
 module.exports = WebHost

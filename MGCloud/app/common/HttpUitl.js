@@ -1,35 +1,31 @@
-/**
- * Created by wuchao on 2017/6/19.
- */
-import React, {Component} from 'react';
-import {
-    StyleSheet,
-    Text,
-    Navigator,
-    Image,
-    View,
-    DeviceEventEmitter
-} from 'react-native';
-import ComStyle from '../style/CommonStyle'
-export default class Forum extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
+import WebHost from './WebHost'
 
-    render() {
-        return (
-            <View>
-
-            </View>
-        );
+const HttpUitl = {
+    /**
+     * 封装 fetch post 请求
+     * @param path  string
+     * @param parameter obj
+     * @param callback function
+     */
+    post:(path,parameter,callback)=>{
+        console.log()
+        fetch(WebHost.url+path, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(parameter)
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                callback
+                console.log(responseJson)
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-
-});
-
+module.exports = HttpUitl

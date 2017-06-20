@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
-    StatusBar
+    StatusBar,
+    Button
 } from 'react-native';
 import TabNav from '../components/TabNav'
 import { StackNavigator } from 'react-navigation';
 import CommonStyle from '../style/CommonStyle'
 import UserHead from '../components/UserHead';
 import TopicDetails from '../containers/TopicDetails'
+
 class BaseApp extends Component {
     static navigationOptions = {
         title: 'Welcome',//设置标题内容
@@ -35,8 +37,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 });
+
 const SimpleApp = StackNavigator({
-    Home: {
+        Home: {
         screen: BaseApp,
         navigationOptions:{
             title:'',//设置标题
@@ -50,10 +53,16 @@ const SimpleApp = StackNavigator({
             headerTitleStyle:CommonStyle.headerTitleStyle
         }
     },
-    UserHead:{screen:UserHead},
-    TopicDetails:{screen:TopicDetails},
-
-
-},);
+        UserHead:{screen:UserHead},
+        TopicDetails:{
+            screen:TopicDetails,
+            navigationOptions:{
+                title:'',//设置标题
+                headerTitle:'详情',//设置导航栏标题
+                headerBackTitle:null,//设置跳转页面左侧返回箭头后面的文字
+                header:null,
+            }
+        },
+    }, {initialRouteName:'Home'});
 
 export default SimpleApp;

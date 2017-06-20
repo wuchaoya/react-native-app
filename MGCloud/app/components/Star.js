@@ -36,7 +36,7 @@ export default class Star extends Component {
     }
     render() {
         return (
-            <View>
+            <View style={this.props.style}>
                 {this._renderStar(this.props.starNumber)}
             </View>
         );

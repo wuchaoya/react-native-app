@@ -10,19 +10,6 @@ import  {
 } from'react-native';
 import {Button } from 'native-base';
 import Star from './Star'
-const THUMB_URLS = [
-    require('../static/img/user_head_icon.jpg'),
-    require('../static/img/user_head_icon.jpg'),
-    require('../static/img/user_head_icon.jpg'),
-    require('../static/img/user_head_icon.jpg'),
-    require('../static/img/user_head_icon.jpg'),
-    require('../static/img/user_head_icon.jpg'),
-    require('../static/img/user_head_icon.jpg'),
-    require('../static/img/user_head_icon.jpg'),
-    require('../static/img/user_head_icon.jpg'),
-    require('../static/img/user_head_icon.jpg'),
-    require('../static/img/user_head_icon.jpg'),
-];
 
 export default class GameList extends Component{
     constructor(props) {
@@ -112,6 +99,7 @@ export default class GameList extends Component{
         );
     }
 }
+
 const styles =StyleSheet.create({
     row: {
         flexDirection: 'row',

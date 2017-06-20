@@ -82,6 +82,7 @@ const gameListDataReserve = [
         gameReserve:false
     }
 ]
+
 export default class RankingTabNav extends Component {
 
     constructor(props) {

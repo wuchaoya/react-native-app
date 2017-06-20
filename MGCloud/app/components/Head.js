@@ -1,6 +1,3 @@
-/**
- * Created by wuchao on 2017/6/16.
- */
 import React, {Component} from 'react';
 import {
     StyleSheet,
@@ -11,6 +8,7 @@ import {
     DeviceEventEmitter
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
+
 export default class Head extends Component {
     constructor(props) {
         super(props);
