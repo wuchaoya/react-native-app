@@ -47,10 +47,10 @@ const SimpleApp = StackNavigator({
             headerTitle:'详情',//设置导航栏标题
             headerBackTitle:null,//设置跳转页面左侧返回箭头后面的文字
             headerTruncatedBackTitle:'返回',
-            headerRight:null,
-            headerLeft:null,
-            headerStyle:CommonStyle.headerStyle,
-            headerTitleStyle:CommonStyle.headerTitleStyle
+            // headerRight:null,
+            // headerLeft:null,
+            // headerStyle:CommonStyle.headerStyle,
+            // headerTitleStyle:CommonStyle.headerTitleStyle
         }
     },
         UserHead:{screen:UserHead},

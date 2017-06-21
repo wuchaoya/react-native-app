@@ -29,7 +29,7 @@ export default class GameList extends Component{
                         <View style={{width:160}}>
                             <Text numberOfLines={1}  style={styles.gameName}>{rowData.gameName}</Text>
                             <View style={{flexDirection:'row'}}>
-                                <Star starNumber={rowData.gameStar}style={{fontSize:12}}></Star>
+                                <Star starNumber={rowData.gameStar}textStyle={{fontSize:12}}></Star>
                                 <Text style={{fontSize:12,marginLeft:4}}>{rowData.gameStar}</Text>
                             </View>
                             <View style={{flexDirection:'row'}}>

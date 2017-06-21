@@ -23,21 +23,21 @@ export default class Star extends Component {
         return star
     }
     
-    _renderStar(number){
+    _renderStar(number,textStyle){
         let
             yellowStarNumber=parseInt(number/2),
             grayStarNumber = 5-yellowStarNumber
            return(
             <Text>
-                <Text style={[styles.yellowStar,this.props.style]}>{this.getStar(yellowStarNumber)}</Text>
-                <Text style={[styles.grayStar,this.props.style]}>{this.getStar(grayStarNumber)}</Text>
+                <Text style={[styles.yellowStar,this.props.textStyle]}>{this.getStar(yellowStarNumber)}</Text>
+                <Text style={[styles.grayStar,this.props.textStyle]}>{this.getStar(grayStarNumber)}</Text>
             </Text>
            )
     }
     render() {
         return (
             <View style={this.props.style}>
-                {this._renderStar(this.props.starNumber)}
+                {this._renderStar(this.props.starNumber,this.props.textStyle)}
             </View>
         );
     }

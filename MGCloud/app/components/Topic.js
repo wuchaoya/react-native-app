@@ -55,6 +55,7 @@ export default class Topic extends Component {
             <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this._render}
+                scrollToEnd={{animated: true}}
             />
         );
     }
