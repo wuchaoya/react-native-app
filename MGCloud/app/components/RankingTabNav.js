@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color:ColorStyle.colorSlategray,
         fontWeight:'800',
-        paddingBottom:8
+        paddingBottom:8,
     },
     tabBarStyle:{
         position: 'absolute',

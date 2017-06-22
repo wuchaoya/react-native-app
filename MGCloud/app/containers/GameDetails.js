@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import {
     StyleSheet,
@@ -6,8 +5,15 @@ import {
     Navigator,
     Image,
     View,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    ScrollView
 } from 'react-native';
+import GameDetailsVideo from '../components/GameDetailsVideo'
+import TransparentStatusBar from '../components/TransparentStatusBar'
+import GameGrade from '../components/GameGrade'
+import GameChart from '../components/GameChart'
+import GameDescription from '../components/GameDescription'
+import GameOtherInfo from  '../components/GameOtherInfo'
 
 export default class GameDetails extends Component {
     constructor(props) {
@@ -17,17 +23,24 @@ export default class GameDetails extends Component {
 
     render() {
         return (
-            <View>
-                <Text>游戏详情</Text>
-            </View>
+            <ScrollView>
+                <View style={styles.container}>
+                    <TransparentStatusBar opacity={0.3}/>
+                    <GameDetailsVideo/>
+                    <GameGrade/>
+                    <GameChart/>
+                    <GameDescription/>
+                    <GameOtherInfo/>
+                </View>
+            </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        backgroundColor:'#ededed'
     },
-
+    
 });
 

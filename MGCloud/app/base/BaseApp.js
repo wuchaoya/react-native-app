@@ -12,6 +12,7 @@ import TopicDetails from '../containers/TopicDetails'
 import Settings from '../containers/Settings'
 import RankingContainer from '../containers/RankingContainer'
 import GameDetails from '../containers/GameDetails'
+import TransparentStatusBar from '../components/TransparentStatusBar'
 
 class BaseApp extends Component {
     static navigationOptions = {
@@ -21,12 +22,7 @@ class BaseApp extends Component {
         const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
-                <StatusBar
-                    backgroundColor="rgba(0,0,0,0)"
-                    translucent={true}
-                    barStyle="light-content"
-                    hidden={false}
-                />
+                <TransparentStatusBar/>
                 <TabNav navigation={this.props.navigation}/>
             </View>
         );
@@ -66,7 +62,13 @@ const SimpleApp = StackNavigator(
             }
         },
         Settings:{screen:Settings},
-        GameDetails:{screen:GameDetails},
+        GameDetails:{
+            screen:GameDetails,
+            navigationOptions:{
+                header:null,
+            }
+
+        },
 
     },
     {initialRouteName:'Home'});

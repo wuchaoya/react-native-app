@@ -29,8 +29,8 @@ export default class Star extends Component {
             grayStarNumber = 5-yellowStarNumber
            return(
             <Text>
-                <Text style={[styles.yellowStar,this.props.textStyle]}>{this.getStar(yellowStarNumber)}</Text>
-                <Text style={[styles.grayStar,this.props.textStyle]}>{this.getStar(grayStarNumber)}</Text>
+                <Text style={[styles.yellowStar,textStyle]}>{this.getStar(yellowStarNumber)}</Text>
+                <Text style={[styles.grayStar,textStyle]}>{this.getStar(grayStarNumber)}</Text>
             </Text>
            )
     }

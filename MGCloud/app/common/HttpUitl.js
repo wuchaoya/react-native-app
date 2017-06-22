@@ -18,7 +18,7 @@ const HttpUitl = {
             body: JSON.stringify(parameter)
         }).then((response) => response.json())
             .then((responseJson) => {
-                callback
+                callback(responseJson)
                 console.log(responseJson)
             })
             .catch((error) => {

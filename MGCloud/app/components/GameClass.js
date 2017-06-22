@@ -17,7 +17,7 @@ export default class GameClass extends Component {
 
     render() {
         return (
-            <View style={styles.gameClass}>
+            <View style={[styles.gameClass,this.props.conterStyle]}>
                 <Text style={this.props.style}>{this.props.gameClassText}</Text>
             </View>
         );
@@ -32,8 +32,7 @@ const styles = StyleSheet.create({
         paddingTop:2,
         paddingLeft:4,
         paddingRight:4,
-        borderRadius:4
+        borderRadius:4,
     }
-
 });
 
