@@ -107,7 +107,7 @@ export default class RankingTabNav extends Component {
                 renderIcon={() => <Image style={styles.iconStyle} source={iconImg }/>}//默认图标
                 renderSelectedIcon={() => <Image style={styles.iconStyle} source={selectedIconImg}/>}//选中图标
                 onPress={() => this.setState({selectedTab: selectedTab})}>
-                <Component name={title} data={data}/>
+                <Component name={title} data={data} navigation ={this.props.navigation}/>
             </TabNavigator.Item>
         )
     }

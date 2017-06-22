@@ -26,7 +26,8 @@ export default class RankingContainer extends Component {
         return (
             <View style={styles.container}>
                 <Head title="排行榜"/>
-                <RankingTabNav/>
+                <RankingTabNav navigation={this.props.navigation}/>
+                {console.log(this.props.navigation)}
             </View>
         );
     }

@@ -19,7 +19,8 @@ export default class GameList extends Component{
             dataSource: ds.cloneWithRows(this.props.data),
         };
     }
-    _renderRow(rowData,sectionID, rowID) {
+    _renderRow(rowData, sectionID, rowID, highlightRow,navigate) {
+        console.log(navigate)
         return (
             <TouchableOpacity>
                 <View>
@@ -75,6 +76,7 @@ export default class GameList extends Component{
                                             }
                                             )
                                     }
+                                onPress={() => navigate('GameDetails')}
                             >
                                 <Text style={{fontSize: 10,margin: 0,padding:0}}>
                                     {
@@ -91,10 +93,12 @@ export default class GameList extends Component{
         );
     }
     render() {
+        const { navigate } = this.props.navigation;
+        console.log(navigate)
         return (
             <ListView
                 dataSource={this.state.dataSource}
-                renderRow={this._renderRow}
+                renderRow={(rowData, sectionID, rowID, highlightRow)=>this._renderRow(rowData, sectionID, rowID, highlightRow,navigate)}
             />
         );
     }

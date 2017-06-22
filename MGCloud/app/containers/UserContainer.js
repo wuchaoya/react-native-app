@@ -5,41 +5,78 @@ import {
     View,
     Image,
     StatusBar,
+    ScrollView
 } from 'react-native';
-import { Button} from 'native-base';
-import ComStyle from '../style/CommonStyle'
+import ColorStyle from '../style/ColorStyle'
 import UserHead from '../components/UserHead'
 import TextConst from '../const/TextConst'
-
-const marginTopNmuber = StatusBar.currentHeight
+import Title from '../components/Title'
+import VipBuy from '../components/VipBuy'
+import GiftBag from '../components/GiftBag'
 
 export default class user extends Component {
 
     render() {
         return (
-            <View style={styles.centering}>
-                <UserHead navigation={this.props.navigation}/>
-                <Text style={styles.text_vip}>{TextConst.VipBuyText.title}</Text>
-                <View style={[styles.card,{ borderColor:'#F4A460',backgroundColor:'#FAF0E6',}]}>
-                    <Text style={[styles.fonSize_13]}>{TextConst.VipBuyText.Exclusive.name}</Text>
-                    <Text style={styles.fonSize_13}><Text style={styles.color_darkorange}>{TextConst.VipBuyText.Exclusive.Price}</Text>{TextConst.VipBuyText.Exclusive.SingleMonth}</Text>
-                    <View style={{alignItems:'flex-end'}}>
-                        <Button rounded  style={{height:30,backgroundColor:'darkorange'}}>
-                            <Text style={[styles.fonSize_13,{color:'white'}]}>{TextConst.VipBuyText.Exclusive.open}</Text>
-                        </Button>
+            <ScrollView>
+                <View style={styles.centering}>
+                    <UserHead navigation={this.props.navigation}/>
+                    <View style={styles.container}>
+                        <Title
+                            titleText={TextConst.VipBuyText.title}
+                            color={ColorStyle.colorBlack}
+                            fontWeight="400"
+                            style={{marginBottom:15}}/>
+                        <VipBuy
+                            backgroundColor="#FAF0E6"
+                            borderColor="#F4A460"
+                            buttonColor ='darkorange'
+                            recommend={true}
+                            name={TextConst.VipBuyText.Exclusive.name}
+                            price ={TextConst.VipBuyText.Exclusive.Price}
+                            time = {TextConst.VipBuyText.Exclusive.SingleMonth}
+                            buttonText = {TextConst.VipBuyText.Exclusive.open}
+                        />
+                        <VipBuy
+                            backgroundColor="#ffffff"
+                            borderColor="#cccccc"
+                            buttonColor ='#83b233'
+                            recommend={false}
+                            name={TextConst.VipBuyText.Featured.name}
+                            price ={TextConst.VipBuyText.Featured.Price}
+                            time = {TextConst.VipBuyText.Featured.SingleMonth}
+                            buttonText = {TextConst.VipBuyText.Featured.open}
+                        />
                     </View>
+                    <View style={[styles.container,{marginBottom:23}]}>
+                        <Title
+                            titleText={TextConst.equityText.title}
+                            color={ColorStyle.colorBlack}
+                            fontWeight="400"
+                            style={{marginBottom:15}}/>
+                        <GiftBag
+                            color="#ea8e4a"
+                            border={true}
+                            name={TextConst.equityText.exclusive.name}
+                            gameTimeText={TextConst.equityText.exclusive.gameTimeText}
+                            intro={TextConst.equityText.exclusive.intro}
+                        />
+                        <GiftBag
+                            color="#ffba00"
+                            border={true}
+                            name={TextConst.equityText.chosen.name}
+                            gameTimeText={TextConst.equityText.chosen.gameTimeText}
+                            intro={TextConst.equityText.chosen.intro}
+                        />
+                        <GiftBag
+                            color="#999999"
+                            name={TextConst.equityText.tasteOf.name}
+                            gameTimeText={TextConst.equityText.tasteOf.gameTimeText}
+                            intro={TextConst.equityText.tasteOf.intro}
+                        />
+                     </View>
                 </View>
-                <View style={[styles.card,{ borderColor:'#DDDDDD',backgroundColor:'#fff',}]}>
-                    <Text style={[styles.fonSize_13]}>{TextConst.VipBuyText.Featured.name}</Text>
-                    <Text style={styles.fonSize_13}><Text style={styles.color_darkorange}>{TextConst.VipBuyText.Featured.Price}</Text>{TextConst.VipBuyText.Featured.SingleMonth}</Text>
-                    <View style={{alignItems:'flex-end'}}>
-                        <Button rounded  style={{height:30,backgroundColor:'rgba(109, 174, 49, 1)'}}>
-                            <Text style={[styles.fonSize_13,{color:'white'}]}>{TextConst.VipBuyText.Featured.open}</Text>
-                        </Button>
-                    </View>
-                </View>
-                <Text style={styles.text_vip}>{TextConst.equityText.title}</Text>
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -52,51 +89,10 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
 
     },
-    topImg: {
-        backgroundColor: 'rgba(109, 174, 49, 1)',
-        height:140,
-        justifyContent: 'center',
-        alignItems:'center',
-        borderWidth:1,
-        borderColor:'rgba(121, 121, 121, 1)',
-        paddingTop:marginTopNmuber
-    },
-    icon_setup:{
-        position: 'absolute',
-        top: 17+marginTopNmuber,
-        right:17,
-        width:30,
-        height:30,
-    },
-    text_vip: {
-        fontFamily: 'Arial',
-        fontWeight:"800",
-        fontStyle: 'normal',
-        fontSize: 15,
-        color: '#333333',
-        textAlign: 'center',
-        alignSelf:'flex-start',
-        marginTop:10,
-        marginLeft:6,
-    },
-    card:{
-        height:60,
-        flexDirection:'row',
-        justifyContent:'space-around',
-        alignItems:'center',
-        marginLeft:4,
-        marginRight:4,
-        marginTop:10,
-        borderRadius:10,
-        borderWidth:1,
-
-    },
-    fonSize_13:{
-        fontSize:13
-    },
-    color_darkorange:{
-        color:'darkorange',
-        fontSize: 16,
+    container:{
+        marginTop:26,
+        paddingLeft:12,
+        paddingRight:12
     },
 });
 

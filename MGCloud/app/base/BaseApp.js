@@ -7,9 +7,11 @@ import {
 } from 'react-native';
 import TabNav from '../components/TabNav'
 import { StackNavigator } from 'react-navigation';
-import CommonStyle from '../style/CommonStyle'
 import UserHead from '../components/UserHead';
 import TopicDetails from '../containers/TopicDetails'
+import Settings from '../containers/Settings'
+import RankingContainer from '../containers/RankingContainer'
+import GameDetails from '../containers/GameDetails'
 
 class BaseApp extends Component {
     static navigationOptions = {
@@ -31,14 +33,14 @@ class BaseApp extends Component {
     }
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
 });
 
-const SimpleApp = StackNavigator({
+const SimpleApp = StackNavigator(
+    {
         Home: {
         screen: BaseApp,
         navigationOptions:{
@@ -53,7 +55,7 @@ const SimpleApp = StackNavigator({
             // headerTitleStyle:CommonStyle.headerTitleStyle
         }
     },
-        UserHead:{screen:UserHead},
+        RankingContainer:{screen:RankingContainer},
         TopicDetails:{
             screen:TopicDetails,
             navigationOptions:{
@@ -63,6 +65,10 @@ const SimpleApp = StackNavigator({
                 header:null,
             }
         },
-    }, {initialRouteName:'Home'});
+        Settings:{screen:Settings},
+        GameDetails:{screen:GameDetails},
+
+    },
+    {initialRouteName:'Home'});
 
 export default SimpleApp;

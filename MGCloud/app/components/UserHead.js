@@ -5,24 +5,27 @@ import {
     View,
     Image,
     StatusBar,
+    TouchableHighlight
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
 import TextConst from '../const/TextConst'
-
-const marginTopNmuber = StatusBar.currentHeight
 
 export default class UserHead extends Component {
 
     render() {
         const { navigate } = this.props.navigation;
-        console.log(navigate)
         return (
             <View style={styles.container}>
-                <Image  style={styles.iconSetup} source={require('../static/img/setting_icon.png')} />
-                <Image source={require('../static/img/user_head_icon.jpg')}
-
-                />
-                <Text onPress={() => navigate('UserHead')} style={styles.userNameText}>{TextConst.UserHeadText.userNameText}</Text>
+                <TouchableHighlight onPress={() => navigate('Home')}  style={styles.back} >
+                    <Image  style={{height:16,width:18}} source={require('../static/img/back.png')} />
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => navigate('Settings')}  style={styles.iconSetup} >
+                    <Image  style={{height:22,width:22}} source={require('../static/img/setting_icon.png')} />
+                </TouchableHighlight>
+                <View style={styles.headImgBorder}>
+                    <Image style={styles.headImg} source={require('../static/img/topic1_head.png')}/>
+                </View>
+                <Text  style={styles.userNameText}>{TextConst.UserHeadText.userNameText}</Text>
             </View>
         );
     }
@@ -30,23 +33,45 @@ export default class UserHead extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor:ColorStyle.colorGreen,
-        height:140,
+        backgroundColor:ColorStyle.colorBlack,
+        height:160,
         justifyContent: 'center',
         alignItems:'center',
         borderWidth:1,
         borderColor:ColorStyle.colorGray,
-        paddingTop:marginTopNmuber
+    },
+    back:{
+        position: 'absolute',
+        top: 32,
+        left:12,
+        width:18,
+        height:16
     },
     iconSetup:{
         position: 'absolute',
-        top: 17+marginTopNmuber,
-        right:17,
-        width:30,
-        height:30,
+        top: 32,
+        right:12,
+        width:22,
+        height:22,
+    },
+    headImgBorder:{
+        height:63,
+        width:63,
+        borderRadius:63/2,
+        borderWidth:3,
+        borderColor:ColorStyle.colorWhite,
+        justifyContent: 'center',
+        alignItems:'center',
+    },
+    headImg:{
+        height:60,
+        width:60,
+        borderRadius:30
+
     },
     userNameText:{
-        color:'#fff',
-        paddingTop:4
+        color:ColorStyle.colorWhite,
+        marginTop:9,
+        fontSize:15
     }
 });

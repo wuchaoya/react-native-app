@@ -29,7 +29,22 @@ const TextConst = {
         },
     },
     equityText:{
-        title:'会员权益'
+        title:'会员权益',
+        exclusive:{
+            name:'尊享包',
+            gameTimeText:'游戏时长',
+            intro:'设置小节标题(section header)是否具有粘性。粘性是指当它刚出现时，会处在对应小节的内容顶部'
+        },
+        chosen:{
+            name:'精选包',
+            gameTimeText:'游戏时长',
+            intro:'设置小节标题(section header)是否具有粘性。粘性是指当它刚出现时，会处在对应小节的内容顶部'
+        },
+        tasteOf:{
+            name:'体验',
+            gameTimeText:'游戏时长',
+            intro:'设置小节标题(section header)是否具有粘性。粘性是指当它刚出现时，会处在对应小节的内容顶部'
+        }
     },
     HomeContainerText:{
         gameTheme:{

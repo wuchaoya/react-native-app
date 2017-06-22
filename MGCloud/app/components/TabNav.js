@@ -56,7 +56,9 @@ export default class TabNav extends Component {
             <TabNavigator tabBarStyle={ComStyle.center}>
                 {this._renderTab(HomeContainer, 'Home',TextConst.TabNavText.Home,this.state.efaultIcon.home,this.state.selectIcon.home)}
                 {this._renderTab(RankingContainer, 'Ranking',TextConst.TabNavText.Ranking, this.state.efaultIcon.ranKing,this.state.selectIcon.ranKing)}
-                {this._renderTab(ForumContainer, 'Forum',TextConst.TabNavText.Forum, this.state.efaultIcon.forum,this.state.selectIcon.forum)}
+                {
+                    //this._renderTab(ForumContainer, 'Forum',TextConst.TabNavText.Forum, this.state.efaultIcon.forum,this.state.selectIcon.forum)
+                }
                 {this._renderTab(UserContainer, 'User', TextConst.TabNavText.User,this.state.efaultIcon.user,this.state.selectIcon.user)}
             </TabNavigator>
         );
