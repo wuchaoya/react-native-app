@@ -13,7 +13,7 @@ import {
     StatusBar,
     ListView
 } from 'react-native';
-import ComStyle from '../style/CommonStyle'
+import HeadNav from '../components/HeadNav'
 import Topic from '../components/Topic'
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
@@ -62,6 +62,7 @@ export default class TopicDetails extends Component {
                     barStyle="light-content"
                     hidden={false}
                 />
+                
                 <Image style={styles.headImg} resizeMode="cover"  source = {require('../static/img/4.jpg')}>
                     <View style={styles.headView}>
                         <Text style={[styles.headText,styles.fonSize_15,{marginBottom:18}]}>文案高考结束来玩大作</Text>

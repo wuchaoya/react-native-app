@@ -11,6 +11,9 @@ const HttpRequest = {
                 ResponseData.code = 1;
                 ResponseData.data = resultSuccess;
                 callbackSuccess(ResponseData);
+                
+                
+                
             },
             (resultError)=> {
                 ResponseData.code = -1;

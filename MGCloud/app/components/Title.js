@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         fontWeight:"800",
         fontStyle: 'normal',
         fontSize: 15,
-        color: '#333333',
+        color: '#000',
         textAlign: 'center',
         alignSelf:'flex-start',
     }

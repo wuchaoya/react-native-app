@@ -17,7 +17,7 @@ const HttpUitl = {
             },
             body: JSON.stringify(parameter)
         }).then((response) => {
-            console.log('====[responseSuccess]====:' + response)
+            console.log('====[responseSuccess]====:' + JSON.stringify(response))
             response.json()
         }).then((responseJson) => {
             callbackSuccess(responseJson)

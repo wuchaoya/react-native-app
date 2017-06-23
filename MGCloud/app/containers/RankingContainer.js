@@ -9,11 +9,9 @@ import {
     Text,
     View
 } from 'react-native';
-import TextConst from '../const/TextConst'
 import ColorStyle from '../style/ColorStyle'
-import Star from '../components/Star'
 import RankingTabNav from '../components/RankingTabNav'
-import Head from '../components/Head'
+import HeadNav from '../components/HeadNav'
 export default class RankingContainer extends Component {
     constructor(props) {
         super(props);
@@ -23,11 +21,11 @@ export default class RankingContainer extends Component {
     }
 
     render() {
+        const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
-                <Head title="排行榜"/>
+                <HeadNav header="排行榜"  onPress={() => navigate('Home')} />
                 <RankingTabNav navigation={this.props.navigation}/>
-                {console.log(this.props.navigation)}
             </View>
         );
     }

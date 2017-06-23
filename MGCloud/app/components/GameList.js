@@ -25,10 +25,12 @@ export default class GameList extends Component{
             <TouchableOpacity>
                 <View>
                     <View style={styles.row}>
-                        <Text style={[{fontSize:20},Number(rowID)<3?{color:'#ff8800'}:{color:'#dddddd'}]}>{Number(rowID)+1}</Text>
+                        <View style={{width:30,}}>
+                            <Text style={[{fontSize:20,alignSelf:'center'},Number(rowID)<3?{color:'#ff8800'}:{color:'#999',fontSize:15}]}>{Number(rowID)+1}</Text>
+                        </View>
                         <Image style={styles.thumb} source={rowData.gameImg} />
-                        <View style={{width:160}}>
-                            <Text numberOfLines={1}  style={styles.gameName}>{rowData.gameName}</Text>
+                        <View style={{width:100}}>
+                            <Text  numberOfLines={1}  style={styles.gameName}>{rowData.gameName}</Text>
                             <View style={{flexDirection:'row'}}>
                                 <Star starNumber={rowData.gameStar}textStyle={{fontSize:12}}></Star>
                                 <Text style={{fontSize:12,marginLeft:4}}>{rowData.gameStar}</Text>
@@ -44,7 +46,9 @@ export default class GameList extends Component{
                                 </View>
                             </View>
                         </View>
-                        <View>
+                        <View style={{
+                        width:90,
+                        }}>
                             <Button
                                 bordered={!rowData.gamePlayed}
                                 rounded
@@ -110,19 +114,21 @@ const styles =StyleSheet.create({
         justifyContent: 'space-around',
         alignItems:'center',
         paddingTop:15,
+        paddingBottom:15,
         borderTopWidth:1,
-        borderTopColor:'#dddddd',
-        // marginBottom:10,
-        marginTop:10
+        borderTopColor:'#ededed',
+        backgroundColor:'#fff'
     },
     thumb: {
-        width: 80,
-        height: 80,
-        borderRadius:15
+        width: 84,
+        height: 84,
+        borderRadius:15,
+        borderWidth:1,
+        borderColor:'#e5e5e5'
     },
     gameName:{
-       color:'#000000',
-       fontSize:16
+       color:'#000',
+       fontSize:16,
     },
     gameClass:{
         borderColor:'#cccccc',

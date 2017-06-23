@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {
     StyleSheet,
-    Image
+    Image,
+    View
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import ComStyle from '../style/CommonStyle'
@@ -101,11 +102,11 @@ export default class RankingTabNav extends Component {
         return (
             <TabNavigator.Item
                 selected={this.state.selectedTab === selectedTab}
-                selectedTitleStyle={this.state.theme}
+                selectedTitleStyle={{ color:'#83b233',}}
                 title={title}
                 titleStyle={styles.titleTextColor}
-                renderIcon={() => <Image style={styles.iconStyle} source={iconImg }/>}//默认图标
-                renderSelectedIcon={() => <Image style={styles.iconStyle} source={selectedIconImg}/>}//选中图标
+                renderIcon={() => <View style={styles.iconStyle}></View>}//默认图标
+                renderSelectedIcon={() => <View style={[styles.iconStyle,{ borderBottomColor:'#83b333'}]}></View>}//选中图标
                 onPress={() => this.setState({selectedTab: selectedTab})}>
                 <Component name={title} data={data} navigation ={this.props.navigation}/>
             </TabNavigator.Item>
@@ -115,7 +116,7 @@ export default class RankingTabNav extends Component {
     render() {
         return (
             <TabNavigator
-                sceneStyle={{marginTop:30,paddingBottom:0}}
+                sceneStyle={{marginTop:48,paddingBottom:0}}
                 tabBarStyle={[styles.center,styles.tabBarStyle]}>
                 {this._renderTab(GameList,'HotPlay','热玩榜',this.state.lineIcon,this.state.lineGreenIcon,gameListDataHotPlay)}
                 {this._renderTab(GameList,'NewProducts','新品榜',this.state.lineIcon,this.state.lineGreenIcon,gameListDataHotPlay)}
@@ -130,29 +131,32 @@ const styles = StyleSheet.create({
 
     },
     center: {
-        justifyContent: 'center',
-        alignItems: 'center',
+        // justifyContent: 'center',
+        // alignItems: 'center',
 
     },
     iconStyle: {
-        width: 60,
-        height: 4,
+        width:90,
         position: 'absolute',
-        bottom:-39,
-        left:-30
+        bottom:-37,
+        alignSelf:'center',
+        height:17,
+        borderBottomWidth:2,
+        borderBottomColor:'#fff'
     },
     titleTextColor:{
-        fontSize: 18,
-        color:ColorStyle.colorSlategray,
+        fontSize: 14,
+        color:'#888',
         fontWeight:'800',
-        paddingBottom:8,
+        height:31
     },
     tabBarStyle:{
         position: 'absolute',
         top:0,
-        height: 40,
+        height: 48,
         paddingLeft: 40,
         paddingRight: 40,
-
+        margin:0,
+        padding:0
     }
 });

@@ -4,9 +4,13 @@ import {
     StyleSheet,
     Text,
     View,
+    Image
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import ColorStyle from '../style/ColorStyle'
+
+let Dimensions = require('Dimensions');
+let width = Dimensions.get('window').width;
 
 export default class HomeComponent extends Component {
     render() {
@@ -18,20 +22,21 @@ export default class HomeComponent extends Component {
                         loop
                         autoplay
                         showsButtons={false}
-                        paginationStyle={{bottom:10}}
+                        paginationStyle={{bottom: 9,right:15,justifyContent:'flex-end'}}
                         autoplayTimeout={3}
                         dot={<View style={[styles.dot,{backgroundColor:ColorStyle.colorSlateGray}]}></View>}
                         activeDot={<View style={[styles.dot,{backgroundColor:ColorStyle.colorGreenYellow}]}></View>}
                 >
                     <View style={styles.slide1}>
-                        <Text style={styles.text}>1</Text>
+                      <Image style={{width:width}} resizeMode='stretch'  source={require('../static/img/1.jpg')}></Image>
                     </View>
                     <View style={styles.slide2} onPress={() => navigate('UserHead')}>
-                        <Text style={styles.text} onPress={() => navigate('UserHead')}>2</Text>
+                        <Image style={{width:width}} resizeMode='stretch'  source={require('../static/img/2.jpg')}></Image>
                     </View>
                     <View style={styles.slide3}>
-                        <Text style={styles.text}>3</Text>
+                        <Image style={{width:width}} resizeMode='stretch'  source={require('../static/img/3.jpg')}></Image>
                     </View>
+
                 </Swiper>
             </View>
         );
