@@ -21,8 +21,6 @@ import ScrollGameHighlights from '../components/ScrollGameHighlights'
 import HttpRequest from '../common/HttpRequest'
 import ResponseData from '../model/ResponseData'
 
-
-
 export default class HomeContainer extends Component {
     constructor(props) {
         super(props);
