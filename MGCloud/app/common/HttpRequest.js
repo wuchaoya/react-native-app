@@ -1,5 +1,5 @@
 import HttpUitl from "./HttpUitl";
-import ResponseData from "../model/ResponseData";
+import responseData from "../model/ResponseData";
 
 const HttpRequest = {
     /**
@@ -8,17 +8,14 @@ const HttpRequest = {
     getHomeData: (parameter, callbackSuccess, callbackError)=> {
         HttpUitl.post('/v2/homepage', parameter,
             (resultSuccess)=> {
-                ResponseData.code = 1;
-                ResponseData.data = resultSuccess;
-                callbackSuccess(ResponseData);
-                
-                
-                
+                responseData.code = 1000;
+                responseData.data = resultSuccess;
+                callbackSuccess(responseData);
             },
             (resultError)=> {
-                ResponseData.code = -1;
-                ResponseData.data = resultError;
-                callbackError(ResponseData);
+                responseData.code = -1;
+                responseData.data = resultError;
+                callbackError(responseData);
             })
     }
 }

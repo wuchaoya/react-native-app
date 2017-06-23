@@ -20,7 +20,6 @@ import ScrollGameThemes from '../components/ScrollGameThemes'
 import ScrollGameHighlights from '../components/ScrollGameHighlights'
 import HeadNav from '../components/HeadNav'
 import HttpRequest from '../common/HttpRequest'
-import ResponseData from '../model/ResponseData'
 
 export default class HomeContainer extends Component {
     constructor(props) {
@@ -29,10 +28,10 @@ export default class HomeContainer extends Component {
     }
 
     render() {
-        const { navigate } = this.props.navigation;
+        const {navigate} = this.props.navigation;
         return (
             <ScrollView>
-                <HeadNav header="云游戏"  onPress={() => navigate('Home')} />
+                <HeadNav header="云游戏" onPress={() => navigate('Home')}/>
                 <View style={styles.container}>
                     <Banner navigation={this.props.navigation}/>
                     <View style={CommonStyle.container}>
@@ -43,10 +42,11 @@ export default class HomeContainer extends Component {
                         <Text style={styles.subtitle}>{TextConst.HomeContainerText.gameTheme.subtitle}</Text>
                         <ScrollGameThemes navigation={this.props.navigation}></ScrollGameThemes>
                     </View>
-                    <View style={[{ marginTop:12,paddingTop:12,backgroundColor:ColorStyle.colorWhite}]}>
+                    <View style={[{marginTop: 12, paddingTop: 12, backgroundColor: ColorStyle.colorWhite}]}>
                         <View style={styles.homeContainer}>
                             <Title color="#000" titleText={TextConst.HomeContainerText.gameHighlights.title}></Title>
-                            <Text onPress={() => navigate('GameDetails')} style={styles.more}>{TextConst.HomeContainerText.gameHighlights.more}</Text>
+                            <Text onPress={() => navigate('GameDetails')}
+                                  style={styles.more}>{TextConst.HomeContainerText.gameHighlights.more}</Text>
                         </View>
                         <ScrollGameHighlights navigation={this.props.navigation}></ScrollGameHighlights>
                     </View>
@@ -57,15 +57,14 @@ export default class HomeContainer extends Component {
 
     componentDidMount() {
         HttpRequest.getHomeData('',
-            (a)=> {
-                console.log('网络请求成功了,开始刷新页面' + a.code);
+            (responseData)=> {
+                console.log('网络请求成功了,开始刷新页面' + responseData.code + responseData.data);
             },
-            (ResponseData)=> {
-                console.log('网络请求失败了' + ResponseData.code);
+            (responseData)=> {
+                console.log('网络请求失败了' + responseData.code);
             });
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         marginTop: 12,
-        color:'#999'
+        color: '#999'
     },
     homeContainer: {
         flexDirection: 'row',
@@ -81,11 +80,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 12,
         marginRight: 12,
-        paddingLeft:12,
+        paddingLeft: 12,
     },
     more: {
         color: ColorStyle.colorGreen
     }
 
 });
-

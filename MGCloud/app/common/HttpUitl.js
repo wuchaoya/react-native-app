@@ -1,4 +1,5 @@
-import WebHost from './WebHost'
+import WebHost from "./WebHost";
+import JsonUtil from "../util/JsonUtil";
 
 const HttpUitl = {
     /**
@@ -17,14 +18,63 @@ const HttpUitl = {
             },
             body: JSON.stringify(parameter)
         }).then((response) => {
-            console.log('====[responseSuccess]====:' + JSON.stringify(response))
-            response.json()
+
+            console.log(response);
+
+            // console.log('====[responseSuccess]====:');
+            // console.log();
+            return response.json()
         }).then((responseJson) => {
-            callbackSuccess(responseJson)
+            // console.log('====[responseSuccess]====:');
+            // console.log(responseJson);
+            //
+            // console.log(responseJson.data);
+            //
+            //
+            // console.log(responseJson.data.banner);
+            //
+            //
+            // console.log(responseJson);
+
+
+            // console.log('====[responseSuccessObj]====:');
+            // console.log(response);
+            // // console.log('====[responseSuccess]====:' +typeof (responseJson) );
+            // // console.log('====[responseSuccess]====:' + response.type);
+            // // console.log('====[responseSuccess]====:' + response._bodyInit.data);
+            // var body = response._bodyInit;
+            // // console.log('====[responseSuccess]====:' + typeof (body));
+            // var code = body.message;
+            // console.log('====[responseSuccessBodyType]====:' +typeof (body) );
+            //
+            // // TODO by L.jinzhu for 待优化
+            // // if (200 == code) {
+            // console.log('====[responseSuccessBody]====:');
+            // console.log(body);
+            // console.log('====[responseSuccessCode]====:');
+            // console.log(code);
+
+            // } else {
+            // }
+
+            //
+            // componentWillMount() {
+            //     console.log("constantData  taype is ="+typeof(constantData));
+            //     console.log("employees  taype is ="+typeof(constantData.employees));
+            //     console.log("employees  length = "+constantData.employees.length);
+            //     console.log("No.1 givenName ="+constantData.employees[0].giveName);
+            //     console.log("No.1 FamilyName ="+constantData.employees[0].giveName);
+            //     console.log("No.1 Salary"+constantData.employees[0].salary);
+            //     console.log("type of No.1 Salary"+typeof(constantData.employees[0].salary));
+            // }
+
+
+            callbackSuccess(response)
         }).catch((error) => {
-            console.error('====[responseError]====:' + error)
-            callbackError(error)
-        });
+            // console.error('====[responseError]====:' + JSON.stringify(error));
+            callbackError(error);
+            // TODO by L.jinzhu for 待优化
+        }).done();
     }
 }
 

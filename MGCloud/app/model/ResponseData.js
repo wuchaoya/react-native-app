@@ -1,8 +1,8 @@
 /**
  * Created by liangjinzhu on 2017/6/22.
  */
-const ResponseData = {
+var ResponseData = {
     code: 0,
-    data: null
+    data: ''
 }
 module.exports = ResponseData
