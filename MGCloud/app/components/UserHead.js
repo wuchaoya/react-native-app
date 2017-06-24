@@ -17,7 +17,7 @@ export default class UserHead extends Component {
         return (
             <View style={styles.container}>
                 <TouchableHighlight onPress={() => navigate('Home')}  style={styles.back} >
-                    <Image  style={{height:16,width:18}} source={require('../static/img/back.png')} />
+                    <Image  style={{height:2,width:200}} source={require('../static/img/back_icon.png')} />
                 </TouchableHighlight>
                 <TouchableHighlight onPress={() => navigate('Settings')}  style={styles.iconSetup} >
                     <Image  style={{height:22,width:22}} source={require('../static/img/setting_icon.png')} />
@@ -25,7 +25,7 @@ export default class UserHead extends Component {
                 <View style={styles.headImgBorder}>
                     <Image style={styles.headImg} source={require('../static/img/topic1_head.png')}/>
                 </View>
-                <Text  style={styles.userNameText}>{TextConst.UserHeadText.userNameText}</Text>
+                <Text onPress={() => navigate('Login')}  style={styles.userNameText}>{TextConst.UserHeadText.userNameText}</Text>
             </View>
         );
     }

@@ -17,17 +17,15 @@ export default class HeadNav extends Component {
     _renderLeft(left,press){
             console.log(left)
            if(left!==null &&left !==undefined){
-               console.log(2)
                return (left)
 
            }
            if(left===null){
-               console.log(3)
                return (<Image/>)
            }
-           console.log(1)
+
             return (  <TouchableHighlight  onPress={press}>
-                <Image  style={styles.leftImg} source={require('../static/img/back.png') }></Image>
+                <Image  style={styles.leftImg} source={require('../static/img/back_icon.png') }></Image>
             </TouchableHighlight>)
 
     }
@@ -36,7 +34,7 @@ export default class HeadNav extends Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,this.props.color?{backgroundColor:this.props.color}:{ backgroundColor:'#000',}]}>
                 <View style={{
                 marginLeft:10,width:60}}>{
                    this._renderLeft(this.props.left,this.props.onPress)
@@ -55,7 +53,6 @@ export default class HeadNav extends Component {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        backgroundColor:'#000',
         height:64,
         justifyContent:'space-between',
         alignItems: 'center',
@@ -65,8 +62,8 @@ const styles = StyleSheet.create({
         color:'#fff'
     },
     leftImg:{
-        height:16,
-        width:18
+        height:33,
+        width:33
     }
 });
 

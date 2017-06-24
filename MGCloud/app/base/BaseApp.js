@@ -14,6 +14,7 @@ import RankingContainer from '../containers/RankingContainer'
 import GameDetails from '../containers/GameDetails'
 import TransparentStatusBar from '../components/TransparentStatusBar'
 import HeadNav from '../components/HeadNav'
+import Login from '../containers/LoginContainer'
 
 class BaseApp extends Component {
     static navigationOptions = {
@@ -77,6 +78,12 @@ const SimpleApp = StackNavigator(
         },
         HeadNav:{
             screen:HeadNav,
+        },
+        Login:{
+            screen:Login,
+            navigationOptions:{
+                header:null,
+            }
         },
 
     },

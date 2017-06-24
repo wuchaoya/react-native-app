@@ -53,7 +53,7 @@ const TextConst = {
         },
         gameHighlights:{
             title:'游戏精选',
-            more:'更多 >',
+            more:'更多',
             gameList:['崩坏3RD','魔女之权魔女之权魔女之权魔女之权魔女之权魔女之权魔女之权']
         }
         
