@@ -6,7 +6,6 @@ const TextConst = {
     TabNavText:{
         Home:'首页',
         Ranking:'排行',
-
         Forum:'论坛',
         User:'我的'
     },

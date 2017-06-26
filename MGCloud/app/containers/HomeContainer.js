@@ -24,7 +24,7 @@ import HttpRequest from '../common/HttpRequest'
 export default class HomeContainer extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {title: ''}
     }
 
     render() {
@@ -39,7 +39,8 @@ export default class HomeContainer extends Component {
                             titleText={TextConst.HomeContainerText.gameTheme.title}
                             color="#000"
                         ></Title>
-                        <Text style={styles.subtitle}>{TextConst.HomeContainerText.gameTheme.subtitle}</Text>
+                        <Text
+                            style={styles.subtitle}>括号中从服务器来【{this.state.title}】{TextConst.HomeContainerText.gameTheme.subtitle}</Text>
                         <ScrollGameThemes navigation={this.props.navigation}></ScrollGameThemes>
                     </View>
                     <View style={[{marginTop: 12, paddingTop: 12, backgroundColor: ColorStyle.colorWhite}]}>
@@ -58,7 +59,14 @@ export default class HomeContainer extends Component {
     componentDidMount() {
         HttpRequest.getHomeData('',
             (responseData)=> {
-                console.log('网络请求成功了,开始刷新页面' + responseData.code + responseData.data);
+                var dissertation = responseData.data;
+                console.log('网络请求成功了,开始刷新页面操作');
+                // TODO by L.jinzhu for test
+                var title = dissertation[0].title;
+                console.log(title);
+                this.setState(()=> {
+                    return {title: title};
+                });
             },
             (responseData)=> {
                 console.log('网络请求失败了' + responseData.code);

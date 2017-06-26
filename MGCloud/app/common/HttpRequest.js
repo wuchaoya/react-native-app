@@ -7,14 +7,15 @@ const HttpRequest = {
      */
     getHomeData: (parameter, callbackSuccess, callbackError)=> {
         HttpUitl.post('/v2/homepage', parameter,
-            (resultSuccess)=> {
-                responseData.code = 1000;
-                responseData.data = resultSuccess;
+            (data)=> {
+                // 解析处理成页面需要的数据格式,如list
+                responseData.code = 200;
+                responseData.data = data.dissertation;
                 callbackSuccess(responseData);
             },
-            (resultError)=> {
+            (error)=> {
                 responseData.code = -1;
-                responseData.data = resultError;
+                responseData.data = error;
                 callbackError(responseData);
             })
     }
