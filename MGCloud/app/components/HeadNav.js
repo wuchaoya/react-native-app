@@ -7,7 +7,8 @@ import {
     View,
     StatusBar,
     DeviceEventEmitter,
-    TouchableHighlight
+    TouchableHighlight,
+    TouchableOpacity
 } from 'react-native';
 export default class HeadNav extends Component {
     constructor(props) {
@@ -24,9 +25,9 @@ export default class HeadNav extends Component {
                return (<Image/>)
            }
 
-            return (  <TouchableHighlight  onPress={press}>
+            return (  <TouchableOpacity    onPress={press}>
                 <Image  style={styles.leftImg} source={require('../static/img/back_icon.png') }></Image>
-            </TouchableHighlight>)
+            </TouchableOpacity>)
 
     }
     _renderRight(right){

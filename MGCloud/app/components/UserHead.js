@@ -17,7 +17,7 @@ export default class UserHead extends Component {
         return (
             <View style={styles.container}>
                 <TouchableHighlight onPress={() => navigate('Home')}  style={styles.back} >
-                    <Image  style={{height:2,width:200}} source={require('../static/img/back_icon.png')} />
+                    <Image  style={{height:33,width:33}} source={require('../static/img/back_icon.png')} />
                 </TouchableHighlight>
                 <TouchableHighlight onPress={() => navigate('Settings')}  style={styles.iconSetup} >
                     <Image  style={{height:22,width:22}} source={require('../static/img/setting_icon.png')} />
@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 32,
         left:12,
-        width:18,
-        height:16
+        width:33,
+        height:33
     },
     iconSetup:{
         position: 'absolute',

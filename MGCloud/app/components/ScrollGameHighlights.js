@@ -5,17 +5,25 @@ import {
     Navigator,
     Image,
     View,
-    ScrollView
+    ScrollView,
+    TouchableHighlight
 } from 'react-native';
 import TextConst from '../const/TextConst'
 
 export default class ScrollGameHighlights extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        }
+    }
     _renderImg(img,text){
         return(
-            <View style={styles.container}>
+
+            <TouchableHighlight onPress={() =>this.props.navigation.navigate('GameDetails')} style={styles.container}>
                 <Image style={styles.radiuImg} source={img} />
-                <Text numberOfLines={2} style={{width:86,color:'#333',fontSize:13}}>{text}</Text>
-            </View>
+
+            </TouchableHighlight>
         )
     }
     render() {

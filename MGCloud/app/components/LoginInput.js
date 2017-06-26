@@ -9,12 +9,15 @@ import {
     TextInput,
     TouchableOpacity
 } from 'react-native';
-export default class LoginInput extends Component {
+import LoginButton from '../components/LoginButton'
+export default class SignIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            secretOff:require('../static/img/secret-off.png'),
+            secretOn:require('../static/img/secret-on.png'),
             off:require('../static/img/off_icon.png'),
-            secret:require('../static/img/secret-on.png'),
+            on:require('../static/img/on_icon.png'),
             secureTextEntry:true
         }
     }
@@ -41,14 +44,19 @@ export default class LoginInput extends Component {
                     autoCorrect={false}
                     secureTextEntry={this.state.secureTextEntry}
                 />
-               <TouchableOpacity style={styles.off}>
-                   <Image style={{ width:24,height:24,}} source={this.state.off}></Image>
-               </TouchableOpacity>
+                <TouchableOpacity style={styles.off}>
+                    <Image style={{ width:24,height:24,}} source={this.state.off}></Image>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() =>{this.setState(
                     {secureTextEntry:!this.state.secureTextEntry} ) }} style={styles.secret}>
-                        <Image style={{ width:24,height:24,}} source={this.state.secret}></Image>
+                    <Image style={{ width:24,height:24,}} source={this.state.secureTextEntry?this.state.secretOn:this.state.secretOff}></Image>
                 </TouchableOpacity>
-
+                <LoginButton text="登陆" backgroundColor="#444" color="#2c2c2c" style={{marginTop:20}}/>
+                <LoginButton text="中国移动用户一键登录" backgroundColor="#83b233" color="#fff" style={{marginTop:12}}/>
+                <View style={styles.foot}>
+                    <Text style={styles.text}>短信登陆</Text>
+                    <Text style={styles.text}>忘记密码</Text>
+                </View>
             </View>
         );
     }
@@ -80,6 +88,15 @@ const styles = StyleSheet.create({
         right:40,
         height:44,
         justifyContent:'center'
+    },
+    foot:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        marginTop:15
+    },
+    text:{
+        color:'#ddd',
+        fontSize:14
     }
 });
 

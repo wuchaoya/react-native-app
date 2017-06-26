@@ -5,9 +5,8 @@ import {
     StatusBar,
     Button
 } from 'react-native';
-import TabNav from '../components/TabNav'
 import { StackNavigator } from 'react-navigation';
-import UserHead from '../components/UserHead';
+import TabNav from '../components/TabNav'
 import TopicDetails from '../containers/TopicDetails'
 import Settings from '../containers/Settings'
 import RankingContainer from '../containers/RankingContainer'
@@ -15,7 +14,8 @@ import GameDetails from '../containers/GameDetails'
 import TransparentStatusBar from '../components/TransparentStatusBar'
 import HeadNav from '../components/HeadNav'
 import Login from '../containers/LoginContainer'
-
+import SMSLanding from  '../containers/SMSLandingContainer'
+import RestPass from '../containers/RestPassContainer'
 class BaseApp extends Component {
     static navigationOptions = {
         title: 'Welcome',//设置标题内容
@@ -81,6 +81,18 @@ const SimpleApp = StackNavigator(
         },
         Login:{
             screen:Login,
+            navigationOptions:{
+                header:null,
+            }
+        },
+        SMSLanding:{
+            screen:SMSLanding,
+            navigationOptions:{
+                header:null,
+            }
+        },
+        RestPass:{
+            screen:RestPass,
             navigationOptions:{
                 header:null,
             }

@@ -17,19 +17,22 @@ export default class Settings extends Component {
 
     render() {
         const { goBack } = this.props.navigation;
-        console.log(this.props.navigation)
+
         return (
+
+
+
             <View style={styles.container}>
                 <TransparentStatusBar/>
                 <HeadNav header="设置"  onPress={() => goBack()} />
                 <View style={{  paddingLeft:12,paddingRight:12,backgroundColor:'#fff',}}>
                     <View style={styles.conter}>
                         <Text style={styles.text}>用户服务协议</Text>
-                        <Text style={styles.text}>＞</Text>
+                        <Image style={styles.nextImg} source={require('../static/img/next_icon.png')}/>
                     </View>
                     <View style={[styles.conter,{marginTop:0,borderTopWidth: 1,borderTopColor:'#ededed'}]}>
-                        <Text style={styles.text}>用户服务协议</Text>
-                        <Text style={styles.text}>＞</Text>
+                        <Text style={styles.text}>联系客服</Text>
+                        <Image style={styles.nextImg} source={require('../static/img/next_icon.png')}/>
                     </View>
                 </View>
                 <View style={{ justifyContent:'center',alignItems:'center',height:53,marginTop:6,backgroundColor:'#fff',}}>
@@ -54,6 +57,10 @@ const styles = StyleSheet.create({
     text:{
         fontSize:14,
         color:'#333'
+    },
+    nextImg:{
+        width:5,
+        height:9
     }
 });
 

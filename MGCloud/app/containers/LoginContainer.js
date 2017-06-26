@@ -18,10 +18,11 @@ export default class Forum extends Component {
     }
 
     render() {
+        const { goBack } = this.props.navigation;
         return (
             <View style={styles.container}>
-                <HeadNav color="#2d2d2d"/>
-                <LoginTab/>
+                <HeadNav color="#2d2d2d" onPress={() => goBack()}/>
+                <LoginTab navigation={this.props.navigation}/>
             </View>
         );
     }

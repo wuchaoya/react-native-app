@@ -4,7 +4,8 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    TouchableHighlight
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import ColorStyle from '../style/ColorStyle'
@@ -27,15 +28,15 @@ export default class HomeComponent extends Component {
                         dot={<View style={[styles.dot,{backgroundColor:ColorStyle.colorSlateGray}]}></View>}
                         activeDot={<View style={[styles.dot,{backgroundColor:ColorStyle.colorGreenYellow}]}></View>}
                 >
-                    <View style={styles.slide1}>
+                    <TouchableHighlight onPress={() => navigate('GameDetails')} style={styles.slide1}>
                       <Image style={{width:width}} resizeMode='stretch'  source={require('../static/img/1.jpg')}></Image>
-                    </View>
-                    <View style={styles.slide2} onPress={() => navigate('UserHead')}>
+                    </TouchableHighlight>
+                    <TouchableHighlight style={styles.slide2} onPress={() => navigate('GameDetails')}>
                         <Image style={{width:width}} resizeMode='stretch'  source={require('../static/img/2.jpg')}></Image>
-                    </View>
-                    <View style={styles.slide3}>
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={() => navigate('GameDetails')} style={styles.slide3}>
                         <Image style={{width:width}} resizeMode='stretch'  source={require('../static/img/3.jpg')}></Image>
-                    </View>
+                    </TouchableHighlight>
 
                 </Swiper>
             </View>
