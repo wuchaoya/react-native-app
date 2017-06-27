@@ -21,6 +21,7 @@ export default class SignIn extends Component {
             secureTextEntry:true
         }
     }
+
     render() {
         console.log('渲染了')
         return (

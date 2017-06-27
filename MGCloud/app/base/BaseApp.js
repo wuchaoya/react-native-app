@@ -16,6 +16,7 @@ import HeadNav from '../components/HeadNav'
 import Login from '../containers/LoginContainer'
 import SMSLanding from  '../containers/SMSLandingContainer'
 import RestPass from '../containers/RestPassContainer'
+import Game from '../containers/GameContainer'
 class BaseApp extends Component {
     static navigationOptions = {
         title: 'Welcome',//设置标题内容
@@ -93,6 +94,12 @@ const SimpleApp = StackNavigator(
         },
         RestPass:{
             screen:RestPass,
+            navigationOptions:{
+                header:null,
+            }
+        },
+        Game:{
+            screen:Game,
             navigationOptions:{
                 header:null,
             }

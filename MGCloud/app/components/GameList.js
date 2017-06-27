@@ -23,20 +23,30 @@ export default class GameList extends Component {
         };
     }
 
-    _renderRow(rowData, sectionID, rowID, highlightRow, navigate) {
-        console.log(navigate)
+    _renderNumber(isShow,ID){
+        if(isShow===true){
+            return ( <Text style={[{fontSize:20,alignSelf:'center'},Number(ID)<3?{color:'#ff8800'}:{color:'#999',fontSize:15}]}>{Number(ID)+1}</Text>
+            )
+        }
+
+    }
+
+    onRefresh() {
+        this.setState({isRefreshing: true});
+        setTimeout(() => {
+
+            this.setState({
+                isRefreshing: false,
+            });
+        }, 2000);
+    }
+    _renderRow(rowData, sectionID, rowID, highlightRow,navigate) {
         return (
             <TouchableOpacity onPress={() => navigate('GameDetails')}>
                 <View>
-                    <View style={styles.row}>
-                        <View style={{width: 30,}}>
-                            <Text style={[{
-                                fontSize: 20,
-                                alignSelf: 'center'
-                            }, Number(rowID) < 3 ? {color: '#ff8800'} : {
-                                    color: '#999',
-                                    fontSize: 15
-                                }]}>{Number(rowID) + 1}</Text>
+                    <View style={[styles.row,{justifyContent:this.props.showNumber?'space-around':'space-between',}]}>
+                        <View style={{width:this.props.showNumber?30:0,}}>
+                            {this._renderNumber(this.props.showNumber,rowID)}
                         </View>
                         <Image style={styles.thumb} source={rowData.gameImg}/>
                         <View style={{width: 100}}>
@@ -56,9 +66,7 @@ export default class GameList extends Component {
                                 </View>
                             </View>
                         </View>
-                        <View style={{
-                            width: 90,
-                        }}>
+                        <View style={{width: 90,}}>
                             <Button
                                 bordered={!rowData.gamePlayed}
                                 rounded
@@ -109,18 +117,10 @@ export default class GameList extends Component {
                     </View>
                 </View>
             </TouchableOpacity>
-        );
+        )
     }
 
-    onRefresh() {
-        this.setState({isRefreshing: true});
-        setTimeout(() => {
 
-            this.setState({
-                isRefreshing: false,
-            });
-        }, 2000);
-    }
 
     render() {
         const {navigate} = this.props.navigation;
@@ -133,8 +133,7 @@ export default class GameList extends Component {
                 refreshControl={
                     <RefreshControl
                         refreshing={this.state.isRefreshing}
-                        onRefresh={this.onRefresh.bind(this)}  //(()=>this.onRefresh)或者通过bind来绑定this引用来调用方法
-
+                        onRefresh={this.onRefresh.bind(this)}
                     />
                 }
             />

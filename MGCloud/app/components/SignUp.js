@@ -48,7 +48,7 @@ export default class SignIn extends Component {
                         <Image style={{ width:24,height:24,}} source={this.state.off}></Image>
                     </TouchableOpacity>
                 </View>
-                <View style={{flexDirection:'row'}}>
+                <View style={{flexDirection:'row', alignItems:'center'}}>
                     <TextInput
                         style={[styles.userInput,{width:width-80-120,}]}
                         placeholder="验证码"
@@ -60,7 +60,7 @@ export default class SignIn extends Component {
                         secureTextEntry={this.state.secureTextEntry}
                     />
                     <TouchableHighlight style={styles.code}>
-                            <Text>获取验证码</Text>
+                            <Text style={{color:'#fff'}}>获取验证码</Text>
                     </TouchableHighlight>
                 </View>
 
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         width:120,
-        height:44,
+        height:40,
         backgroundColor:'#83b233',
         borderRadius:6
     }

@@ -6,7 +6,8 @@ import {
     Navigator,
     Image,
     View,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    TouchableOpacity
 } from 'react-native';
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
@@ -20,7 +21,16 @@ export default class GameDetailsVideo extends Component {
     render() {
         return (
             <View>
-                <Image resizeMode="cover" style={styles.container} source={require('../static/img/game_vidoe.png')}></Image>
+                <Image
+                    resizeMode="cover" style={styles.container}
+                    source={require('../static/img/game_vidoe.png')}>
+                    <TouchableOpacity activeOpacity={0.9}>
+                    <Image
+                        style={{width:50,height:50}}
+                           source={require('../static/img/video_play.png')}/>
+                    </TouchableOpacity>
+                </Image>
+
             </View>
         );
     }
@@ -29,7 +39,9 @@ export default class GameDetailsVideo extends Component {
 const styles = StyleSheet.create({
     container: {
         height:200,
-        width:width
+        width:width,
+        justifyContent:'center',
+        alignItems:'center'
     },
 
 });

@@ -38,6 +38,7 @@ export default class GameChart extends Component{
     render() {
         return (
             <ListView
+                showsHorizontalScrollIndicator={false}
                 horizontal={true}
                 style={styles.row}
                 dataSource={this.state.dataSource}

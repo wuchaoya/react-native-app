@@ -24,7 +24,7 @@ export default class Topic extends Component {
             dataSource: ds.cloneWithRows(this.props.data),
         };
     }
-    _render(rowData,sectionID, rowID){
+    _render(rowData,sectionID, rowID,highlightRow,navigate){
         const data = rowData
         return (
         <TouchableHighlight>
@@ -40,9 +40,9 @@ export default class Topic extends Component {
                         </View>
                     </View>
                 </View>
-                <View>
+                <TouchableHighlight onPress={() => navigate('GameDetails')}>
                     <Image style={{width:width-12,height:202}}  resizeMode="cover"  source={require('../static/img/topic1.png')}></Image>
-                </View>
+                </TouchableHighlight>
                 <View style={{marginLeft:10,marginBottom:18,marginTop:18,marginRight:10}}>
                     <Text style={{fontSize: 12,color:'#666666',lineHeight:20}}>{data.summary}
                     </Text>
@@ -51,10 +51,11 @@ export default class Topic extends Component {
         </TouchableHighlight>)
     }
     render() {
+        const { navigate } = this.props.navigation;
         return (
             <ListView
                 dataSource={this.state.dataSource}
-                renderRow={this._render}
+                renderRow={(rowData, sectionID, rowID, highlightRow,)=>this._render(rowData, sectionID, rowID, highlightRow,navigate)}
                 scrollToEnd={{animated: true}}
             />
         );

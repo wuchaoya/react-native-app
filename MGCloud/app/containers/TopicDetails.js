@@ -54,22 +54,17 @@ export default class TopicDetails extends Component {
     }
 
     render() {
+        const { goBack } = this.props.navigation;
         return (
             <ScrollView contentContainerStyle={styles.contentContainer}>
-                <StatusBar
-                    backgroundColor="rgba(0,0,0,0)"
-                    translucent={true}
-                    barStyle="light-content"
-                    hidden={false}
-                />
-                
+                <HeadNav   onPress={() => goBack()} />
                 <Image style={styles.headImg} resizeMode="cover"  source = {require('../static/img/4.jpg')}>
                     <View style={styles.headView}>
                         <Text style={[styles.headText,styles.fonSize_15,{marginBottom:18}]}>文案高考结束来玩大作</Text>
                         <Text style={[styles.headText,styles.fonSize_11]}>精品大作，够玩一个暑假</Text>
                     </View>
                 </Image>
-                <Topic data = {data}/>
+                <Topic data = {data}  navigation={this.props.navigation}/>
             </ScrollView>
             
         );

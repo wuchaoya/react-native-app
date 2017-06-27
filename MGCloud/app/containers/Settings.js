@@ -17,11 +17,7 @@ export default class Settings extends Component {
 
     render() {
         const { goBack } = this.props.navigation;
-
         return (
-
-
-
             <View style={styles.container}>
                 <TransparentStatusBar/>
                 <HeadNav header="设置"  onPress={() => goBack()} />

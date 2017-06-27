@@ -9,7 +9,8 @@ import {
     Text,
     View,
     ScrollView,
-    StatusBar
+    StatusBar,
+    Image
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
 import Banner from '../components/ScrollBanner';
@@ -46,8 +47,11 @@ export default class HomeContainer extends Component {
                     <View style={[{marginTop: 12, paddingTop: 12, backgroundColor: ColorStyle.colorWhite}]}>
                         <View style={styles.homeContainer}>
                             <Title color="#000" titleText={TextConst.HomeContainerText.gameHighlights.title}></Title>
-                            <Text onPress={() => navigate('GameDetails')}
-                                  style={styles.more}>{TextConst.HomeContainerText.gameHighlights.more}</Text>
+                            <View style={{flexDirection:'row',alignItems:'center'}}>
+                                <Text onPress={() => navigate('Game')}
+                                      style={styles.more}>{TextConst.HomeContainerText.gameHighlights.more}</Text>
+                                <Image style={{width:5,height:9,marginLeft:4}} source={require('../static/img/more.png')}></Image>
+                            </View>
                         </View>
                         <ScrollGameHighlights navigation={this.props.navigation}></ScrollGameHighlights>
                     </View>

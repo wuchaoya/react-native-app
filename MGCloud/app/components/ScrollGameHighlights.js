@@ -1,3 +1,6 @@
+/**
+ * 游戏精选
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,
@@ -6,7 +9,8 @@ import {
     Image,
     View,
     ScrollView,
-    TouchableHighlight
+    TouchableHighlight,
+    TouchableOpacity
 } from 'react-native';
 import TextConst from '../const/TextConst'
 
@@ -20,15 +24,15 @@ export default class ScrollGameHighlights extends Component {
     _renderImg(img,text){
         return(
 
-            <TouchableHighlight onPress={() =>this.props.navigation.navigate('GameDetails')} style={styles.container}>
+            <TouchableOpacity activeOpacity={0.9} onPress={() =>this.props.navigation.navigate('GameDetails')} style={styles.container}>
                 <Image style={styles.radiuImg} source={img} />
 
-            </TouchableHighlight>
+            </TouchableOpacity>
         )
     }
     render() {
         return (
-            <ScrollView horizontal={true} >
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}  showsHorizontalScrollIndicato={false}>
                 {this._renderImg(require('../static/img/game1_img.png'),TextConst.HomeContainerText.gameHighlights.gameList[0])}
                 {this._renderImg(require('../static/img/game2_img.png'),TextConst.HomeContainerText.gameHighlights.gameList[0])}
                 {this._renderImg(require('../static/img/game1_img.png'),TextConst.HomeContainerText.gameHighlights.gameList[1])}
