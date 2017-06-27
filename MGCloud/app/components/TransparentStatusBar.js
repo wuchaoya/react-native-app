@@ -1,4 +1,6 @@
-
+/**
+ * 顶部状态条组件
+ */
 import React, {Component} from 'react';
 import {
     StatusBar

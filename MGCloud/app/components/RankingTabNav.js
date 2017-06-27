@@ -1,3 +1,6 @@
+/**
+ * 排行榜的tab组件
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,

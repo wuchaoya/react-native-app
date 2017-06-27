@@ -3105,6 +3105,10 @@ react-native-keyboard-aware-scroll-view@0.2.9:
   dependencies:
     react-timer-mixin "^0.13.3"
 
+react-native-pull@^2.0.2:
+  version "2.0.2"
+  resolved "http://registry.npm.taobao.org/react-native-pull/download/react-native-pull-2.0.2.tgz#15264a737bcf56debd4bacaa2705254d9ef1b345"
+
 react-native-scrollable-tab-view@^0.6.6:
   version "0.6.7"
   resolved "http://registry.npm.taobao.org/react-native-scrollable-tab-view/download/react-native-scrollable-tab-view-0.6.7.tgz#3a5fe8a4bd5bc7eb023f306099323bbd9cc284a2"

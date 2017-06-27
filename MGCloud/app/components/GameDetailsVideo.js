@@ -25,16 +25,18 @@ export default class GameDetailsVideo extends Component {
                 <Image
                     resizeMode="cover" style={styles.container}
                     source={require('../static/img/game_vidoe.png')}>
-                    <TouchableOpacity activeOpacity={0.9}
-                                      onPress={
-                                          () => {
-                                              RNInteraction.playVideoByUrl()
-                                          }
-                                      }>
-                        <Image
-                            style={{width: 50, height: 50}}
-                            source={require('../static/img/video_play.png')}/>
-                    </TouchableOpacity>
+                   <View style={[styles.container,{backgroundColor:'rgba(0,0,0,0.4)'}]}>
+                        <TouchableOpacity activeOpacity={0.9}
+                                          onPress={
+                                              () => {
+                                                  RNInteraction.playVideoByUrl()
+                                              }
+                                          }>
+                            <Image
+                                style={{width: 50, height: 50}}
+                                source={require('../static/img/video_play.png')}/>
+                        </TouchableOpacity>
+                   </View>
                 </Image>
 
             </View>

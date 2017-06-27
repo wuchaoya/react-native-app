@@ -1,3 +1,6 @@
+/**
+ * 头部导航条组件
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,
@@ -16,7 +19,6 @@ export default class HeadNav extends Component {
         this.state = {}
     }
     _renderLeft(left,press){
-            console.log(left)
            if(left!==null &&left !==undefined){
                return (left)
 
@@ -35,7 +37,8 @@ export default class HeadNav extends Component {
     }
     render() {
         return (
-            <View style={[styles.container,this.props.color?{backgroundColor:this.props.color}:{ backgroundColor:'#000',}]}>
+            <View
+                style={[styles.container,this.props.style,this.props.color===null?{}:(this.props.color!==undefined?{backgroundColor:this.props.color}:{ backgroundColor:'#000',}),]}>
                 <View style={{
                 marginLeft:10,width:60}}>{
                    this._renderLeft(this.props.left,this.props.onPress)
@@ -57,7 +60,8 @@ const styles = StyleSheet.create({
         height:64,
         justifyContent:'space-between',
         alignItems: 'center',
-        paddingTop:StatusBar.currentHeight
+        paddingTop:StatusBar.currentHeight,
+
     },
     textColor:{
         color:'#fff'

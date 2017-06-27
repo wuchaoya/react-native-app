@@ -1,10 +1,11 @@
+/**
+ * 登陆注册按钮组件
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    Image,
-    TouchableHighlight,
-    View,
+    TouchableOpacity
 } from 'react-native';
 
 let Dimensions = require('Dimensions');
@@ -19,11 +20,13 @@ export default class LoginButton extends Component {
 
     render() {
         return (
-            <TouchableHighlight style={[styles.button,{backgroundColor:this.props.backgroundColor},this.props.style]}>
+            <TouchableOpacity
+                onPress={this.props.onPress}
+                style={[styles.button,{backgroundColor:this.props.disabled?'#444':'#83b233'},this.props.style]}>
 
-                    <Text style={{color:this.props.color,fontSize:14}}>{this.props.text}</Text>
+                    <Text style={{color:this.props.disabled?'#2c2c2c':'#fff',fontSize:14}}>{this.props.text}</Text>
 
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 }

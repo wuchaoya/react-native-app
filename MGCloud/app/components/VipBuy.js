@@ -1,3 +1,6 @@
+/**
+ * 会员购买游戏包组件
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,
@@ -19,11 +22,11 @@ export default class VipBuy extends Component {
     _render(isShow){
         if(isShow){
             return (
-                <View style={styles.recommendIcon}>
+
                     <Image  style={styles.recommendIcon} source={require('../static/img/radius_icon.png')}>
                         <Text style={styles.recommendText}>荐</Text>
                     </Image>
-                </View>
+
             )
         }
     }
@@ -75,9 +78,10 @@ const styles = StyleSheet.create({
     },
     recommendText:{
         fontSize:10,
-        color:ColorStyle.colorWhite,
+        color:'#fff',
         marginTop:3,
-        marginLeft:4
+        marginLeft:4,
+        backgroundColor:'rgba(0,0,0,0)'//ios下不设置背景色为透明会导致无法显示
     }
 
 });

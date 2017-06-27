@@ -1,3 +1,6 @@
+/**
+ * 设置
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,
@@ -5,7 +8,8 @@ import {
     Navigator,
     Image,
     View,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    TouchableOpacity
 } from 'react-native';
 import HeadNav from '../components/HeadNav'
 import TransparentStatusBar    from '../components/TransparentStatusBar'
@@ -16,20 +20,24 @@ export default class Settings extends Component {
     }
 
     render() {
-        const { goBack } = this.props.navigation;
+        const { goBack,navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
                 <TransparentStatusBar/>
                 <HeadNav header="设置"  onPress={() => goBack()} />
                 <View style={{  paddingLeft:12,paddingRight:12,backgroundColor:'#fff',}}>
-                    <View style={styles.conter}>
-                        <Text style={styles.text}>用户服务协议</Text>
+                    <TouchableOpacity
+                        activeOpacity={0.9} style={styles.conter} onPress={() => navigate('Pact')}>
+                        <Text style={styles.text} >用户服务协议</Text>
                         <Image style={styles.nextImg} source={require('../static/img/next_icon.png')}/>
-                    </View>
-                    <View style={[styles.conter,{marginTop:0,borderTopWidth: 1,borderTopColor:'#ededed'}]}>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigate('Pact')}
+                        activeOpacity={0.9}
+                        style={[styles.conter,{marginTop:0,borderTopWidth: 1,borderTopColor:'#ededed'}]}>
                         <Text style={styles.text}>联系客服</Text>
                         <Image style={styles.nextImg} source={require('../static/img/next_icon.png')}/>
-                    </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={{ justifyContent:'center',alignItems:'center',height:53,marginTop:6,backgroundColor:'#fff',}}>
                     <Text style={styles.text}>退出登录</Text>

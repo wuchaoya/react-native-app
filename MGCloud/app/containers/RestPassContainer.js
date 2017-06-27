@@ -1,5 +1,5 @@
 /**
- * 短信登陆
+ * 找回密码
  */
 import React, {Component} from 'react';
 import {
@@ -14,6 +14,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import HeadNav from '../components/HeadNav'
+import CodeButton from '../components/CodeButton'
 
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
@@ -27,7 +28,12 @@ export default class SMSLanding extends Component {
             secretOn:require('../static/img/secret-on.png'),
             off:require('../static/img/off_icon.png'),
             on:require('../static/img/on_icon.png'),
-            secureTextEntry:true
+            secureTextEntry:true,
+            codeButtonDisabled:true,
+            loginButtonDisabled:true,
+            user:'',
+            code:'',
+            pass:''
         }
     }
     render() {
@@ -48,6 +54,14 @@ export default class SMSLanding extends Component {
                             selectionColor="#999"
                             maxLength={18}
                             autoCorrect={false}
+                            value={this.state.user}
+                            onChangeText={(text) => {
+                                this.setState({
+                                    user:text},()=>{
+                                    this.setState({
+                                        codeButtonDisabled:this.state.user.length===0,
+                                        loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
+                                })}}
                         />
                         <TouchableOpacity style={styles.off}>
                             <Image style={{ width:24,height:24,}} source={this.state.off}></Image>
@@ -55,7 +69,7 @@ export default class SMSLanding extends Component {
                     </View>
                     <View style={{flexDirection:'row'}}>
                         <TextInput
-                            style={[styles.userInput,{width:width-80-120,}]}
+                            style={[styles.userInput,{paddingRight:200,}]}
                             placeholder="验证码"
                             underlineColorAndroid="transparent"
                             placeholderTextColor="#666"
@@ -63,10 +77,15 @@ export default class SMSLanding extends Component {
                             maxLength={18}
                             autoCorrect={false}
                             secureTextEntry={this.state.secureTextEntry}
+                            value={this.state.code}
+                            onChangeText={(text) => {
+                                this.setState({
+                                    code:text},()=>{
+                                    this.setState({
+                                        loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
+                                })}}
                         />
-                        <TouchableHighlight style={styles.code}>
-                            <Text>获取验证码</Text>
-                        </TouchableHighlight>
+                        <CodeButton disabled={this.state.codeButtonDisabled}/>
                     </View>
                     <View style={{width:width-80,justifyContent:'space-between'}}>
                         <TextInput
@@ -78,13 +97,20 @@ export default class SMSLanding extends Component {
                             maxLength={18}
                             autoCorrect={false}
                             secureTextEntry={this.state.secureTextEntry}
+                            value={this.state.pass}
+                            onChangeText={(text) => {
+                                this.setState({
+                                    pass:text},()=>{
+                                    this.setState({
+                                        loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
+                                })}}
                         />
                         <TouchableOpacity onPress={() =>{this.setState(
                             {secureTextEntry:!this.state.secureTextEntry} ) }} style={styles.secret}>
                             <Image style={{ width:24,height:24,}} source={this.state.secureTextEntry?this.state.secretOn:this.state.secretOff}></Image>
                         </TouchableOpacity>
                     </View>
-                    <LoginButton text="确定" backgroundColor="#444" color="#2c2c2c" style={{marginTop:20}}/>
+                    <LoginButton text="确定" disabled={this.state.loginButtonDisabled} style={{marginTop:20}}/>
                 </View>
             </View>
         );

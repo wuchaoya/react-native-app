@@ -1,3 +1,6 @@
+/**
+ * 游戏简介
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,
@@ -35,8 +38,8 @@ export default class GameDescription extends Component {
                 </Text>
                 <View style={{alignSelf:'center'}}>
                     <Button transparent onPress={() =>{this.setState(
-                    {numberLine:1} ) }}>
-                        <Text  style={{fontSize:12,color:'#83b233'}}>显示全文</Text>
+                    {numberLine:this.state.numberLine===null?4:null} ) }}>
+                        <Text  style={{fontSize:12,color:'#83b233'}}>{this.state.numberLine===null?'收起':'显示全文'}</Text>
                     </Button>
                 </View>
             </View>

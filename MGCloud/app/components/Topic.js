@@ -1,3 +1,6 @@
+/**
+ * 游戏专题列表组件
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,

@@ -1,3 +1,6 @@
+/**
+ * 游戏列表
+ */
 import React, {Component} from 'react';
 import  {
     AppRegistry,

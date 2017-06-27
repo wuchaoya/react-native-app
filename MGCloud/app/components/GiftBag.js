@@ -1,3 +1,6 @@
+/**
+ * 我的页面游戏游戏礼包icon
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,

@@ -1,3 +1,6 @@
+/**
+ * 首页顶部轮播图
+ */
 import React, { Component } from 'react';
 import {
     AppRegistry,

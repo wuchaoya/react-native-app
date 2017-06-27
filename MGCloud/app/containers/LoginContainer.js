@@ -1,3 +1,6 @@
+/**
+ * 登陆注册页
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,

@@ -1,3 +1,6 @@
+/**
+ * 精选游戏列表页
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,
@@ -56,7 +59,7 @@ export default class GameContainer extends Component {
         const { goBack } = this.props.navigation;
         return (
             <View >
-                <HeadNav header="游戏列表"  onPress={() => goBack()} />
+                <HeadNav header="游戏列表"  onPress={() => goBack()}  />
                 <GameList data={gameListDataHotPlay} navigation = {this.props.navigation} />
             </View>
         );

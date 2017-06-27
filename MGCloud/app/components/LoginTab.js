@@ -1,3 +1,6 @@
+/**
+ * 登陆注册页面tab组件
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,

@@ -12,10 +12,11 @@ import {
     TextInput,
     TouchableOpacity
 } from 'react-native';
+import LoginButton from '../components/LoginButton'
+import RNInteraction from '../common/RNInteraction'
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
 
-import LoginButton from '../components/LoginButton'
 export default class SignIn extends Component {
     constructor(props) {
         super(props);
@@ -24,15 +25,26 @@ export default class SignIn extends Component {
             secretOn:require('../static/img/secret-on.png'),
             off:require('../static/img/off_icon.png'),
             on:require('../static/img/on_icon.png'),
-            secureTextEntry:true
+            secureTextEntry:true,
+            user:'',
+            pass:'',
+            signIn:true
         }
     }
+
     render() {
         const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
                 <View >
                     <TextInput
+                        onChangeText={(text) => {
+                            this.setState({
+                            user:text},()=>{
+                                this.setState({
+                                    signIn: !(this.state.user.length!==0&&this.state.pass.length!==0)})
+                            })}}
+                        value={this.state.user}
                         style={styles.userInput}
                         placeholder="手机号/邮箱/用户名/和通行证"
                         underlineColorAndroid="transparent"
@@ -47,6 +59,16 @@ export default class SignIn extends Component {
                 </View>
                 <View style={{width:width-80,justifyContent:'space-between'}}>
                     <TextInput
+                        onChangeText={
+                            (text) => {this.setState({pass:text},()=>{
+                                this.setState({
+                                    signIn: !(this.state.user.length!==0&&this.state.pass.length!==0)
+                                })
+                            })
+
+                            }
+                        }
+                        value={this.state.pass}
                         style={styles.userInput}
                         placeholder="密码"
                         underlineColorAndroid="transparent"
@@ -61,8 +83,8 @@ export default class SignIn extends Component {
                         <Image style={{ width:24,height:24,}} source={this.state.secureTextEntry?this.state.secretOn:this.state.secretOff}></Image>
                     </TouchableOpacity>
                 </View>
-                <LoginButton text="登陆" backgroundColor="#444" color="#2c2c2c" style={{marginTop:20}}/>
-                <LoginButton text="中国移动用户一键登录" backgroundColor="#83b233" color="#fff" style={{marginTop:12}}/>
+                <LoginButton text="登陆" disabled={this.state.signIn} style={{marginTop:20}}/>
+                <LoginButton text="中国移动用户一键登录" disabled={false} style={{marginTop:12}} onPress={()=>{RNInteraction.sendSms()}}/>
                 <View style={styles.foot}>
                     <Text onPress={() => navigate('SMSLanding')} style={styles.text}>短信登陆</Text>
                     <Text onPress={() => navigate('RestPass')}  style={styles.text}>忘记密码</Text>

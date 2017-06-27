@@ -1,3 +1,6 @@
+/**
+ * 主页面底部导航组件
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,

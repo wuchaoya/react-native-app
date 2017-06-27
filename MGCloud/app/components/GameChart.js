@@ -1,3 +1,6 @@
+/**
+ * 游戏详情的图片组件
+ */
 import React, {Component} from 'react';
 import  {
     AppRegistry,

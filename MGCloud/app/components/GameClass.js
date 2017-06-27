@@ -1,3 +1,6 @@
+/**
+ * 游戏类型标签组件
+ */
 import React, {Component} from 'react';
 import {
     StyleSheet,

@@ -1,5 +1,5 @@
 /**
- * 用法:<Star starNumber = {number}></Star>
+ * 评分星星组件
  */
 import React, {Component} from 'react';
 import {

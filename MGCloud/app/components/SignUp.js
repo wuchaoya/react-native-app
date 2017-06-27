@@ -13,7 +13,7 @@ import {
     TouchableOpacity,
     TouchableHighlight
 } from 'react-native';
-
+import CodeButton from '../components/CodeButton'
 
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
@@ -27,11 +27,16 @@ export default class SignIn extends Component {
             secretOn:require('../static/img/secret-on.png'),
             off:require('../static/img/off_icon.png'),
             on:require('../static/img/on_icon.png'),
-            secureTextEntry:true
+            secureTextEntry:true,
+            codeButtonDisabled:true,
+            loginButtonDisabled:true,
+            user:'',
+            code:'',
+            pass:''
         }
     }
     render() {
-        console.log('渲染了')
+        const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
                 <View >
@@ -43,6 +48,14 @@ export default class SignIn extends Component {
                         selectionColor="#999"
                         maxLength={18}
                         autoCorrect={false}
+                        value={this.state.user}
+                        onChangeText={(text) => {
+                            this.setState({
+                                user:text},()=>{
+                                this.setState({
+                                    codeButtonDisabled:this.state.user.length===0,
+                                    loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
+                            })}}
                     />
                     <TouchableOpacity style={styles.off}>
                         <Image style={{ width:24,height:24,}} source={this.state.off}></Image>
@@ -50,7 +63,7 @@ export default class SignIn extends Component {
                 </View>
                 <View style={{flexDirection:'row', alignItems:'center'}}>
                     <TextInput
-                        style={[styles.userInput,{width:width-80-120,}]}
+                        style={[styles.userInput,{paddingRight:200}]}
                         placeholder="验证码"
                         underlineColorAndroid="transparent"
                         placeholderTextColor="#666"
@@ -58,10 +71,15 @@ export default class SignIn extends Component {
                         maxLength={18}
                         autoCorrect={false}
                         secureTextEntry={this.state.secureTextEntry}
+                        value={this.state.code}
+                        onChangeText={(text) => {
+                            this.setState({
+                                code:text},()=>{
+                                this.setState({
+                                    loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
+                            })}}
                     />
-                    <TouchableHighlight style={styles.code}>
-                            <Text style={{color:'#fff'}}>获取验证码</Text>
-                    </TouchableHighlight>
+                    <CodeButton disabled={this.state.codeButtonDisabled}/>
                 </View>
 
 
@@ -75,15 +93,22 @@ export default class SignIn extends Component {
                         maxLength={18}
                         autoCorrect={false}
                         secureTextEntry={this.state.secureTextEntry}
+                        value={this.state.pass}
+                        onChangeText={(text) => {
+                            this.setState({
+                                pass:text},()=>{
+                                this.setState({
+                                    loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
+                            })}}
                     />
                     <TouchableOpacity onPress={() =>{this.setState(
                         {secureTextEntry:!this.state.secureTextEntry} ) }} style={styles.secret}>
                         <Image style={{ width:24,height:24,}} source={this.state.secureTextEntry?this.state.secretOn:this.state.secretOff}></Image>
                     </TouchableOpacity>
                 </View>
-                <LoginButton text="注册并登陆" backgroundColor="#444" color="#2c2c2c" style={{marginTop:20}}/>
+                <LoginButton text="注册并登陆" disabled={this.state.loginButtonDisabled} style={{marginTop:20}}/>
                 <View style={styles.foot}>
-                    <Text style={styles.text}>注册代表已阅读并接受<Text style={{color:'#ddd'}}>《使用协议》</Text></Text>
+                    <Text style={styles.text}>注册代表已阅读并接受<Text onPress={() => navigate('Pact')} style={{color:'#ddd'}}>《使用协议》</Text></Text>
                 </View>
             </View>
         );
