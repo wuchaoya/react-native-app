@@ -39,7 +39,7 @@ public class CloudPlayActivity extends AppCompatActivity implements HmcpPlayerLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_cloudplay);
         hmcpVideoView = (HmcpVideoView) this.findViewById(R.id.gameView);
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(this);
         initSDK();

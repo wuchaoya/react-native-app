@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MGCloud</string>
+    <string name="video_error">视频播放错误，请重试!</string>
 </resources>
