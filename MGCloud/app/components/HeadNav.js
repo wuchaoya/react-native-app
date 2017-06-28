@@ -18,7 +18,7 @@ export default class HeadNav extends Component {
         super(props);
         this.state = {}
     }
-    _renderLeft(left,press){
+    _renderLeft(left,press,color){
            if(left!==null &&left !==undefined){
                return (left)
 
@@ -28,7 +28,9 @@ export default class HeadNav extends Component {
            }
 
             return (  <TouchableOpacity    onPress={press}>
-                <Image  style={styles.leftImg} source={require('../static/img/back_icon.png') }></Image>
+                <View style={{width:33,height:33,justifyContent:'center', alignItems:'center'}}>
+                    <View style={[styles.icon,{borderColor:color?color:'#fff'}]}/>
+                </View>
             </TouchableOpacity>)
 
     }
@@ -41,7 +43,7 @@ export default class HeadNav extends Component {
                 style={[styles.container,this.props.style,this.props.color===null?{}:(this.props.color!==undefined?{backgroundColor:this.props.color}:{ backgroundColor:'#000',}),]}>
                 <View style={{
                 marginLeft:10,width:60}}>{
-                   this._renderLeft(this.props.left,this.props.onPress)
+                   this._renderLeft(this.props.left,this.props.onPress,this.props.leftColor)
                 }
 
                 </View>
@@ -69,6 +71,13 @@ const styles = StyleSheet.create({
     leftImg:{
         height:33,
         width:33
+    },
+    icon:{
+        height:10,
+        width:10,
+        borderTopWidth:1,
+        borderLeftWidth:1,
+        transform:[{rotateZ:'-45deg'}]
     }
 });
 

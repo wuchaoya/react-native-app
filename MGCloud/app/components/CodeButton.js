@@ -15,8 +15,8 @@ export default class CodeButton extends Component {
 
     render() {
         return (
-            <TouchableHighlight style={[styles.code,{backgroundColor:this.props.disabled?'#444':'#83b233'}]}>
-                <Text style={{color:this.props.disabled?'#2c2c2c':'#fff'}}>获取验证码</Text>
+            <TouchableHighlight style={[styles.code,{backgroundColor:this.props.disabled?'#ccc':'#83b233'}]}>
+                <Text style={{color:this.props.disabled?'#aaa':'#fff'}}>获取验证码</Text>
             </TouchableHighlight>
         );
     }

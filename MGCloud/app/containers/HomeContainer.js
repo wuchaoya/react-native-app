@@ -25,7 +25,11 @@ import HttpRequest from '../common/HttpRequest'
 export default class HomeContainer extends Component {
     constructor(props) {
         super(props);
-        this.state = {title: ''}
+        this.state = {
+            bannerArray:[],
+            dissertation:[],
+            gameList:[]
+        }
     }
 
     render() {
@@ -34,15 +38,15 @@ export default class HomeContainer extends Component {
             <ScrollView>
                 <HeadNav header="云游戏" onPress={() => navigate('Home')}/>
                 <View style={styles.container}>
-                    <Banner navigation={this.props.navigation}/>
+                    {this.state.bannerArray.length!==0?<Banner navigation={this.props.navigation} data={this.state.bannerArray}/>:null}
                     <View style={CommonStyle.container}>
                         <Title
                             titleText={TextConst.HomeContainerText.gameTheme.title}
                             color="#000"
                         ></Title>
                         <Text
-                            style={styles.subtitle}>括号中从服务器来【{this.state.title}】{TextConst.HomeContainerText.gameTheme.subtitle}</Text>
-                        <ScrollGameThemes navigation={this.props.navigation}></ScrollGameThemes>
+                            style={styles.subtitle}>{TextConst.HomeContainerText.gameTheme.subtitle}</Text>
+                        {this.state.dissertation.length!==0?<ScrollGameThemes data={this.state.dissertation} navigation={this.props.navigation}></ScrollGameThemes>:null}
                     </View>
                     <View style={[{marginTop: 12, paddingTop: 12, backgroundColor: ColorStyle.colorWhite}]}>
                         <View style={styles.homeContainer}>
@@ -53,27 +57,30 @@ export default class HomeContainer extends Component {
                                 <Image style={{width:5,height:9,marginLeft:4}} source={require('../static/img/more.png')}></Image>
                             </View>
                         </View>
-                        <ScrollGameHighlights navigation={this.props.navigation}></ScrollGameHighlights>
+                        {this.state.gameList.length!==0?<ScrollGameHighlights data={this.state.gameList}  navigation={this.props.navigation}></ScrollGameHighlights>:null}
                     </View>
                 </View>
             </ScrollView>
         );
     }
 
-    componentDidMount() {
+    componentWillMount() {
         HttpRequest.getHomeData('',
             (responseData)=> {
-                var dissertation = responseData.data;
-                console.log('网络请求成功了,开始刷新页面操作');
-                // TODO by L.jinzhu for test
-                var title = dissertation[0].title;
-                console.log(title);
-                this.setState(()=> {
-                    return {title: title};
+                console.log(responseData)
+                responseData.banner.push(responseData.banner[0])//目前一条数据为看到滚动效果再加一条
+               this.setState({
+                    bannerArray:responseData.banner,
+                   dissertation:responseData.dissertation,
+                   gameList:responseData["gameList "]
+                },()=>{
+                    console.log(responseData["gameList "]
+                   )
                 });
+
             },
-            (responseData)=> {
-                console.log('网络请求失败了' + responseData.code);
+            (error)=> {
+                console.log(error);
             });
     }
 }

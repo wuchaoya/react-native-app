@@ -4,16 +4,13 @@
 import React, {Component} from 'react';
 import {
     StyleSheet,
-    Text,
-    Navigator,
-    Image,
     View,
-    DeviceEventEmitter
 } from 'react-native';
-import ComStyle from '../style/CommonStyle'
 import LoginTab  from '../components/LoginTab'
 import HeadNav from '../components/HeadNav'
-import LoginInput from '../components/LoginInput'
+import TransparentStatusBar from '../components/TransparentStatusBar'
+import ColorStyle from '../style/ColorStyle'
+
 export default class Forum extends Component {
     constructor(props) {
         super(props);
@@ -24,8 +21,10 @@ export default class Forum extends Component {
         const { goBack } = this.props.navigation;
         return (
             <View style={styles.container}>
-                <HeadNav color="#2d2d2d" onPress={() => goBack()}/>
+                <TransparentStatusBar barStyle='dark-content'/>
+                <HeadNav leftColor="#222" color={ColorStyle.loginTheme.backgroundColor} onPress={() => goBack()}/>
                 <LoginTab navigation={this.props.navigation}/>
+
             </View>
         );
     }
@@ -34,7 +33,7 @@ export default class Forum extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:'#f5f5f5'
     },
-
 });
 

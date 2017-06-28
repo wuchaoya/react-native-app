@@ -18,6 +18,7 @@ import GameChart from '../components/GameChart'
 import GameDescription from '../components/GameDescription'
 import GameOtherInfo from  '../components/GameOtherInfo'
 import HeadNav from '../components/HeadNav'
+import HttpRequest from '../common/HttpRequest'
 
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
@@ -59,6 +60,15 @@ export default class GameDetails extends Component {
                 </ScrollView>
             </View>
         );
+    }
+    componentWillMount() {
+        HttpRequest.getGameDetailData({gid:1000,user_id:487},
+            (responseData)=> {
+                console.log(responseData)
+            },
+            (error)=> {
+                console.log(error);
+            });
     }
 }
 

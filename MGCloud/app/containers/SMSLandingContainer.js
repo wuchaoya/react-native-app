@@ -5,13 +5,10 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    Navigator,
     Image,
     View,
-    DeviceEventEmitter,
     TextInput,
     TouchableOpacity,
-    TouchableHighlight
 } from 'react-native';
 import HeadNav from '../components/HeadNav'
 import CodeButton from '../components/CodeButton'
@@ -32,13 +29,16 @@ export default class SMSLanding extends Component {
             loginButtonDisabled:true,
             user:'',
             code:'',
+            clerUser:-100,
+            clerPass:-100,
+            clerCode:-100,
         }
     }
     render() {
         const { goBack } = this.props.navigation;
         return (
             <View style={{flex:1}}>
-                <HeadNav color="#2d2d2d" onPress={() => goBack()}/>
+                <HeadNav leftColor="#222" color="#f5f5f5" onPress={() => goBack()}/>
                 <View style={styles.container}>
                     <View style={styles.title}>
                         <Text style={styles.titleText}>短信登陆</Text>
@@ -48,7 +48,7 @@ export default class SMSLanding extends Component {
                             style={styles.userInput}
                             placeholder="手机号/邮箱/用户名/和通行证"
                             underlineColorAndroid="transparent"
-                            placeholderTextColor="#666"
+                            placeholderTextColor="#999"
                             selectionColor="#999"
                             maxLength={18}
                             autoCorrect={false}
@@ -57,10 +57,22 @@ export default class SMSLanding extends Component {
                                 this.setState({
                                     user:text},()=>{
                                     this.setState({
+                                        clerUser:this.state.user.length!==0?34:-100,
                                         codeButtonDisabled:this.state.user.length===0,
                                         loginButtonDisabled:!(this.state.user.length!==0&&this.state.code.length!==0)})
                                 })}}
                         />
+                        <TouchableOpacity onPress={()=>{
+                            this.setState({
+                                user:'',
+                            },()=>{
+                                this.setState({
+                                    clerUser:this.state.user.length!==0?34:-100,
+                                })
+                            })
+                        }} style={[styles.clear,{right:this.state.clerUser,}]}>
+                            <Text style={{fontSize:10}}>╳</Text>
+                        </TouchableOpacity>
                         <TouchableOpacity style={styles.off}>
                             <Image style={{ width:24,height:24,}} source={this.state.off}></Image>
                         </TouchableOpacity>
@@ -70,7 +82,7 @@ export default class SMSLanding extends Component {
                             style={[styles.userInput,{paddingRight:200,}]}
                             placeholder="验证码"
                             underlineColorAndroid="transparent"
-                            placeholderTextColor="#666"
+                            placeholderTextColor="#999"
                             selectionColor="#999"
                             maxLength={18}
                             autoCorrect={false}
@@ -80,11 +92,25 @@ export default class SMSLanding extends Component {
                                 this.setState({
                                     code:text},()=>{
                                     this.setState({
+                                        clerCode :this.state.code.length!==0?120:-100,
                                         codeButtonDisabled:this.state.user.length===0,
                                         loginButtonDisabled:!(this.state.user.length!==0&&this.state.code.length!==0)})
                                 })}}
 
                         />
+                        <TouchableOpacity
+                            onPress={()=>{
+                                this.setState({
+                                    code:'',
+                                },()=>{
+                                    this.setState({
+                                        clerCode :this.state.code.length!==0?120:-100,
+                                    })
+                                })
+                            }}
+                            style={[styles.clear,{right:this.state.clerCode,}]}>
+                            <Text style={{fontSize:10}}>╳</Text>
+                        </TouchableOpacity>
                         <CodeButton disabled={this.state.codeButtonDisabled}/>
                     </View>
                     <LoginButton text="注册并登陆" disabled={this.state.loginButtonDisabled} style={{marginTop:20}}/>
@@ -97,7 +123,7 @@ export default class SMSLanding extends Component {
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        backgroundColor:'#2d2d2d',
+        backgroundColor:'#f5f5f5',
         paddingLeft:40,
         paddingRight:40
     },
@@ -106,8 +132,8 @@ const styles = StyleSheet.create({
         padding: 0,
         height:44,
         borderBottomWidth:1,
-        borderBottomColor:'#444',
-        color:'#999'
+        borderBottomColor:'#ddd',
+        color:'#666'
     },
     off:{
         position: 'absolute',
@@ -148,6 +174,14 @@ const styles = StyleSheet.create({
     },
     title:{
         height:44,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    clear:{
+        width:44,
+        height:44,
+        position: 'absolute',
+        right:34,
         justifyContent:'center',
         alignItems:'center'
     }

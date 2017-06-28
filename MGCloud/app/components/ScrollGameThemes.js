@@ -10,15 +10,16 @@ import {
 } from 'react-native'
 import Swiper from 'react-native-swiper'
 
-import HttpUitl from '../common/HttpUitl'
-import WebHost from '../common/WebHost'
 
 
 let width = Dimensions.get('window').width;
-
+let widthPixels = width
 export default class extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            height:0
+        }
     }
     render () {
         const { navigate } = this.props.navigation;
@@ -32,43 +33,29 @@ export default class extends Component {
             bottom: -20,left:-10
           }}
                         loop>
-                    <View style={styles.slide} title={<Text numberOfLines={1}></Text>}>
-                        <TouchableOpacity activeOpacity={0.8}
-                            onPress={() => navigate('TopicDetails')} style={styles.image}>
-                           <View style={styles.image}>
-                               <Image resizeMode='stretch' style={styles.image} source={require('../static/img/topic1.png')}  />
-                               <View style={{height:52,justifyContent:'center'}}>
-                                   <Text style={{fontSize:15,color:'#333',}}>机智如我</Text>
-                               </View>
-                           </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.slide} title={<Text numberOfLines={1}></Text>}>
-                        <TouchableOpacity activeOpacity={0.8}
-                            onPress={() => navigate('TopicDetails')} style={styles.image}>
-                            <View style={styles.image}>
-                                <Image resizeMode='stretch' style={styles.image} source={require('../static/img/game_vidoe.png')}  />
-                                <View style={{height:52,justifyContent:'center'}}>
-                                    <Text style={{fontSize:15,color:'#333',}}>机智如我</Text>
+                    {this.props.data.map((obj)=>{
+                     return ( <View style={styles.slide} key={obj.app_id} title={<Text numberOfLines={1}></Text>}>
+                            <TouchableOpacity activeOpacity={0.8}
+                                              onPress={() => navigate('TopicDetails')} style={styles.image}>
+                                <View style={styles.image}>
+                                    <Image resizeMode='stretch' style={{flex: 1,width:width-24,height:this.state.height}} source={{uri:obj.cover}}  />
+                                    <View style={{height:52,justifyContent:'center'}}>
+                                        <Text style={{fontSize:15,color:'#333',}}>{obj.title}</Text>
+                                    </View>
                                 </View>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.slide} title={<Text numberOfLines={1}></Text>}>
-                        <TouchableOpacity activeOpacity={0.8}
-                                          onPress={() => navigate('TopicDetails')} style={styles.image}>
-                            <View style={styles.image}>
-                                <Image resizeMode='stretch' style={styles.image} source={require('../static/img/game3_img.png')}  />
-                                <View style={{height:52,justifyContent:'center'}}>
-                                    <Text style={{fontSize:15,color:'#333',}}>机智如我</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+                            </TouchableOpacity>
+                        </View>)
+                    })}
                 </Swiper>
-
             </View>
         )
+    }
+    componentDidMount(){
+        Image.getSize(this.props.data[0].cover, (width, height) => {
+            this.setState(
+                {height:height/(width/widthPixels)}
+            )
+        });
     }
 }
 
@@ -92,7 +79,5 @@ const styles = {
 
     image: {
         flex: 1,
-        width:width-24,
-        height:175
     }
 }

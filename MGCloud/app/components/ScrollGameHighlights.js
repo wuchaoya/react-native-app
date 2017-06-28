@@ -5,43 +5,49 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
-    Navigator,
     Image,
     View,
     ScrollView,
-    TouchableHighlight,
+    Dimensions,
     TouchableOpacity
 } from 'react-native';
 import TextConst from '../const/TextConst'
+
+let width = Dimensions.get('window').width;
+let widthPixels = width
 
 export default class ScrollGameHighlights extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            height:0
         }
-    }
-    _renderImg(img,text){
-        return(
-
-            <TouchableOpacity activeOpacity={0.9} onPress={() =>this.props.navigation.navigate('GameDetails')} style={styles.container}>
-                <Image style={styles.radiuImg} source={img} />
-
-            </TouchableOpacity>
-        )
     }
     render() {
         return (
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}  showsHorizontalScrollIndicato={false}>
-                {this._renderImg(require('../static/img/game1_img.png'),TextConst.HomeContainerText.gameHighlights.gameList[0])}
-                {this._renderImg(require('../static/img/game2_img.png'),TextConst.HomeContainerText.gameHighlights.gameList[0])}
-                {this._renderImg(require('../static/img/game1_img.png'),TextConst.HomeContainerText.gameHighlights.gameList[1])}
-                {this._renderImg(require('../static/img/game3_img.png'),TextConst.HomeContainerText.gameHighlights.gameList[1])}
-                {this._renderImg(require('../static/img/game2_img.png'),TextConst.HomeContainerText.gameHighlights.gameList[1])}
-                {this._renderImg(require('../static/img/game3_img.png'),TextConst.HomeContainerText.gameHighlights.gameList[1])}
-                {this._renderImg(require('../static/img/game1_img.png'),TextConst.HomeContainerText.gameHighlights.gameList[1])}
+                {this.props.data.map(
+                    (obj)=>{
+                        return(
+                            <TouchableOpacity key={obj.app_id}
+                                activeOpacity={0.9}
+                                onPress={() =>this.props.navigation.navigate('GameDetails')}
+                                style={styles.container}>
+                                <Image style={styles.radiuImg} source={{uri:obj.icon}} />
+                                <Text numberOfLines={2} style={styles.name}>{obj.name}</Text>
+                            </TouchableOpacity>
+                        )
+                    }
+                )}
             </ScrollView>
         );
+    }
+    componentDidMount(){
+        Image.getSize(this.props.data[0].icon, (width, height) => {
+            this.setState(
+                {height:height/(width/widthPixels)}
+            )
+        });
     }
 }
 
@@ -55,6 +61,12 @@ const styles = StyleSheet.create({
         height:86,
         borderRadius:18,
         marginBottom:9
+    },
+    name:{
+        width:86,
+        fontSize:13,
+        color:'#333',
+        lineHeight:20
     }
 });
 

@@ -32,7 +32,10 @@ export default class SignIn extends Component {
             loginButtonDisabled:true,
             user:'',
             code:'',
-            pass:''
+            pass:'',
+            clerUser:-100,
+            clerPass:-100,
+            clerCode:-100,
         }
     }
     render() {
@@ -44,7 +47,7 @@ export default class SignIn extends Component {
                         style={styles.userInput}
                         placeholder="手机号/邮箱/用户名/和通行证"
                         underlineColorAndroid="transparent"
-                        placeholderTextColor="#666"
+                        placeholderTextColor="#999"
                         selectionColor="#999"
                         maxLength={18}
                         autoCorrect={false}
@@ -53,10 +56,22 @@ export default class SignIn extends Component {
                             this.setState({
                                 user:text},()=>{
                                 this.setState({
+                                    clerUser:this.state.user.length!==0?34:-100,
                                     codeButtonDisabled:this.state.user.length===0,
                                     loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
                             })}}
                     />
+                    <TouchableOpacity onPress={()=>{
+                        this.setState({
+                            user:'',
+                        },()=>{
+                            this.setState({
+                                clerUser:this.state.user.length!==0?34:-100,
+                            })
+                        })
+                    }} style={[styles.clear,{right:this.state.clerUser,}]}>
+                        <Text style={{fontSize:10}}>╳</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.off}>
                         <Image style={{ width:24,height:24,}} source={this.state.off}></Image>
                     </TouchableOpacity>
@@ -66,19 +81,32 @@ export default class SignIn extends Component {
                         style={[styles.userInput,{paddingRight:200}]}
                         placeholder="验证码"
                         underlineColorAndroid="transparent"
-                        placeholderTextColor="#666"
+                        placeholderTextColor="#999"
                         selectionColor="#999"
                         maxLength={18}
                         autoCorrect={false}
-                        secureTextEntry={this.state.secureTextEntry}
                         value={this.state.code}
                         onChangeText={(text) => {
                             this.setState({
                                 code:text},()=>{
                                 this.setState({
+                                    clerCode :this.state.code.length!==0?120:-100,
                                     loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
                             })}}
                     />
+                    <TouchableOpacity
+                        onPress={()=>{
+                            this.setState({
+                                code:'',
+                            },()=>{
+                                this.setState({
+                                    clerCode :this.state.code.length!==0?120:-100,
+                                })
+                            })
+                        }}
+                        style={[styles.clear,{right:this.state.clerCode,}]}>
+                        <Text style={{fontSize:10}}>╳</Text>
+                    </TouchableOpacity>
                     <CodeButton disabled={this.state.codeButtonDisabled}/>
                 </View>
 
@@ -88,7 +116,7 @@ export default class SignIn extends Component {
                         style={styles.userInput}
                         placeholder="密码"
                         underlineColorAndroid="transparent"
-                        placeholderTextColor="#666"
+                        placeholderTextColor="#999"
                         selectionColor="#999"
                         maxLength={18}
                         autoCorrect={false}
@@ -98,9 +126,23 @@ export default class SignIn extends Component {
                             this.setState({
                                 pass:text},()=>{
                                 this.setState({
+                                    clerPass:this.state.pass.length!==0?34:-100,
                                     loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
                             })}}
                     />
+                    <TouchableOpacity
+                        onPress={()=>{
+                            this.setState({
+                                pass:'',
+                            },()=>{
+                                this.setState({
+                                    clerPass:this.state.pass.length!==0?34:-100,
+                                })
+                            })
+                        }}
+                        style={[styles.clear,{right:this.state.clerPass,}]}>
+                        <Text style={{fontSize:10}}>╳</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() =>{this.setState(
                         {secureTextEntry:!this.state.secureTextEntry} ) }} style={styles.secret}>
                         <Image style={{ width:24,height:24,}} source={this.state.secureTextEntry?this.state.secretOn:this.state.secretOff}></Image>
@@ -108,7 +150,7 @@ export default class SignIn extends Component {
                 </View>
                 <LoginButton text="注册并登陆" disabled={this.state.loginButtonDisabled} style={{marginTop:20}}/>
                 <View style={styles.foot}>
-                    <Text style={styles.text}>注册代表已阅读并接受<Text onPress={() => navigate('Pact')} style={{color:'#ddd'}}>《使用协议》</Text></Text>
+                    <Text style={styles.text}>注册代表已阅读并接受<Text onPress={() => navigate('Pact')} style={{color:'#83b233'}}>《使用协议》</Text></Text>
                 </View>
             </View>
         );
@@ -118,7 +160,7 @@ export default class SignIn extends Component {
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        backgroundColor:'#2d2d2d',
+        backgroundColor:'#f5f5f5',
         paddingLeft:40,
         paddingRight:40
     },
@@ -127,8 +169,8 @@ const styles = StyleSheet.create({
         padding: 0,
         height:44,
         borderBottomWidth:1,
-        borderBottomColor:'#444',
-        color:'#999'
+        borderBottomColor:'#ddd',
+        color:'#666'
     },
     off:{
         position: 'absolute',
@@ -151,16 +193,16 @@ const styles = StyleSheet.create({
         marginTop:15
     },
     text:{
-        color:'#666',
+        color:'#999',
         fontSize:13
     },
-    code:{
-        alignItems:'center',
+    clear:{
+        width:44,
+        height:44,
+        position: 'absolute',
+        right:34,
         justifyContent:'center',
-        width:120,
-        height:40,
-        backgroundColor:'#83b233',
-        borderRadius:6
+        alignItems:'center'
     }
 });
 

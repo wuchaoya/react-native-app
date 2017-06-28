@@ -22,7 +22,7 @@ export default class TransparentStatusBar extends Component {
             <StatusBar
                 backgroundColor={this.opacity(this.props.opacity)}
                 translucent={true}
-                barStyle="light-content"
+                barStyle={this.props.barStyle?this.props.barStyle:'light-content'}
                 hidden={false}
             />
         );

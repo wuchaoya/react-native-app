@@ -22,9 +22,9 @@ export default class LoginButton extends Component {
         return (
             <TouchableOpacity
                 onPress={this.props.onPress}
-                style={[styles.button,{backgroundColor:this.props.disabled?'#444':'#83b233'},this.props.style]}>
+                style={[styles.button,{backgroundColor:this.props.disabled?'#ccc':'#83b233'},this.props.style]}>
 
-                    <Text style={{color:this.props.disabled?'#2c2c2c':'#fff',fontSize:14}}>{this.props.text}</Text>
+                    <Text style={{color:this.props.disabled?'#aaa':'#fff',fontSize:14}}>{this.props.text}</Text>
 
             </TouchableOpacity>
         );

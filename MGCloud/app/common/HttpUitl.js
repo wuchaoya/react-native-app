@@ -8,7 +8,6 @@ const HttpUitl = {
      * @param callback function
      */
     post: (path, parameter, callbackSuccess, callbackError)=> {
-        console.log('====[request]====:' + path + " | " + parameter)
         fetch(WebHost.url + path, {
             method: 'POST',
             headers: {
@@ -17,17 +16,12 @@ const HttpUitl = {
             },
             body: JSON.stringify(parameter)
         }).then((response) => {
-            console.log('====[response]====:');
-            console.log(response);
             return response.json()
         }).then((responseJson) => {
-            var data = responseJson.data;
-            console.log('====[responseSuccess]====:');
-            console.log(data);
+            console.log(responseJson)
             // 返回请求正常的业务数据集合
-            callbackSuccess(data)
+            callbackSuccess(responseJson)
         }).catch((error) => {
-            console.error('====[responseError]====:' + JSON.stringify(error));
             callbackError(error);
         }).done();
     }

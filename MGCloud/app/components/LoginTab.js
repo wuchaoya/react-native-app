@@ -10,6 +10,8 @@ import {
 import TabNavigator from 'react-native-tab-navigator';
 import  SignIn from '../components/SignIn'
 import SignUp from '../components/SignUp'
+import ColorStyle from '../style/ColorStyle'
+
 let Dimensions = require('Dimensions');
 let width = (Dimensions.get('window').width-80)/2;
 export default class LoginTab extends Component {
@@ -24,6 +26,7 @@ export default class LoginTab extends Component {
     _renderTab(Component, selectedTab, title) {
         return (
             <TabNavigator.Item
+
                 selected={this.state.selectedTab === selectedTab}
                 selectedTitleStyle={{ color:'#83b233',}}
                 title={title}
@@ -39,6 +42,7 @@ export default class LoginTab extends Component {
     render() {
         return (
             <TabNavigator
+                tabBarShadowStyle={{backgroundColor:'#f5f5f5'}}
                 sceneStyle={{marginTop:43,paddingBottom:0}}
                 tabBarStyle={[styles.center,styles.tabBarStyle]}>
                 {this._renderTab(SignIn,'SignIn','登录')}
@@ -64,19 +68,23 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         height:17,
         borderBottomWidth:2,
-        borderBottomColor:'#2d2d2d'
+        borderBottomColor:'#f5f5f5'
     },
     titleTextColor:{
         fontSize: 14,
-        color:'#ddd',
+        color:'#666',
         fontWeight:'800',
-        height:31
+        height:31,
+
     },
     tabBarStyle:{
         top:0,
         height: 44,
-        backgroundColor:'#2d2d2d',
+        backgroundColor:'#f5f5f5',
         paddingLeft:40,
         paddingRight:40,
+        borderTopColor:'#f5f5f5',
+        borderTopWidth:0,
+        zIndex:2,
     }
 });
