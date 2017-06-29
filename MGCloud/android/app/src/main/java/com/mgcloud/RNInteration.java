@@ -1,14 +1,15 @@
 package com.mgcloud;
 
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.telephony.SmsManager;
+import android.widget.Toast;
 
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.mgcloud.activity.CloudPlayActivity;
 import com.mgcloud.activity.FullScreenVideoActivity;
+import com.mgcloud.utils.SendMessage;
 
 public class RNInteration extends ReactContextBaseJavaModule {
 
@@ -50,9 +51,13 @@ public class RNInteration extends ReactContextBaseJavaModule {
      * 自动发送短信
      */
     @ReactMethod
-    public void sendSms(){
-        PendingIntent paIntent = PendingIntent.getBroadcast(getReactApplicationContext(), 0, new Intent(), 0);
-        SmsManager.getDefault().sendTextMessage("13612345678", null, "这条短信是自动发送的", paIntent,
-                null);
+    public void sendSms(String statue,Promise promise) {
+        SendMessage sendMessage = new SendMessage(getReactApplicationContext(),promise);
+        sendMessage.send("15810592135", "123456", "中国移动用户一键登录");
+    }
+
+    @ReactMethod
+    public void showCustomToast(String message){
+        Toast.makeText(getReactApplicationContext(),message,Toast.LENGTH_LONG).show();
     }
 }
