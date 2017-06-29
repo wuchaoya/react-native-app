@@ -33,8 +33,8 @@ export default class extends Component {
             bottom: -20,left:-10
           }}
                         loop>
-                    {this.props.data.map((obj)=>{
-                     return ( <View style={styles.slide} key={obj.app_id} title={<Text numberOfLines={1}></Text>}>
+                    {this.props.data.map((obj,i)=>{
+                     return ( <View style={styles.slide} key={i} title={<Text numberOfLines={1}></Text>}>
                             <TouchableOpacity activeOpacity={0.8}
                                               onPress={() => navigate('TopicDetails')} style={styles.image}>
                                 <View style={styles.image}>

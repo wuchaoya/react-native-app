@@ -11,6 +11,7 @@ import TabNavigator from 'react-native-tab-navigator';
 import ComStyle from '../style/CommonStyle'
 import ColorStyle from '../style/ColorStyle'
 import GameList from '../components/GameList'
+import HttpRequest from '../common/HttpRequest'
 
 const gameListDataHotPlay = [
     {
@@ -98,6 +99,9 @@ export default class RankingTabNav extends Component {
             },
             lineIcon : require('../static/img/line_icon.png'),
             lineGreenIcon : require('../static/img/line_green_icon.png'),
+            hotPlay:[],
+            newProducts:[],
+            reserve:[]
         }
     }
 
@@ -117,17 +121,68 @@ export default class RankingTabNav extends Component {
     }
 
     render() {
-        return (
+
+            return (
+                this.state.hotPlay.length!==0&&this.state.reserve.length!==0&&this.state.newProducts.length!==0?
             <TabNavigator
                 sceneStyle={{marginTop:48,paddingBottom:0}}
                 tabBarStyle={[styles.center,styles.tabBarStyle]}>
-                {this._renderTab(GameList,'HotPlay','热玩榜',this.state.lineIcon,this.state.lineGreenIcon,gameListDataHotPlay)}
-                {this._renderTab(GameList,'NewProducts','新品榜',this.state.lineIcon,this.state.lineGreenIcon,gameListDataHotPlay)}
-                {this._renderTab(GameList,'Reserve','预约榜',this.state.lineIcon,this.state.lineGreenIcon,gameListDataReserve)}
-            </TabNavigator>
-        );
+                {this._renderTab(GameList,'HotPlay','热玩榜',this.state.lineIcon,this.state.lineGreenIcon,this.state.hotPlay)}
+                {this._renderTab(GameList,'NewProducts','新品榜',this.state.lineIcon,this.state.lineGreenIcon,this.state.newProducts)}
+                {this._renderTab(GameList,'Reserve','预约榜',this.state.lineIcon,this.state.lineGreenIcon,this.state.reserve)}
+            </TabNavigator>:null
+        )
     }
+    componentWillMount() {
+        HttpRequest.getRankListData({
+                page:0,
+                type:1
+            },
+            (responseData)=> {
+                this.setState({
+                    hotPlay:responseData
+                },()=>{
+                    console.log(this.state.hotPlay)
+                })
+
+            },
+            (error)=> {
+                console.log(error);
+            });
+        HttpRequest.getRankListData({
+                page:0,
+                type:2
+            },
+            (responseData)=> {
+                this.setState({
+                    newProducts:responseData
+                },()=>{
+                    console.log(this.state.newProducts)
+                })
+
+            },
+            (error)=> {
+                console.log(error);
+            });
+        HttpRequest.getRankListData({
+                page:0,
+                type:1
+            },
+            (responseData)=> {
+                this.setState({
+                    reserve:responseData
+                },()=>{
+                    console.log(this.state.reserve)
+                })
+
+            },
+            (error)=> {
+                console.log(error);
+            });
+    }
+
 }
+
 
 const styles = StyleSheet.create({
     flex: {

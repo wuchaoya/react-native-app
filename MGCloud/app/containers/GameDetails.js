@@ -30,6 +30,7 @@ export default class GameDetails extends Component {
             header:'',
             navColor:null,
             height:0,
+            data:[]
         }
     }
     setNavColor(height){
@@ -50,21 +51,27 @@ export default class GameDetails extends Component {
                 <ScrollView
                     onScroll={(e)=>this.setNavColor(e.nativeEvent.contentOffset.y)}
                 >
-                    <View style={styles.container}>
-                        <GameDetailsVideo/>
-                        <GameGrade/>
-                        <GameChart/>
-                        <GameDescription/>
-                        <GameOtherInfo/>
-                    </View>
+                    {this.state.data.length!==0?<View style={styles.container}>
+                        <GameDetailsVideo data={this.state.data.video_url}/>
+                        <GameGrade data={this.state.data}/>
+                        <GameChart data={this.state.data}/>
+                        <GameDescription data={this.state.data}/>
+                        <GameOtherInfo data={this.state.data}/>
+                    </View>:null}
                 </ScrollView>
             </View>
         );
     }
     componentWillMount() {
-        HttpRequest.getGameDetailData({gid:1000,user_id:487},
+        HttpRequest.getGameDetailData({gid:10000,user_id:487},
             (responseData)=> {
-                console.log(responseData)
+                this.setState(
+                    {
+                        data:responseData
+                    },()=>{
+                        console.log(this.state.data)
+                    }
+                )
             },
             (error)=> {
                 console.log(error);

@@ -1,40 +1,159 @@
-import React, { Component } from 'react';
-import {
+/**
+ * 游戏列表
+ */
+import React, {Component} from 'react';
+import  {
+    AppRegistry,
     StyleSheet,
     Text,
     View,
-    ActivityIndicator,
     ListView,
-} from 'react-native';
-
-import {PullList} from 'react-native-pull';
-
-export default class Li extends Component {
-
+    Image,
+    TouchableOpacity,
+    ActivityIndicator
+} from'react-native';
+import {Button} from 'native-base';
+import RNInteraction from '../common/RNInteraction'
+import {PullList} from 'react-native-pull'
+import LoadingAnimation from '../components/LoadingAnimation'
+export default class GameList extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = [{
-            id: 0,
-            title: `this is the first.`,
-        }];
+        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            dataSource: ds.cloneWithRows(this.props.data),
+            isRefreshing: false,
         };
-        this.renderHeader = this.renderHeader.bind(this);
-        this.renderRow = this.renderRow.bind(this);
+        this._renderRow = this._renderRow.bind(this);
         this.renderFooter = this.renderFooter.bind(this);
         this.loadMore = this.loadMore.bind(this);
         this.topIndicatorRender = this.topIndicatorRender.bind(this);
-        // this.loadMore();
     }
 
-    onPullRelease(resolve) {
-        //do something
+    _renderNumber(isShow,ID){
+        if(isShow===true){
+            return ( <Text style={[{fontSize:20,alignSelf:'center'},Number(ID)<3?{color:'#ff8800'}:{color:'#999',fontSize:15}]}>{Number(ID)+1}</Text>
+            )
+        }
+
+    }
+
+    onRefresh() {
+        this.setState({isRefreshing: true});
         setTimeout(() => {
-            resolve();
-        }, 3000);
+
+            this.setState({
+                isRefreshing: false,
+            });
+        }, 2000);
+    }
+    _renderRow(rowData, sectionID, rowID, highlightRow,navigate) {
+        return (
+            <TouchableOpacity onPress={() => navigate('GameDetails')}>
+                <View>
+                    <View style={[styles.row,{justifyContent:this.props.showNumber?'space-around':'space-between',}]}>
+                        <View style={{width:this.props.showNumber?30:0,}}>
+                            {this._renderNumber(this.props.showNumber,rowID)}
+                        </View>
+                        <Image style={styles.thumb} source={rowData.gameImg}/>
+                        <View style={{width: 100}}>
+                            <Text numberOfLines={1} style={styles.gameName}>{rowData.gameName}</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Star starNumber={rowData.gameStar} textStyle={{fontSize: 12}}></Star>
+                                <Text style={{fontSize: 12, marginLeft: 4}}>{rowData.gameStar}</Text>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <View
+                                    style={styles.gameClass}
+                                >
+                                    <Text style={{fontSize: 11}}>{rowData.gameClass[0]}</Text>
+                                </View>
+                                <View style={styles.gameClass}>
+                                    <Text style={{fontSize: 11}}>{rowData.gameClass[1]}</Text>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={{width: 90,}}>
+                            <Button
+                                bordered={!rowData.gamePlayed}
+                                rounded
+                                success
+                                style=
+                                    {
+                                        rowData.gamePlayed !== undefined ?
+                                            (rowData.gamePlayed ?
+                                                {
+                                                    backgroundColor: '#DDDDDD',
+                                                    height: 30,
+                                                    paddingLeft: 20,
+                                                    paddingRight: 20,
+                                                } :
+                                                {
+                                                    borderColor: '#6dae31',
+                                                    height: 30,
+                                                }) :
+                                            (rowData.gameReserve ?
+                                                    {
+                                                        borderColor: '#dddddd',
+                                                        height: 30,
+                                                        paddingLeft: 20,
+                                                        paddingRight: 20,
+                                                    } :
+                                                    {
+                                                        borderColor: '#6dae31',
+                                                        height: 30,
+                                                    }
+                                            )
+                                    }
+                                onPress={
+                                    () => {
+                                        RNInteraction.startCloudPlay()
+                                    }
+                                }
+
+                            >
+                                <Text style={{fontSize: 10, margin: 0, padding: 0}}>
+                                    {
+                                        rowData.gamePlayed !== undefined ?
+                                            (rowData.gamePlayed ? '试玩结束' : '试玩') :
+                                            (rowData.gameReserve ? '取消预约' : '预约')
+                                    }
+                                </Text>
+                            </Button>
+                        </View>
+                    </View>
+                </View>
+            </TouchableOpacity>
+        )
     }
 
+
+    /**
+     * 列表头
+     * @returns {XML}
+     */
+
+    /**
+     * 列表底部
+     * @returns {*}
+     */
+    renderFooter() {
+        if(this.state.nomore) {
+            return null;
+        }
+        return (
+            <View style={{height: 100}}>
+                <ActivityIndicator />
+            </View>
+        );
+    }
+
+    /**
+     * 加载数据
+     */
+    loadMore() {
+
+    }
     topIndicatorRender(pulling, pullok, pullrelease) {
         const hide = {position: 'absolute', left: -10000};
         const show = {position: 'relative', left: 0};
@@ -54,89 +173,69 @@ export default class Li extends Component {
             }
         }, 1);
         return (
-            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60}}>
-                <ActivityIndicator size="small" color="gray" />
-                <Text ref={(c) => {this.txtPulling = c;}}>当前PullList状态: pulling...</Text>
-                <Text ref={(c) => {this.txtPullok = c;}}>当前PullList状态: pullok......</Text>
-                <Text ref={(c) => {this.txtPullrelease = c;}}>当前PullList状态: pullrelease......</Text>
+            <View
+                style={{flexDirection: 'row', justifyContent: 'center',alignItems:'center' ,}}>
+                <LoadingAnimation style={{
+                    marginRight:10
+                }}/>
+                <View>
+                    <Text ref={(c) => {this.txtPulling = c;}}>下拉刷新</Text>
+                    <Text ref={(c) => {this.txtPullok = c;}}>释放刷新</Text>
+                    <Text ref={(c) => {this.txtPullrelease = c;}}>正在刷新</Text>
+                </View>
             </View>
         );
     }
-
     render() {
+        const {navigate} = this.props.navigation;
+        console.log(navigate)
         return (
-            <View style={styles.container}>
-                <PullList
-                    style={{}}
-                    onPullRelease={this.onPullRelease} topIndicatorRender={this.topIndicatorRender} topIndicatorHeight={60}
-                    renderHeader={this.renderHeader}
-                    dataSource={this.state.list}
-                    pageSize={5}
-                    initialListSize={5}
-                    renderRow={this.renderRow}
-                    onEndReached={this.loadMore}
-                    onEndReachedThreshold={60}
-                    renderFooter={this.renderFooter}
-                />
-            </View>
+            <PullList
+                onPullRelease={null} topIndicatorRender={this.topIndicatorRender} topIndicatorHeight={60}
+                dataSource={this.state.dataSource}
+                pageSize={5}
+                initialListSize={5}
+                renderRow={this._renderRow}
+                onEndReached={this.loadMore}
+                onEndReachedThreshold={60}
+                renderFooter={null}
+            />
         );
     }
-
-    renderHeader() {
-        return (
-            <View style={{height: 50, backgroundColor: '#eeeeee', alignItems: 'center', justifyContent: 'center'}}>
-                <Text style={{fontWeight: 'bold'}}>This is header</Text>
-            </View>
-        );
-    }
-
-    renderRow(item, sectionID, rowID, highlightRow) {
-        return (
-            <View style={{height: 50, backgroundColor: '#fafafa', alignItems: 'center', justifyContent: 'center'}}>
-                <Text>{item.title}</Text>
-            </View>
-        );
-    }
-
-    renderFooter() {
-        if(this.state.nomore) {
-            return null;
-        }
-        return (
-            <View style={{height: 100}}>
-                <ActivityIndicator />
-            </View>
-        );
-    }
-
-    loadMore() {
-        this.dataSource.push({
-            id: 0,
-            title: `begin to create data ...`,
-        });
-        for(var i = 0; i < 5; i++) {
-            this.dataSource.push({
-                id: i + 1,
-                title: `this is ${i}`,
-            })
-        }
-        this.dataSource.push({
-            id: 6,
-            title: `finish create data ...`,
-        });
-        setTimeout(() => {
-            this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
-    }
-
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        backgroundColor: '#F5FCFF',
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        paddingTop: 15,
+        paddingBottom: 15,
+        borderTopWidth: 1,
+        borderTopColor: '#ededed',
+        backgroundColor: '#fff'
     },
+    thumb: {
+        width: 84,
+        height: 84,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: '#e5e5e5'
+    },
+    gameName: {
+        color: '#000',
+        fontSize: 16,
+    },
+    gameClass: {
+        borderColor: '#cccccc',
+        borderWidth: 1,
+        paddingBottom: 2,
+        paddingTop: 2,
+        paddingLeft: 4,
+        paddingRight: 4,
+        marginTop: 10,
+        marginRight: 10,
+        borderRadius: 4
+    }
 });
+

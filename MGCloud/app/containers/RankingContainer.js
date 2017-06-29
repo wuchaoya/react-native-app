@@ -12,19 +12,23 @@ import {
 import ColorStyle from '../style/ColorStyle'
 import RankingTabNav from '../components/RankingTabNav'
 import HeadNav from '../components/HeadNav'
+
+
 export default class RankingContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            starNumber:1
+            starNumber: 1,
+            hotPlay: []
         }
     }
 
     render() {
-        const { navigate } = this.props.navigation;
+        console.log(this)
+        const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
-                <HeadNav header="排行榜"  onPress={() => navigate('Home')} />
+                <HeadNav header="排行榜" onPress={() => navigate('Home')}/>
                 <RankingTabNav navigation={this.props.navigation}/>
             </View>
         );

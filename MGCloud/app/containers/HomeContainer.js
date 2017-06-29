@@ -72,9 +72,9 @@ export default class HomeContainer extends Component {
                this.setState({
                     bannerArray:responseData.banner,
                    dissertation:responseData.dissertation,
-                   gameList:responseData["gameList "]
+                   gameList:responseData.gameList
                 },()=>{
-                    console.log(responseData["gameList "]
+                    console.log(responseData.gameList
                    )
                 });
 

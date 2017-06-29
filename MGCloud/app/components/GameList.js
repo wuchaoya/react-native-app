@@ -10,11 +10,15 @@ import  {
     ListView,
     Image,
     TouchableOpacity,
-    RefreshControl
+    RefreshContro,
+    ActivityIndicator
 } from'react-native';
 import {Button} from 'native-base';
 import Star from './Star'
 import RNInteraction from '../common/RNInteraction'
+import {PullList} from 'react-native-pull'
+import LoadingAnimation from '../components/LoadingAnimation'
+import GameClass from '../components/GameClass'
 
 export default class GameList extends Component {
     constructor(props) {
@@ -24,6 +28,11 @@ export default class GameList extends Component {
             dataSource: ds.cloneWithRows(this.props.data),
             isRefreshing: false,
         };
+        this.renderHeader = this.renderHeader.bind(this);
+        this._renderRow = this._renderRow.bind(this);
+        this.renderFooter = this.renderFooter.bind(this);
+        this.loadMore = this.loadMore.bind(this);
+        this.topIndicatorRender = this.topIndicatorRender.bind(this);
     }
 
     _renderNumber(isShow,ID){
@@ -51,22 +60,22 @@ export default class GameList extends Component {
                         <View style={{width:this.props.showNumber?30:0,}}>
                             {this._renderNumber(this.props.showNumber,rowID)}
                         </View>
-                        <Image style={styles.thumb} source={rowData.gameImg}/>
+                        <Image style={styles.thumb} source={{uri:rowData.icon}}/>
                         <View style={{width: 100}}>
-                            <Text numberOfLines={1} style={styles.gameName}>{rowData.gameName}</Text>
+                            <Text numberOfLines={1} style={styles.gameName}>{rowData.name}</Text>
                             <View style={{flexDirection: 'row'}}>
-                                <Star starNumber={rowData.gameStar} textStyle={{fontSize: 12}}></Star>
-                                <Text style={{fontSize: 12, marginLeft: 4}}>{rowData.gameStar}</Text>
+                                <Star starNumber={rowData.score} textStyle={{fontSize: 12}}></Star>
+                                <Text style={{fontSize: 12, marginLeft: 4}}>{parseInt(rowData.score)}</Text>
                             </View>
-                            <View style={{flexDirection: 'row'}}>
-                                <View
-                                    style={styles.gameClass}
-                                >
-                                    <Text style={{fontSize: 11}}>{rowData.gameClass[0]}</Text>
-                                </View>
-                                <View style={styles.gameClass}>
-                                    <Text style={{fontSize: 11}}>{rowData.gameClass[1]}</Text>
-                                </View>
+                            <View style={{flexDirection: 'row' ,width:120,flexWrap:'wrap'}}>
+                                {
+                                    rowData.label.length!==0?(rowData.label.map((item,i)=>{
+                                    return(
+                                        <GameClass conterStyle={{marginRight:6,marginTop:6}}  style={{fontSize:10}}  key={i} gameClassText={item}/>
+                                    )
+                                })):null
+                                }
+
                             </View>
                         </View>
                         <View style={{width: 90,}}>
@@ -124,21 +133,83 @@ export default class GameList extends Component {
     }
 
 
+    /**
+     * 列表头
+     * @returns {XML}
+     */
+    renderHeader() {
+        return (
+            <View style={{height: 50, backgroundColor: '#eeeeee', alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={{fontWeight: 'bold'}}>This is header</Text>
+            </View>
+        );
+    }
 
+    /**
+     * 列表底部
+     * @returns {*}
+     */
+    renderFooter() {
+        if(this.state.nomore) {
+            return null;
+        }
+        return (
+            <View style={{height: 100}}>
+                <ActivityIndicator />
+            </View>
+        );
+    }
+
+    /**
+     * 加载数据
+     */
+    loadMore() {
+
+    }
+    topIndicatorRender(pulling, pullok, pullrelease) {
+        const hide = {position: 'absolute', left: -10000};
+        const show = {position: 'relative', left: 0};
+        setTimeout(() => {
+            if (pulling) {
+                this.txtPulling && this.txtPulling.setNativeProps({style: show});
+                this.txtPullok && this.txtPullok.setNativeProps({style: hide});
+                this.txtPullrelease && this.txtPullrelease.setNativeProps({style: hide});
+            } else if (pullok) {
+                this.txtPulling && this.txtPulling.setNativeProps({style: hide});
+                this.txtPullok && this.txtPullok.setNativeProps({style: show});
+                this.txtPullrelease && this.txtPullrelease.setNativeProps({style: hide});
+            } else if (pullrelease) {
+                this.txtPulling && this.txtPulling.setNativeProps({style: hide});
+                this.txtPullok && this.txtPullok.setNativeProps({style: hide});
+                this.txtPullrelease && this.txtPullrelease.setNativeProps({style: show});
+            }
+        }, 1);
+        return (
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60,backgroundColor:'#fff'}}>
+                <LoadingAnimation style={{
+                    marginRight:10
+                }}/>
+                <Text ref={(c) => {this.txtPulling = c;}}>下拉刷新</Text>
+                <Text ref={(c) => {this.txtPullok = c;}}>释放刷新</Text>
+                <Text ref={(c) => {this.txtPullrelease = c;}}>正在加载数据....</Text>
+            </View>
+        );
+    }
     render() {
         const {navigate} = this.props.navigation;
         console.log(navigate)
         return (
-            <ListView
-                onEndReached={console.log('正在加载')}
+            <PullList
+                style={{backgroundColor:'#fff'}}
+                onPullRelease={this.onPullRelease} topIndicatorRender={this.topIndicatorRender} topIndicatorHeight={60}
+                renderHeader={null}
                 dataSource={this.state.dataSource}
-                renderRow={(rowData, sectionID, rowID, highlightRow) => this._renderRow(rowData, sectionID, rowID, highlightRow, navigate)}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={this.state.isRefreshing}
-                        onRefresh={this.onRefresh.bind(this)}
-                    />
-                }
+                pageSize={5}
+                initialListSize={5}
+                renderRow={this._renderRow}
+                onEndReached={this.loadMore}
+                onEndReachedThreshold={60}
+                renderFooter={this.renderFooter}
             />
         );
     }

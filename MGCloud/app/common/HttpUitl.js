@@ -24,6 +24,18 @@ const HttpUitl = {
         }).catch((error) => {
             callbackError(error);
         }).done();
+
+    },
+    get:(path,parameter,callbackSuccess, callbackError)=>{
+        fetch(WebHost.url + path+parameter).then((response) => {
+            return response.json()
+        }).then((responseJson) => {
+            console.log(responseJson)
+            // 返回请求正常的业务数据集合
+            callbackSuccess(responseJson)
+        }).catch((error) => {
+            callbackError(error);
+        }).done();
     }
 }
 

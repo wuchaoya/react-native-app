@@ -27,9 +27,9 @@ export default class ScrollGameHighlights extends Component {
         return (
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}  showsHorizontalScrollIndicato={false}>
                 {this.props.data.map(
-                    (obj)=>{
+                    (obj,i)=>{
                         return(
-                            <TouchableOpacity key={obj.app_id}
+                            <TouchableOpacity key={i}
                                 activeOpacity={0.9}
                                 onPress={() =>this.props.navigation.navigate('GameDetails')}
                                 style={styles.container}>

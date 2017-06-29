@@ -23,7 +23,7 @@ export default class GameChart extends Component{
         super(props);
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows(list),
+            dataSource: ds.cloneWithRows(this.props.data.images),
         };
     }
     _renderRow(rowData, sectionID, rowID, highlightRow) {
@@ -32,13 +32,14 @@ export default class GameChart extends Component{
                 activeOpacity={0.7}
             >
                 <View style={{backgroundColor:'#fff'}}>
-                   <Image style={styles.img} source={require('../static/img/topic1_head.png')}></Image>
+                   <Image style={styles.img} source={{uri:rowData}}></Image>
                 </View>
             </TouchableOpacity>
         );
     }
 
     render() {
+        console.log(this.props.data)
         return (
             <ListView
                 showsHorizontalScrollIndicator={false}
