@@ -83,10 +83,12 @@ export default class RankingContainer extends Component {
 
     getReserve(){
         HttpRequest.getRankListData({
-                page:this.state.reserve,
-                type:1
+                user_id:1,
+                page:0,
+                type:3
             },
             (responseData)=> {
+            console.log(responseData)
                 this.setState({
                     reserve:responseData
                 },()=>{
@@ -118,7 +120,18 @@ export default class RankingContainer extends Component {
                     this.setState({
                         hotPlayPage:0
                     },()=>{
-                        this.getHotPlayList()
+                        HttpRequest.getRankListData({
+                                page:this.state.hotPlayPage,
+                                type:1
+                            },
+                            (responseData)=> {
+                                    if(responseData.length!==0){
+                                        DeviceEventEmitter.emit('onLoad', responseData)
+                                    }
+                            },
+                            (error)=> {
+                                console.log(error);
+                            });
                     })
                 }
                 if(this.state.selectedTab=='NewProducts'){
@@ -126,22 +139,45 @@ export default class RankingContainer extends Component {
                     this.setState({
                         newProductsPage:0
                     },()=>{
-                        this.getNewProducts()
+                        HttpRequest.getRankListData({
+                                page:this.state.newProductsPage,
+                                type:2
+                            },
+                            (responseData)=> {
+                                if(responseData.length!==0){
+                                    DeviceEventEmitter.emit('onLoad', responseData)
+                                }
+                            },
+                            (error)=> {
+                                console.log(error);
+                            });
                     })
                 }
                 if(this.state.selectedTab=='Reserve'){
                     console.log('预约刷新')
                     this.setState({
-                        reserve:0
+                        reservePage:0
                     },()=>{
-                        this.getReserve()
+                        HttpRequest.getRankListData({
+                                user_id:1,
+                                page:this.state.reservePage,
+                                type:3
+                            },
+                            (responseData)=> {
+                                if(responseData.length!==0){
+                                    DeviceEventEmitter.emit('onLoad', responseData)
+                                }
+                            },
+                            (error)=> {
+                                console.log(error);
+                            });
                     })
                 }
             })
         });
         //监听加载事件
         this.isPullRelease = DeviceEventEmitter.addListener('loadMore',(listenerMsg) => {
-
+            //加载时候发送过来加载前的数据，这边拿到数据发请求合并数组再发过去
                 if(this.state.selectedTab=='HotPlay'){
                     let page= this.state.hotPlayPage
                     console.log('热玩加载')
@@ -171,12 +207,59 @@ export default class RankingContainer extends Component {
 
                 }
                 if(this.state.selectedTab=='NewProducts'){
-                    console.log('新品加载')
-                    this.getNewProducts()
+                    let page= this.state.newProductsPage
+                    console.log('热玩加载')
+                    this.setState({
+                        newProducts:listenerMsg,
+                        newProductsPage:page+1
+                    },()=>{
+                        HttpRequest.getRankListData({
+                                page:this.state.newProductsPage,
+                                type:2
+                            },
+                            (responseData)=> {
+                                //没有数据的时候
+                                if(responseData.length===0){
+                                    DeviceEventEmitter.emit('loadComplete', false)
+                                    return
+                                }
+                                let  data = this.state.newProducts
+                                data = data.concat(responseData)
+                                console.log(data)
+                                DeviceEventEmitter.emit('loadComplete', data)
+                            },
+                            (error)=> {
+                                console.log(error);
+                            });
+                    })
                 }
                 if(this.state.selectedTab=='Reserve'){
                     console.log('预约加载')
-                    this.getReserve()
+                    let page= this.state.reservePage
+                    this.setState({
+                        reserve:listenerMsg,
+                        reservePage:page+1
+                    },()=>{
+                        HttpRequest.getRankListData({
+                                user_id:1,
+                                page:this.state.reservePage,
+                                type:3
+                            },
+                            (responseData)=> {
+                                //没有数据的时候
+                                if(responseData.length===0){
+                                    DeviceEventEmitter.emit('loadComplete', false)
+                                    return
+                                }
+                                let  data = this.state.reserve
+                                data = data.concat(responseData)
+                                console.log(data)
+                                DeviceEventEmitter.emit('loadComplete', data)
+                            },
+                            (error)=> {
+                                console.log(error);
+                            });
+                    })
                 }
         });
 

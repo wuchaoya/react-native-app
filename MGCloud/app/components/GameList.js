@@ -179,7 +179,7 @@ export default class GameList extends Component {
         this.loadComplete= DeviceEventEmitter.addListener('loadComplete',(listenerMsg) => {
             if(listenerMsg===false){
                 this.setState({
-                    nomore:true
+                    nomore:true,
                 })
                 this.loadComplete.remove();
                 return
@@ -199,10 +199,19 @@ export default class GameList extends Component {
      * 刷新
      */
     onPullRelease(resolve){
+       //刷新一环扣一环
+        this.setState({
+            nomore:false,
+
+        })
         //发送刷新
         DeviceEventEmitter.emit('PullRelease', true)
         this.onLoad= DeviceEventEmitter.addListener('onLoad',(listenerMsg) => {
             console.log('刷新完毕')
+            this.setState({
+                data:listenerMsg,
+                dataSource: this.state.dataSource.cloneWithRows(listenerMsg)
+            })
             this.onLoad.remove();
            resolve()
         });

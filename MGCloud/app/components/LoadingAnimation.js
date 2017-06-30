@@ -6,11 +6,12 @@ import {
     View,
 } from 'react-native';
 
-let numer =0
-let time
+
 export default class LoadingAnimation extends Component {
+
     constructor(props) {
         super(props);
+        this.number= 0
         this.state = {
             iconList:[
                 require('../static/img/loading/loading01.png'),
@@ -30,22 +31,25 @@ export default class LoadingAnimation extends Component {
         }
     }
     onRefresh() {
-      time  = setInterval(() => {
-            numer===11?numer=0:numer++
+
+     this.time  = setInterval(() => {
+          this.number===11?this.number=0:this.number++
             this.setState({
-                number:numer
+                number:this.number
 
             },()=>{
+                console.log()
             });
 
-        }, 100);
+        }, 200);
 
     }
     componentWillMount() {
         this.onRefresh(false)
     }
     componentWillUnmount(){
-        clearInterval(time)
+        console.log('清楚定时')
+        clearInterval(this.time)
     }
     render() {
 
