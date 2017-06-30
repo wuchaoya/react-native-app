@@ -15,6 +15,7 @@ const HttpRequest = {
                 }
             },
             (error)=> {
+                console.log('连不上网鸟')
                 callbackError(error);
             })
     },

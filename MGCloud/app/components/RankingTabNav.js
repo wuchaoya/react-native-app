@@ -5,88 +5,14 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     Image,
-    View
+    View,
+    DeviceEventEmitter
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
-import ComStyle from '../style/CommonStyle'
 import ColorStyle from '../style/ColorStyle'
 import GameList from '../components/GameList'
-import HttpRequest from '../common/HttpRequest'
 
-const gameListDataHotPlay = [
-    {
-        gameImg: require('../static/img/user_head_icon.jpg'),
-        gameName:'崩坏3RD',
-        gameStar:9,
-        gameClass:['益智','塔防'],
-        gamePlayed:false
-    },
-    {
-        gameImg: require('../static/img/game2_img.png'),
-        gameName:'崩坏3RD',
-        gameStar:9,
-        gameClass:['益智','塔防'],
-        gamePlayed:true
-    },
-    {
-        gameImg: require('../static/img/game2_img.png'),
-        gameName:'崩坏3RD',
-        gameStar:9,
-        gameClass:['益智','塔防'],
-        gamePlayed:true
-    },
-    {
-        gameImg: require('../static/img/game2_img.png'),
-        gameName:'崩坏3RD',
-        gameStar:9,
-        gameClass:['益智','塔防'],
-        gamePlayed:true
-    },
-    {
-        gameImg: require('../static/img/game2_img.png'),
-        gameName:'崩坏3RD',
-        gameStar:9,
-        gameClass:['益智','塔防'],
-        gamePlayed:true
-    }
-]
-const gameListDataReserve = [
-    {
-        gameImg: require('../static/img/game1_img.png'),
-        gameName:'崩坏3RD',
-        gameStar:9,
-        gameClass:['益智','塔防'],
-        gameReserve:false
-    },
-    {
-        gameImg: require('../static/img/game2_img.png'),
-        gameName:'崩坏3RD',
-        gameStar:9,
-        gameClass:['益智','塔防'],
-        gameReserve:true
-    },
-    {
-        gameImg: require('../static/img/game2_img.png'),
-        gameName:'崩坏3RD',
-        gameStar:9,
-        gameClass:['益智','塔防'],
-        gameReserve:false
-    },
-    {
-        gameImg: require('../static/img/game2_img.png'),
-        gameName:'崩坏3RD',
-        gameStar:9,
-        gameClass:['益智','塔防'],
-        gameReserve:false
-    },
-    {
-        gameImg: require('../static/img/game2_img.png'),
-        gameName:'崩坏3RD111111111111111111111111111111111111111111111111111111111111111111111111111',
-        gameStar:9,
-        gameClass:['益智','塔防'],
-        gameReserve:false
-    }
-]
+
 
 export default class RankingTabNav extends Component {
 
@@ -99,9 +25,9 @@ export default class RankingTabNav extends Component {
             },
             lineIcon : require('../static/img/line_icon.png'),
             lineGreenIcon : require('../static/img/line_green_icon.png'),
-            hotPlay:[],
-            newProducts:[],
-            reserve:[]
+            hotPlay:this.props.data.hotPlay,
+            newProducts:this.props.data.newProducts,
+            reserve:this.props.data.reserve
         }
     }
 
@@ -114,7 +40,9 @@ export default class RankingTabNav extends Component {
                 titleStyle={styles.titleTextColor}
                 renderIcon={() => <View style={styles.iconStyle}></View>}//默认图标
                 renderSelectedIcon={() => <View style={[styles.iconStyle,{ borderBottomColor:'#83b333'}]}></View>}//选中图标
-                onPress={() => this.setState({selectedTab: selectedTab})}>
+                onPress={() => this.setState({selectedTab: selectedTab},()=>{
+                    DeviceEventEmitter.emit('selectedTab', this.state.selectedTab)
+                })}>
                 <Component showNumber={true} name={title} data={data} navigation ={this.props.navigation}/>
             </TabNavigator.Item>
         )
@@ -123,7 +51,7 @@ export default class RankingTabNav extends Component {
     render() {
 
             return (
-                this.state.hotPlay.length!==0&&this.state.reserve.length!==0&&this.state.newProducts.length!==0?
+                this.state.hotPlay!==undefined&&this.state.reserve!==undefined&&this.state.newProducts!==undefined?
             <TabNavigator
                 sceneStyle={{marginTop:48,paddingBottom:0}}
                 tabBarStyle={[styles.center,styles.tabBarStyle]}>
@@ -133,53 +61,7 @@ export default class RankingTabNav extends Component {
             </TabNavigator>:null
         )
     }
-    componentWillMount() {
-        HttpRequest.getRankListData({
-                page:0,
-                type:1
-            },
-            (responseData)=> {
-                this.setState({
-                    hotPlay:responseData
-                },()=>{
-                    console.log(this.state.hotPlay)
-                })
 
-            },
-            (error)=> {
-                console.log(error);
-            });
-        HttpRequest.getRankListData({
-                page:0,
-                type:2
-            },
-            (responseData)=> {
-                this.setState({
-                    newProducts:responseData
-                },()=>{
-                    console.log(this.state.newProducts)
-                })
-
-            },
-            (error)=> {
-                console.log(error);
-            });
-        HttpRequest.getRankListData({
-                page:0,
-                type:1
-            },
-            (responseData)=> {
-                this.setState({
-                    reserve:responseData
-                },()=>{
-                    console.log(this.state.reserve)
-                })
-
-            },
-            (error)=> {
-                console.log(error);
-            });
-    }
 
 }
 

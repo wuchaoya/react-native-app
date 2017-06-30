@@ -11,7 +11,8 @@ import  {
     Image,
     TouchableOpacity,
     RefreshContro,
-    ActivityIndicator
+    ActivityIndicator,
+    DeviceEventEmitter
 } from'react-native';
 import {Button} from 'native-base';
 import Star from './Star'
@@ -52,7 +53,9 @@ export default class GameList extends Component {
             });
         }, 2000);
     }
-    _renderRow(rowData, sectionID, rowID, highlightRow,navigate) {
+
+    _renderRow(rowData, sectionID, rowID, highlightRow) {
+        const {navigate} = this.props.navigation;
         return (
             <TouchableOpacity onPress={() => navigate('GameDetails')}>
                 <View>
@@ -166,6 +169,22 @@ export default class GameList extends Component {
     loadMore() {
 
     }
+    /**
+     * 刷新
+     */
+    onPullRelease(resolve){
+        //发送刷新
+        DeviceEventEmitter.emit('PullRelease', true)
+        this.onLoad= DeviceEventEmitter.addListener('onLoad',(listenerMsg) => {
+            console.log('刷新完毕')
+            this.onLoad.remove();
+           resolve()
+        });
+    }
+
+    /**
+     *刷新状态
+     */
     topIndicatorRender(pulling, pullok, pullrelease) {
         const hide = {position: 'absolute', left: -10000};
         const show = {position: 'relative', left: 0};
@@ -195,18 +214,19 @@ export default class GameList extends Component {
             </View>
         );
     }
+
     render() {
         const {navigate} = this.props.navigation;
         console.log(navigate)
         return (
             <PullList
                 style={{backgroundColor:'#fff'}}
-                onPullRelease={this.onPullRelease} topIndicatorRender={this.topIndicatorRender} topIndicatorHeight={60}
+                onPullRelease={this.onPullRelease.bind(this)} topIndicatorRender={this.topIndicatorRender} topIndicatorHeight={60}
                 renderHeader={null}
                 dataSource={this.state.dataSource}
                 pageSize={5}
                 initialListSize={5}
-                renderRow={this._renderRow}
+                renderRow={this._renderRow.bind(this)}
                 onEndReached={this.loadMore}
                 onEndReachedThreshold={60}
                 renderFooter={this.renderFooter}
