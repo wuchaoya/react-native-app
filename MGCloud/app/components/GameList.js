@@ -28,6 +28,8 @@ export default class GameList extends Component {
         this.state = {
             dataSource: ds.cloneWithRows(this.props.data),
             isRefreshing: false,
+            data:this.props.data,
+            nomore:false
         };
         this.renderHeader = this.renderHeader.bind(this);
         this._renderRow = this._renderRow.bind(this);
@@ -43,17 +45,6 @@ export default class GameList extends Component {
         }
 
     }
-
-    onRefresh() {
-        this.setState({isRefreshing: true});
-        setTimeout(() => {
-
-            this.setState({
-                isRefreshing: false,
-            });
-        }, 2000);
-    }
-
     _renderRow(rowData, sectionID, rowID, highlightRow) {
         const {navigate} = this.props.navigation;
         return (
@@ -154,11 +145,18 @@ export default class GameList extends Component {
      */
     renderFooter() {
         if(this.state.nomore) {
-            return null;
+            return (
+                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60,backgroundColor:'#fff'}}>
+                    <Text ref={(c) => {this.txtPullrelease = c;}}>没有数据了....</Text>
+                </View>
+            )
         }
         return (
-            <View style={{height: 100}}>
-                <ActivityIndicator />
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60,backgroundColor:'#fff'}}>
+                <LoadingAnimation style={{
+                    marginRight:10
+                }}/>
+                <Text ref={(c) => {this.txtPullrelease = c;}}>正在加载数据....</Text>
             </View>
         );
     }
@@ -167,7 +165,35 @@ export default class GameList extends Component {
      * 加载数据
      */
     loadMore() {
+        //正在加载中不再加载
+        if(this.state.isRefreshing){
+            return
+        }
+        //开始加载设置加载状态
+        this.setState(
+            {
+                isRefreshing:true
+            }
+        )
+        DeviceEventEmitter.emit('loadMore', this.state.data)
+        this.loadComplete= DeviceEventEmitter.addListener('loadComplete',(listenerMsg) => {
+            if(listenerMsg===false){
+                this.setState({
+                    nomore:true
+                })
+                this.loadComplete.remove();
+                return
+            }
+            this.setState({
+                isRefreshing:false,
+                data:listenerMsg,
+                dataSource:this.state.dataSource.cloneWithRows(listenerMsg)
+            })
+            console.log('加载完毕')
+            console.log(this.props.data)
+            this.loadComplete.remove();
 
+        });
     }
     /**
      * 刷新
@@ -216,16 +242,12 @@ export default class GameList extends Component {
     }
 
     render() {
-        const {navigate} = this.props.navigation;
-        console.log(navigate)
         return (
             <PullList
                 style={{backgroundColor:'#fff'}}
                 onPullRelease={this.onPullRelease.bind(this)} topIndicatorRender={this.topIndicatorRender} topIndicatorHeight={60}
                 renderHeader={null}
                 dataSource={this.state.dataSource}
-                pageSize={5}
-                initialListSize={5}
                 renderRow={this._renderRow.bind(this)}
                 onEndReached={this.loadMore}
                 onEndReachedThreshold={60}

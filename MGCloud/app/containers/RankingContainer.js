@@ -24,7 +24,10 @@ export default class RankingContainer extends Component {
             hotPlay:null,
             newProducts:null,
             reserve:null,
-            PullRelease:false
+            PullRelease:false,
+            hotPlayPage:0,
+            newProductsPage:0,
+            reservePage:0
         }
     }
 
@@ -44,7 +47,7 @@ export default class RankingContainer extends Component {
 
     getHotPlayList(){
         HttpRequest.getRankListData({
-                page:0,
+                page:this.state.hotPlayPage,
                 type:1
             },
             (responseData)=> {
@@ -62,7 +65,7 @@ export default class RankingContainer extends Component {
 
     getNewProducts(){
         HttpRequest.getRankListData({
-                page:0,
+                page:this.state.newProductsPage,
                 type:2
             },
             (responseData)=> {
@@ -80,7 +83,7 @@ export default class RankingContainer extends Component {
 
     getReserve(){
         HttpRequest.getRankListData({
-                page:0,
+                page:this.state.reserve,
                 type:1
             },
             (responseData)=> {
@@ -112,17 +115,69 @@ export default class RankingContainer extends Component {
             },()=>{
                 if(this.state.selectedTab=='HotPlay'){
                     console.log('热玩刷新')
-                    this.getHotPlayList()
+                    this.setState({
+                        hotPlayPage:0
+                    },()=>{
+                        this.getHotPlayList()
+                    })
                 }
                 if(this.state.selectedTab=='NewProducts'){
                     console.log('新品刷新')
-                    this.getNewProducts()
+                    this.setState({
+                        newProductsPage:0
+                    },()=>{
+                        this.getNewProducts()
+                    })
                 }
                 if(this.state.selectedTab=='Reserve'){
                     console.log('预约刷新')
-                    this.getReserve()
+                    this.setState({
+                        reserve:0
+                    },()=>{
+                        this.getReserve()
+                    })
                 }
             })
+        });
+        //监听加载事件
+        this.isPullRelease = DeviceEventEmitter.addListener('loadMore',(listenerMsg) => {
+
+                if(this.state.selectedTab=='HotPlay'){
+                    let page= this.state.hotPlayPage
+                    console.log('热玩加载')
+                    this.setState({
+                        hotPlay:listenerMsg,
+                        hotPlayPage:page+1
+                    },()=>{
+                        HttpRequest.getRankListData({
+                                page:this.state.hotPlayPage,
+                                type:1
+                            },
+                            (responseData)=> {
+                            //没有数据的时候
+                            if(responseData.length===0){
+                                DeviceEventEmitter.emit('loadComplete', false)
+                                return
+                            }
+                                let  data = this.state.hotPlay
+                                data = data.concat(responseData)
+                                console.log(data)
+                                DeviceEventEmitter.emit('loadComplete', data)
+                            },
+                            (error)=> {
+                                console.log(error);
+                            });
+                    })
+
+                }
+                if(this.state.selectedTab=='NewProducts'){
+                    console.log('新品加载')
+                    this.getNewProducts()
+                }
+                if(this.state.selectedTab=='Reserve'){
+                    console.log('预约加载')
+                    this.getReserve()
+                }
         });
 
     }

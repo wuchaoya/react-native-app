@@ -44,6 +44,9 @@ export default class LoadingAnimation extends Component {
     componentWillMount() {
         this.onRefresh(false)
     }
+    componentWillUnmount(){
+        clearInterval(time)
+    }
     render() {
 
         return (
