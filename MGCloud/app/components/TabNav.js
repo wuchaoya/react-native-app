@@ -56,7 +56,7 @@ export default class TabNav extends Component {
 
     render() {
         return (
-            <TabNavigator tabBarStyle={ComStyle.center}>
+            <TabNavigator tabBarStyle={[ComStyle.center,{height:48}]}>
                 {this._renderTab(HomeContainer, 'Home',TextConst.TabNavText.Home,this.state.efaultIcon.home,this.state.selectIcon.home)}
                 {this._renderTab(RankingContainer, 'Ranking',TextConst.TabNavText.Ranking, this.state.efaultIcon.ranKing,this.state.selectIcon.ranKing)}
                 {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     },
     center: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     iconStyle: {
         width: 21,

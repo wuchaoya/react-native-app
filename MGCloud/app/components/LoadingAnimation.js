@@ -4,6 +4,7 @@ import {
     Text,
     Image,
     View,
+    DeviceEventEmitter
 } from 'react-native';
 
 
@@ -48,7 +49,7 @@ export default class LoadingAnimation extends Component {
         this.onRefresh(false)
     }
     componentWillUnmount(){
-        console.log('清楚定时')
+        console.log('清除定时')
         clearInterval(this.time)
     }
     render() {

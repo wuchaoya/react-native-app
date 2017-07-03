@@ -173,27 +173,33 @@ export default class GameList extends Component {
         this.setState(
             {
                 isRefreshing:true
+            },()=>{
+                //发送加载事件
+                DeviceEventEmitter.emit('loadMore', this.state.data)
+                //监听加载状态
+                this.loadComplete= DeviceEventEmitter.addListener('loadComplete',(listenerMsg) => {
+                   //没有更多数据
+                    if(listenerMsg===false){
+                        this.setState({
+                            nomore:true,
+                            isRefreshing:false,
+                        })
+                        this.loadComplete.remove();
+                        return
+                    }
+                    this.setState({
+                        isRefreshing:false,
+                        data:listenerMsg,
+                        dataSource:this.state.dataSource.cloneWithRows(listenerMsg)
+                    })
+                    console.log('加载完毕')
+                    console.log(this.props.data)
+                    this.loadComplete.remove();
+
+                });
             }
         )
-        DeviceEventEmitter.emit('loadMore', this.state.data)
-        this.loadComplete= DeviceEventEmitter.addListener('loadComplete',(listenerMsg) => {
-            if(listenerMsg===false){
-                this.setState({
-                    nomore:true,
-                })
-                this.loadComplete.remove();
-                return
-            }
-            this.setState({
-                isRefreshing:false,
-                data:listenerMsg,
-                dataSource:this.state.dataSource.cloneWithRows(listenerMsg)
-            })
-            console.log('加载完毕')
-            console.log(this.props.data)
-            this.loadComplete.remove();
 
-        });
     }
     /**
      * 刷新
@@ -203,18 +209,20 @@ export default class GameList extends Component {
         this.setState({
             nomore:false,
 
+        },()=>{
+            DeviceEventEmitter.emit('PullRelease', true)
+            this.onLoad= DeviceEventEmitter.addListener('onLoad',(listenerMsg) => {
+                console.log('刷新完毕')
+                this.setState({
+                    data:listenerMsg,
+                    dataSource: this.state.dataSource.cloneWithRows(listenerMsg)
+                })
+                this.onLoad.remove();
+                resolve()
+            });
         })
         //发送刷新
-        DeviceEventEmitter.emit('PullRelease', true)
-        this.onLoad= DeviceEventEmitter.addListener('onLoad',(listenerMsg) => {
-            console.log('刷新完毕')
-            this.setState({
-                data:listenerMsg,
-                dataSource: this.state.dataSource.cloneWithRows(listenerMsg)
-            })
-            this.onLoad.remove();
-           resolve()
-        });
+
     }
 
     /**
