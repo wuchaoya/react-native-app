@@ -43,7 +43,11 @@ export default class RankingTabNav extends Component {
                 onPress={() => this.setState({selectedTab: selectedTab},()=>{
                     DeviceEventEmitter.emit('selectedTab', this.state.selectedTab)
                 })}>
-                <Component showNumber={true} name={title} data={data} navigation ={this.props.navigation}/>
+                <Component
+                    showNumber={true}
+                    name={title}
+                    data={data}
+                    navigation ={this.props.navigation}/>
             </TabNavigator.Item>
         )
     }

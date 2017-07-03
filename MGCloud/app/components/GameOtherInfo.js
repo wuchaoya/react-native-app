@@ -14,7 +14,9 @@ import Title from '../components/Title'
 export default class GameOtherInfo extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            data:this.props.data
+        }
     }
 
     render() {
@@ -29,10 +31,10 @@ export default class GameOtherInfo extends Component {
                        <Text style={styles.textLeft}>大小</Text>
                    </View>
                    <View style={{marginTop:10,marginBottom:30,marginLeft:30}}>
-                       <Text style={[styles.textLeft,styles.textColor]}>11 bit stodios s.2</Text>
-                       <Text style={[styles.textLeft,styles.textColor]}>2017.08.12</Text>
-                       <Text style={[styles.textLeft,styles.textColor]}>1.1.1</Text>
-                       <Text style={[styles.textLeft,styles.textColor]}>428MB</Text>
+                       <Text style={[styles.textLeft,styles.textColor]}>{this.state.data.company}</Text>
+                       <Text style={[styles.textLeft,styles.textColor]}>{this.state.data.update_time}</Text>
+                       <Text style={[styles.textLeft,styles.textColor]}>{this.state.data.version}</Text>
+                       <Text style={[styles.textLeft,styles.textColor]}>{this.state.data.size}</Text>
                    </View>
                </View>
             </View>
@@ -50,7 +52,8 @@ const styles = StyleSheet.create({
     textLeft:{
         fontSize:12,
         color:'#999',
-        lineHeight:24
+        lineHeight:24,
+        height:24
     },
     textColor:{
         color:'#333'

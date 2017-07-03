@@ -89,15 +89,18 @@ export default class HomeContainer extends Component {
 
             },
             (error)=> {
+                DeviceEventEmitter.emit('isLoadHome', false)
                 console.log(error);
             });
     }
+
     failedLoad(){
         this.loadHome= DeviceEventEmitter.addListener('loadHome',(listenerMsg) => {
             this.getHomeData()
             console.log('要重新加载了')
         });
     }
+
     componentWillMount() {
         this.failedLoad()
         this.getHomeData()

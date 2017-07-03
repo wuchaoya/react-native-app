@@ -53,12 +53,13 @@ export default class LoadingContainer extends Component {
     componentWillMount(){
         console.log(this.props.isLoading,this.props.load)
 
-        this.onLoad= DeviceEventEmitter.addListener(this.props.isLoading,(listenerMsg) => {
-            console.log('收到加载失败')
+        DeviceEventEmitter.addListener(this.props.isLoading,(listenerMsg) => {
+            console.log(this.props.isLoading+'收到加载失败')
             this.setState({
                 isLoading:listenerMsg,
             })
         });
+        console.log(DeviceEventEmitter)
     }
 }
 

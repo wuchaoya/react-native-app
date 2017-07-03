@@ -17,7 +17,8 @@ export default class GameDescription extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            numberLine:4
+            numberLine:4,
+            data:this.props.data
         }
     }
 
@@ -26,15 +27,7 @@ export default class GameDescription extends Component {
             <View style={styles.container}>
                 <Title titleText="游戏简介" fontSize={15} color='#000'/>
                 <Text numberOfLines={this.state.numberLine}   style={{marginTop:8,fontSize:12,color:'#333',lineHeight:20}}>
-                    center 伸缩元素向每行中点排列。每行第一个元素到行首的距离将与每行最后一个元素到行尾的距离相同
-                    center 伸缩元素向每行中点排列。每行第一个元素到行首的距离将与每行最后一个元素到行尾的距离相同。
-                    space-between 在每行上均匀分配弹性元素。相邻元素间距离相同。每行第一个元素与行首对齐，每行最后一个元素与行尾对齐
-                    center 伸缩元素向每行中点排列。每行第一个元素到行首的距离将与每行最后一个元素到行尾的距离相同。
-                    space-between 在每行上均匀分配弹性元素。相邻元素间距离相同。每行第一个元素与行首对齐，每行最后一个元素与行尾对齐center 伸缩元素向每行中点排列。每行第一个元素到行首的距离将与每行最后一个元素到行尾的距离相同。
-                    space-between 在每行上均匀分配弹性元素。相邻元素间距离相同。每行第一个元素与行首对齐，每行最后一个元素与行尾对齐
-                    。center 伸缩元素向每行中点排列。每行第一个元素到行首的距离将与每行最后一个元素到行尾的距离相同。
-                    space-between 在每行上均匀分配弹性元素。相邻元素间距离相同。每行第一个元素与行首对齐，每行最后一个元素与行尾对齐
-                    space-between 在每行上均匀分配弹性元素。相邻元素间距离相同。每行第一个元素与行首对齐，每行最后一个元素与行尾对齐。
+                    {this.state.data.content}
                 </Text>
                 <View style={{alignSelf:'center'}}>
                     <Button transparent onPress={() =>{this.setState(

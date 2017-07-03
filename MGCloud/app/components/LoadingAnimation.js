@@ -32,14 +32,15 @@ export default class LoadingAnimation extends Component {
         }
     }
     onRefresh() {
-
+    if(this.time){
+        clearInterval(this.time)
+    }
      this.time  = setInterval(() => {
           this.number===11?this.number=0:this.number++
             this.setState({
                 number:this.number
 
             },()=>{
-                console.log()
             });
 
         }, 200);

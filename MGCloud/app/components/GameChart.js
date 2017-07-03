@@ -39,7 +39,6 @@ export default class GameChart extends Component{
     }
 
     render() {
-        console.log(this.props.data)
         return (
             <ListView
                 showsHorizontalScrollIndicator={false}

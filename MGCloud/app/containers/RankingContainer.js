@@ -101,6 +101,9 @@ export default class RankingContainer extends Component {
             });
     }
 
+    /**
+     * 监听事件
+     */
     componentDidMount() {
         //监听是那个选项
         this.msgListener = DeviceEventEmitter.addListener('selectedTab',(listenerMsg) => {
