@@ -16,10 +16,13 @@ let width = Dimensions.get('window').width;
 export default class GameDetailsVideo extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            data:this.props.data
+        }
     }
 
     render() {
+
         return (
             <View>
                 <Image
@@ -32,9 +35,9 @@ export default class GameDetailsVideo extends Component {
                                                   RNInteraction.playVideoByUrl()
                                               }
                                           }>
-                            <Image
+                            {this.state.data.video_url?<Image
                                 style={{width: 50, height: 50}}
-                                source={require('../static/img/video_play.png')}/>
+                                source={require('../static/img/video_play.png')}/>:null}
                         </TouchableOpacity>
                    </View>
                 </Image>

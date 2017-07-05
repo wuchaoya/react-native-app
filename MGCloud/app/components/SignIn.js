@@ -113,7 +113,7 @@ export default class SignIn extends Component {
                         <Image style={{ width:24,height:24,}} source={this.state.secureTextEntry?this.state.secretOn:this.state.secretOff}></Image>
                     </TouchableOpacity>
                 </View>
-                <LoginButton text="登陆" disabled={this.state.signIn} style={{marginTop:20}}/>
+                <LoginButton text="登录" disabled={this.state.signIn} style={{marginTop:20}}/>
                 <LoginButton text="中国移动用户一键登录" disabled={false} style={{marginTop:12}} onPress={()=>{
                     RNInteraction.sendSms('').then((result)=>{
 
@@ -122,7 +122,7 @@ export default class SignIn extends Component {
                     });
                 }}/>
                 <View style={styles.foot}>
-                    <Text onPress={() => navigate('SMSLanding')} style={styles.text}>短信登陆</Text>
+                    <Text onPress={() => navigate('SMSLanding')} style={styles.text}>短信登录</Text>
                     <Text onPress={() => navigate('RestPass')}  style={styles.text}>忘记密码</Text>
                 </View>
             </View>

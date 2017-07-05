@@ -31,7 +31,7 @@ export default class ScrollGameHighlights extends Component {
                         return(
                             <TouchableOpacity key={i}
                                 activeOpacity={0.9}
-                                onPress={() =>this.props.navigation.navigate('GameDetails')}
+                                onPress={() =>this.props.navigation.navigate('GameDetails',{gid:obj.gid})}
                                 style={styles.container}>
                                 <Image style={styles.radiuImg} source={{uri:obj.icon}} />
                                 <Text numberOfLines={2} style={styles.name}>{obj.name}</Text>

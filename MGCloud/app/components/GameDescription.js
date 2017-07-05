@@ -18,7 +18,8 @@ export default class GameDescription extends Component {
         super(props);
         this.state = {
             numberLine:4,
-            data:this.props.data
+            data:this.props.data,
+            isShow:true
         }
     }
 
@@ -26,15 +27,28 @@ export default class GameDescription extends Component {
         return (
             <View style={styles.container}>
                 <Title titleText="游戏简介" fontSize={15} color='#000'/>
-                <Text numberOfLines={this.state.numberLine}   style={{marginTop:8,fontSize:12,color:'#333',lineHeight:20}}>
+                <Text
+                    numberOfLines={this.state.numberLine}
+                    style={{marginTop:8,fontSize:12,color:'#333',lineHeight:20}}
+                    onLayout={
+                        (e)=>{
+                            console.log(e.nativeEvent)
+                            if(e.nativeEvent.layout.height<72){
+                                this.setState({
+                                    isShow:false
+                                })
+                            }
+                        }
+                    }
+                >
                     {this.state.data.content}
                 </Text>
-                <View style={{alignSelf:'center'}}>
+                {this.state.isShow? <View style={{alignSelf:'center'}}>
                     <Button transparent onPress={() =>{this.setState(
-                    {numberLine:this.state.numberLine===null?4:null} ) }}>
+                        {numberLine:this.state.numberLine===null?4:null} ) }}>
                         <Text  style={{fontSize:12,color:'#83b233'}}>{this.state.numberLine===null?'收起':'显示全文'}</Text>
                     </Button>
-                </View>
+                </View>:null}
             </View>
         );
     }
@@ -47,7 +61,8 @@ const styles = StyleSheet.create({
         paddingLeft:15,
         borderTopWidth:1,
         borderTopColor:'#ededed',
-        paddingRight:15
+        paddingRight:15,
+        paddingBottom:15
     },
 
 });

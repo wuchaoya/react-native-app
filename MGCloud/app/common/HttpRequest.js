@@ -82,6 +82,31 @@ const HttpRequest = {
             (error)=> {
                 callbackError(error);
             })
-    }
+    },
+    //获取验证码
+    getVerityCode: (parameter, callbackSuccess, callbackError)=> {
+        HttpUitl.post('/v2/login/verity_code', parameter,
+            (response)=> {
+                // 解析处理成页面需要的数据格式,如list
+                if(response.state==200&&response.data){
+                    callbackSuccess(response.data);
+                }
+            },
+            (error)=> {
+                callbackError(error);
+            })
+    },
+    loginRegister: (parameter, callbackSuccess, callbackError)=> {
+        HttpUitl.post('/v2/login/register', parameter,
+            (response)=> {
+                // 解析处理成页面需要的数据格式,如list
+                if(response.state==200&&response.data){
+                    callbackSuccess(response.data);
+                }
+            },
+            (error)=> {
+                callbackError(error);
+            })
+    },
 }
 module.exports = HttpRequest

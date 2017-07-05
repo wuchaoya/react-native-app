@@ -4,7 +4,7 @@ import {
     Text,
     Image,
     View,
-    TouchableHighlight
+    TouchableOpacity
 } from 'react-native';
 
 export default class CodeButton extends Component {
@@ -15,9 +15,12 @@ export default class CodeButton extends Component {
 
     render() {
         return (
-            <TouchableHighlight style={[styles.code,{backgroundColor:this.props.disabled?'#ccc':'#83b233'}]}>
+            <TouchableOpacity
+                onPress={this.props.onPress}
+                activeOpacity={0.5}
+                style={[styles.code,{backgroundColor:this.props.disabled?'#ccc':'#83b233'}]}>
                 <Text style={{color:this.props.disabled?'#aaa':'#fff'}}>获取验证码</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 }

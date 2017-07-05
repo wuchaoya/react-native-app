@@ -30,7 +30,9 @@ export default class GameDetails extends Component {
             header:'',
             navColor:null,
             height:0,
-            data:[]
+            data:[],
+
+            userId:null
         }
     }
     setNavColor(height){
@@ -63,7 +65,9 @@ export default class GameDetails extends Component {
         );
     }
     componentWillMount() {
-        HttpRequest.getGameDetailData({gid:10000,user_id:487},
+        const  {params} = this.props.navigation.state
+        console.log(params)
+        HttpRequest.getGameDetailData({gid:params.gid,user_id:this.state.userId},
             (responseData)=> {
                 this.setState(
                     {

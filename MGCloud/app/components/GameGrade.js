@@ -13,6 +13,7 @@ import {
 import { Button} from 'native-base';
 import GameClass from '../components/GameClass'
 import Star from '../components/Star'
+import RNInteraction from '../common/RNInteraction'
 export default class GameGrade extends Component {
     constructor(props) {
         super(props);
@@ -28,20 +29,27 @@ export default class GameGrade extends Component {
                     <View style={{marginTop:9,justifyContent:'space-around',width: 180}}>
                         <Text style={{fontSize:15,color:'#000'}}>{this.state.data.name}</Text>
                         <Text numberOfLines={1} style={{fontSize:12,color:'#999',marginBottom:4}}>{this.state.data.introduction}</Text>
-                        <View style={styles.flexRow}>
-                            {this.state.data.type.map((item)=>{
+                        <View style={[styles.flexRow,{height:25,flexWrap:'wrap'}]}>
+                            {this.state.data.type.map((item,i)=>{
                                 return (
                                     <GameClass
+                                        key = {i}
                                         gameClassText={item}
                                         style={{ fontSize:12}}
-                                        conterStyle={{width:36,marginRight:6}}
+                                        conterStyle={{marginRight:6}}
                                     ></GameClass>
                                 )
                             })}
                         </View>
                     </View>
                     <View>
-                        <Button rounded  style={{height:30,backgroundColor:'#83b233'}}>
+                        <Button
+                            onPress={
+                                () => {
+                                    RNInteraction.startCloudPlay()
+                                }
+                            }
+                            rounded  style={{height:30,backgroundColor:'#83b233'}}>
                             <Text style={[styles.fonSize_13,{color:'white'}]}>试玩</Text>
                         </Button>
                     </View>
@@ -56,7 +64,7 @@ export default class GameGrade extends Component {
                     </View>
                     <View>
                         <Image style={{width:35,height:35,justifyContent:'space-around',alignItems: 'center',marginRight:17}} source={require('../static/img/game_grade_icon.png')}>
-                            <Text>{this.state.data.score}</Text>
+                            <Text>{parseInt(this.state.data.score)}</Text>
                         </Image>
                     </View>
                 </View>

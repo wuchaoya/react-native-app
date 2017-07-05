@@ -48,7 +48,7 @@ export default class GameList extends Component {
     _renderRow(rowData, sectionID, rowID, highlightRow) {
         const {navigate} = this.props.navigation;
         return (
-            <TouchableOpacity onPress={() => navigate('GameDetails')}>
+            <TouchableOpacity onPress={() => navigate('GameDetails',{gid:rowData.gid})}>
                 <View>
                     <View style={[styles.row,{justifyContent:this.props.showNumber?'space-around':'space-between',}]}>
                         <View style={{width:this.props.showNumber?30:0,}}>
@@ -61,7 +61,7 @@ export default class GameList extends Component {
                                 <Star starNumber={rowData.score} textStyle={{fontSize: 12}}></Star>
                                 <Text style={{fontSize: 12, marginLeft: 4}}>{parseInt(rowData.score)}</Text>
                             </View>
-                            <View style={{flexDirection: 'row' ,width:120,flexWrap:'wrap'}}>
+                            <View style={{flexDirection: 'row' ,width:100,flexWrap:'wrap'}}>
                                 {
                                     rowData.label.length!==0?(rowData.label.map((item,i)=>{
                                     return(

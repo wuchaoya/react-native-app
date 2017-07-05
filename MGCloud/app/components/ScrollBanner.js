@@ -23,6 +23,7 @@ export default class HomeComponent extends Component {
     }
     render() {
         const { navigate } = this.props.navigation;
+
         return (
             <View style={styles.container}>
                 <Swiper style={styles.wrapper}
@@ -37,7 +38,13 @@ export default class HomeComponent extends Component {
                 >
                     {
                         this.props.data.map((obj,i)=>{
-                         return ( <TouchableOpacity key={i} activeOpacity={0.8} onPress={() => navigate('GameDetails')} style={styles.slide1}>
+                         return (
+                             <TouchableOpacity
+                                 key={i}
+                                 activeOpacity={0.8}
+                                 onPress={
+                                     () => navigate('GameDetails',{gid:obj.gid})} style={styles.slide1}
+                             >
                                 <Image style={{width:width,height:this.state.height}} resizeMode='stretch'  source={{uri:obj.cover}}></Image>
                             </TouchableOpacity>)
                         })

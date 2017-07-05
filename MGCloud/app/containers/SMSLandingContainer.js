@@ -41,7 +41,7 @@ export default class SMSLanding extends Component {
                 <HeadNav leftColor="#222" color="#f5f5f5" onPress={() => goBack()}/>
                 <View style={styles.container}>
                     <View style={styles.title}>
-                        <Text style={styles.titleText}>短信登陆</Text>
+                        <Text style={styles.titleText}>短信登录</Text>
                     </View>
                     <View >
                         <TextInput
@@ -113,7 +113,7 @@ export default class SMSLanding extends Component {
                         </TouchableOpacity>
                         <CodeButton disabled={this.state.codeButtonDisabled}/>
                     </View>
-                    <LoginButton text="注册并登陆" disabled={this.state.loginButtonDisabled} style={{marginTop:20}}/>
+                    <LoginButton text="注册并登录" disabled={this.state.loginButtonDisabled} style={{marginTop:20}}/>
                 </View>
             </View>
         );

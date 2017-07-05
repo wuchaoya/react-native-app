@@ -14,6 +14,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import CodeButton from '../components/CodeButton'
+import HttpRequest from '../common/HttpRequest'
 
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
@@ -45,7 +46,7 @@ export default class SignIn extends Component {
                 <View >
                     <TextInput
                         style={styles.userInput}
-                        placeholder="手机号/邮箱/用户名/和通行证"
+                        placeholder="请输入未注册的手机号"
                         underlineColorAndroid="transparent"
                         placeholderTextColor="#999"
                         selectionColor="#999"
@@ -107,7 +108,10 @@ export default class SignIn extends Component {
                         style={[styles.clear,{right:this.state.clerCode,}]}>
                         <Text style={{fontSize:10}}>╳</Text>
                     </TouchableOpacity>
-                    <CodeButton disabled={this.state.codeButtonDisabled}/>
+                    <CodeButton
+                        onPress={()=>this.getCode()}
+                        disabled={this.state.codeButtonDisabled}
+                    />
                 </View>
 
 
@@ -148,12 +152,46 @@ export default class SignIn extends Component {
                         <Image style={{ width:24,height:24,}} source={this.state.secureTextEntry?this.state.secretOn:this.state.secretOff}></Image>
                     </TouchableOpacity>
                 </View>
-                <LoginButton text="注册并登陆" disabled={this.state.loginButtonDisabled} style={{marginTop:20}}/>
+                <LoginButton
+                    onPress={()=>this.loginRegister()}
+                    text="注册并登录"
+                    disabled={this.state.loginButtonDisabled}
+                    style={{marginTop:20}}
+                />
                 <View style={styles.foot}>
                     <Text style={styles.text}>注册代表已阅读并接受<Text onPress={() => navigate('Pact')} style={{color:'#83b233'}}>《使用协议》</Text></Text>
                 </View>
             </View>
         );
+    }
+    getCode(){
+        HttpRequest.getVerityCode({
+                phone:this.state.user,
+                businessID:0
+            },
+            (response)=>{
+            },
+            (error)=>{
+
+            }
+        )
+    }
+    loginRegister(){
+        HttpRequest.loginRegister(
+            {
+                phone:this.state.user,
+                password:this.state.pass,
+                veritycode:Number(this.state.code)
+            },
+            (response)=>{
+            },
+            (error)=>{
+
+            }
+        )
+    }
+    componentWillMount() {
+
     }
 }
 

@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import HeadNav from '../components/HeadNav'
 import Topic from '../components/Topic'
+import HttpRequest from '../common/HttpRequest'
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
 const data = [
@@ -52,6 +53,7 @@ export default class TopicDetails extends Component {
             dataSource: ds.cloneWithRows(data),
             header:'',
             navColor:null,
+            data:null
         };
     }
     setNavColor(height){
@@ -86,6 +88,22 @@ export default class TopicDetails extends Component {
             </View>
             
         );
+    }
+
+    componentWillMount() {
+        HttpRequest.getGameDissertationData(
+            {did:44},
+            (responseData)=>{
+                this.setState({
+                    data:responseData
+                },()=>{
+                    console.log(this.state.data)
+                })
+            },
+            (error)=>{
+
+            }
+        )
     }
 }
 
