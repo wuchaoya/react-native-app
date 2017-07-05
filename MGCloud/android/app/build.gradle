@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+//apply plugin: "com.android.library"
 
 import com.android.build.OutputFile
 
@@ -94,13 +95,13 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.mgcloud"
+//        applicationId "com.mgcloud"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a"
         }
     }
     splits {
@@ -108,7 +109,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86"
+            include "armeabi-v7a"
         }
     }
     buildTypes {
@@ -118,20 +119,20 @@ android {
         }
     }
     // applicationVariants are e.g. debug, release
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            // For each separate APK per architecture, set a unique version code as described here:
-            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a": 1, "x86": 2]
-            def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
-            }
-        }
-    }
+//    applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            // For each separate APK per architecture, set a unique version code as described here:
+//            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+//            def versionCodes = ["armeabi-v7a": 1, "x86": 2]
+//            def abi = output.getFilter(OutputFile.ABI)
+//            if (abi != null) {  // null for the universal-debug, universal-release variants
+//                output.versionCodeOverride =
+//                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+//            }
+//        }
+//    }
 }
-
+//
 repositories {
     flatDir {
         dirs 'libs'
@@ -139,6 +140,7 @@ repositories {
 }
 
 dependencies {
+    compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile 'com.android.volley:volley:1.0.0'
