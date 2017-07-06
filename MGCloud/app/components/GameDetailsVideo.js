@@ -32,7 +32,7 @@ export default class GameDetailsVideo extends Component {
                         <TouchableOpacity activeOpacity={0.9}
                                           onPress={
                                               () => {
-                                                  RNInteraction.playVideoByUrl()
+                                                  //RNInteraction.playVideoByUrl()
                                               }
                                           }>
                             {this.state.data.video_url?<Image

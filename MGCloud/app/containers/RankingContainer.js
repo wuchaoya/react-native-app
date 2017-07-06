@@ -14,6 +14,7 @@ import ColorStyle from '../style/ColorStyle'
 import RankingTabNav from '../components/RankingTabNav'
 import HeadNav from '../components/HeadNav'
 import HttpRequest from '../common/HttpRequest'
+import Filter from '../common/Filter'
 
 export default class RankingContainer extends Component {
     constructor(props) {
@@ -52,7 +53,7 @@ export default class RankingContainer extends Component {
             },
             (responseData)=> {
                 this.setState({
-                    hotPlay:responseData
+                    hotPlay:Filter.dirtyData(responseData)
                 },()=>{
                     DeviceEventEmitter.emit('onLoad', true)
                 })
@@ -70,7 +71,7 @@ export default class RankingContainer extends Component {
             },
             (responseData)=> {
                 this.setState({
-                    newProducts:responseData
+                    newProducts:Filter.dirtyData(responseData)
                 },()=>{
                     DeviceEventEmitter.emit('onLoad', true)
                 })
@@ -90,8 +91,9 @@ export default class RankingContainer extends Component {
             (responseData)=> {
             console.log(responseData)
                 this.setState({
-                    reserve:responseData
+                    reserve:Filter.dirtyData(responseData)
                 },()=>{
+                    console.log(this.state.reserve)
                     DeviceEventEmitter.emit('onLoad', true)
                 })
 

@@ -37,7 +37,7 @@ export default class SignIn extends Component {
     }
 
     render() {
-        const { navigate } = this.props.navigation;
+        const { navigate ,goBack} = this.props.navigation;
         return (
             <View style={styles.container}>
                 <View >
@@ -113,7 +113,15 @@ export default class SignIn extends Component {
                         <Image style={{ width:24,height:24,}} source={this.state.secureTextEntry?this.state.secretOn:this.state.secretOff}></Image>
                     </TouchableOpacity>
                 </View>
-                <LoginButton text="登录" disabled={this.state.signIn} style={{marginTop:20}}/>
+                <LoginButton
+                    text="登录"
+                    disabled={this.state.signIn}
+                    style={{marginTop:20}}
+                    onPress={()=>{
+                        DeviceEventEmitter.emit('LoginStatus',{userName:this.state.user} )
+                        goBack()
+                    }}
+                />
                 <LoginButton text="中国移动用户一键登录" disabled={false} style={{marginTop:12}} onPress={()=>{
                     RNInteraction.sendSms('').then((result)=>{
 

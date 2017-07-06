@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import HeadNav from '../components/HeadNav'
 import CodeButton from '../components/CodeButton'
-
+import HttpRequest from '../common/HttpRequest'
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
 

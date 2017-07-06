@@ -9,7 +9,9 @@ import {
     Image,
     View,
     DeviceEventEmitter,
-    ScrollView
+    ScrollView,
+    Modal,
+    TouchableOpacity
 } from 'react-native';
 import GameDetailsVideo from '../components/GameDetailsVideo'
 import TransparentStatusBar from '../components/TransparentStatusBar'
@@ -19,6 +21,8 @@ import GameDescription from '../components/GameDescription'
 import GameOtherInfo from  '../components/GameOtherInfo'
 import HeadNav from '../components/HeadNav'
 import HttpRequest from '../common/HttpRequest'
+import GameGallery from '../components/GameGallery'
+
 
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
@@ -31,8 +35,11 @@ export default class GameDetails extends Component {
             navColor:null,
             height:0,
             data:[],
+            isShow:false,
+            userId:null,
+            subStar:false,
+            statusBarOpacity:0
 
-            userId:null
         }
     }
     setNavColor(height){
@@ -41,10 +48,23 @@ export default class GameDetails extends Component {
             header:height>42?'游戏详情':'',
         })
     }
+    heiden(){
+        this.setState({
+            isShow:false,
+            statusBarOpacity:0
+        })
+    }
+    hidenSubStar(){
+        this.setState({
+            subStar:false,
+            statusBarOpacity:0
+        })
+    }
     render() {
         const { goBack } = this.props.navigation;
         return (
             <View>
+                <TransparentStatusBar opacity={this.state.statusBarOpacity}/>
                 <HeadNav
                     header={this.state.header}
                     onPress={() => goBack()}
@@ -56,15 +76,93 @@ export default class GameDetails extends Component {
                     {this.state.data.length!==0?<View style={styles.container}>
                         <GameDetailsVideo data={this.state.data.video_url}/>
                         <GameGrade data={this.state.data}/>
-                        <GameChart data={this.state.data}/>
+                        <GameChart data={this.state.data} isShow={this.state.isShow}/>
                         <GameDescription data={this.state.data}/>
                         <GameOtherInfo data={this.state.data}/>
+                        <Modal
+                            style={{flex:1,opacity:0}}
+                            animationType={"slide"}
+                            transparent={true}
+                            visible={this.state.isShow}
+                            onRequestClose={()=>{
+                                console.log('点了返回键')
+                              this.setState({
+                                  isShow:false
+                              })
+                            }
+                            }
+
+                        ><GameGallery images={this.state.data.images} onPress={
+                            this.heiden.bind(this)
+                        }/>
+
+                        </Modal>
+                        <Modal
+                            transparent={true}
+                            animationType={"slide"}
+                            visible={this.state.subStar}
+                            onRequestClose={()=>{
+                            }
+                            }
+                            style={{backgroundColor:'rgba(0,0,0,0.7)',flex:1}}>
+                            <View
+                                style={{
+                                    flex:1,backgroundColor:'rgba(0,0,0,0.7)',
+                                    justifyContent:'center',
+                                    alignItems:'center'
+                                }}>
+                                <View style={{width:265,height:132,backgroundColor:'#f2f2f2',borderRadius:6}}>
+                                    <View
+                                        style={{
+                                            height:72,width:265,
+                                            justifyContent:'center',alignItems:'center',
+                                        }}>
+                                        <Text>是否确认评分</Text>
+                                    </View>
+                                    <View style={{
+                                        borderTopWidth:1,
+                                        height:60,
+                                        borderTopColor:'#ddd',
+                                        flexDirection:'row',
+                                        alignItems:'center'
+                                    }}>
+                                        <TouchableOpacity
+                                            onPress={()=>this.hidenSubStar()}
+                                            style={{width:265/2,height:40,justifyContent:'center',alignItems:'center',borderRightWidth:1,borderRightColor:'#ddd'}}>
+                                            <Text>取消</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={()=>this.hidenSubStar()}
+                                            style={{width:265/2,height:40,justifyContent:'center',alignItems:'center'}}>
+                                            <Text style={{color:'#83b233'}}>确定</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </View>
+
+                        </Modal>
                     </View>:null}
                 </ScrollView>
             </View>
         );
     }
     componentWillMount() {
+        this.gallery = DeviceEventEmitter.addListener('Gallery',(listenerMsg) => {
+            this.setState({
+                isShow:listenerMsg,
+                statusBarOpacity:0.7
+            },()=>{
+                console.log('该显示全屏图片了',this.state.isShow)
+            })
+        });
+        this.subStar = DeviceEventEmitter.addListener('subStar',(listenerMsg) => {
+            this.setState({
+                subStar:listenerMsg,
+                statusBarOpacity:0.7
+            },()=>{
+                console.log('提交评分',this.state.isStar)
+            })
+        });
         const  {params} = this.props.navigation.state
         console.log(params)
         HttpRequest.getGameDetailData({gid:params.gid,user_id:this.state.userId},
@@ -85,6 +183,7 @@ export default class GameDetails extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        flex:1,
         backgroundColor:'#ededed'
     },
     headNav:{

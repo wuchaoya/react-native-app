@@ -181,7 +181,10 @@ export default class SignIn extends Component {
             {
                 phone:this.state.user,
                 password:this.state.pass,
-                veritycode:Number(this.state.code)
+                veritycode:this.state.code,
+                ip:'',
+                location:''
+
             },
             (response)=>{
             },

@@ -8,13 +8,20 @@ import {
     View,
     Image,
     StatusBar,
-    TouchableHighlight
+    TouchableHighlight,
+    DeviceEventEmitter
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
 import TextConst from '../const/TextConst'
 
 export default class UserHead extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            userName:'未登陆',
+            userIcon:require('../static/img/user.png')
+        }
+    }
     render() {
         const { navigate } = this.props.navigation;
         return (
@@ -26,11 +33,21 @@ export default class UserHead extends Component {
                     <Image  style={{height:22,width:22}} source={require('../static/img/setting_icon.png')} />
                 </TouchableHighlight>
                 <View style={styles.headImgBorder}>
-                    <Image style={styles.headImg} source={require('../static/img/topic1_head.png')}/>
+                    <Image style={styles.headImg} source={this.state.userIcon}/>
                 </View>
-                <Text onPress={() => navigate('Login')}  style={styles.userNameText}>{TextConst.UserHeadText.userNameText}</Text>
+                <Text onPress={() => navigate('Login')}  style={styles.userNameText}>{this.state.userName}</Text>
             </View>
         );
+    }
+    componentDidMount(){
+        this.LoginStatus = DeviceEventEmitter.addListener('LoginStatus',(listenerMsg) => {
+            this.setState({
+                userName:listenerMsg.userName,
+                userIcon:require('../static/img/user_head_icon.jpg')
+            },()=>{
+                console.log('当前已经登陆')
+            })
+        });
     }
 }
 

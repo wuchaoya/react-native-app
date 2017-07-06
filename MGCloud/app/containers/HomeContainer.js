@@ -36,10 +36,11 @@ export default class HomeContainer extends Component {
     }
 
     render() {
-        const {navigate} = this.props.navigation;
+        const {navigate,goBack} = this.props.navigation;
+        console.log(this.props.navigation)
         return (
             <ScrollView style={{height:Dimensions.height}}>
-                <HeadNav header="云游戏" onPress={() => navigate('Home')}/>
+                <HeadNav header="云游戏" onPress={() => goBack()}/>
                 {this.state.gameList.length!==0&&this.state.dissertation.length!==0&&this.state.bannerArray.length!==0?
                     <View style={styles.container}>
                         {this.state.bannerArray.length!==0?<Banner navigation={this.props.navigation} data={this.state.bannerArray}/>:null}

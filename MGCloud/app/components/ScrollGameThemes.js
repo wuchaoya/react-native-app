@@ -5,8 +5,8 @@ import {
     Image,
     Dimensions,
     TouchableHighlight,
-    TouchableOpacity
-
+    TouchableOpacity,
+    ScrollView
 } from 'react-native'
 import Swiper from 'react-native-swiper'
 
@@ -14,6 +14,8 @@ import Swiper from 'react-native-swiper'
 
 let width = Dimensions.get('window').width;
 let widthPixels = width
+let heightPixels = Dimensions.get('window').height
+console.log(heightPixels)
 export default class extends Component {
     constructor(props) {
         super(props);
@@ -24,21 +26,14 @@ export default class extends Component {
     render () {
         const { navigate } = this.props.navigation;
         return (
-            <View>
-                <Swiper style={styles.wrapper} height={227}
-                        onMomentumScrollEnd={(e, state, context) => console.log('index:', state.index)}
-                        dot={<View style={{backgroundColor: 'rgba(0,0,0,.2)', width: 0, height: 0, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}} />}
-                        activeDot={<View style={{backgroundColor: '#000', width: 0, height: 0, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}} />}
-                        paginationStyle={{
-            bottom: -20,left:-10
-          }}
-                        loop>
+
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}  showsHorizontalScrollIndicato={false}>
                     {this.props.data.map((obj,i)=>{
                      return ( <View style={styles.slide} key={i} title={<Text numberOfLines={1}></Text>}>
                             <TouchableOpacity activeOpacity={0.8}
                                               onPress={() => navigate('TopicDetails')} style={styles.image}>
                                 <View style={styles.image}>
-                                    <Image resizeMode='stretch' style={{flex: 1,width:width-24,height:this.state.height}} source={{uri:obj.cover}}  />
+                                    <Image resizeMode='stretch' style={{flex: 1,width:this.state.width,height:350/2}} source={{uri:obj.cover}}  />
                                     <View style={{height:52,justifyContent:'center'}}>
                                         <Text style={{fontSize:15,color:'#333',}}>{obj.title}</Text>
                                     </View>
@@ -46,14 +41,17 @@ export default class extends Component {
                             </TouchableOpacity>
                         </View>)
                     })}
-                </Swiper>
-            </View>
+                </ScrollView>
+
         )
     }
     componentDidMount(){
         Image.getSize(this.props.data[0].cover, (width, height) => {
+            console.log(height/heightPixels)
             this.setState(
-                {height:height/(width/widthPixels)}
+                {width:325
+                //width*(height/heightPixels)
+                 }
             )
         });
     }

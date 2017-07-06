@@ -20,6 +20,7 @@ import RNInteraction from '../common/RNInteraction'
 import {PullList} from 'react-native-pull'
 import LoadingAnimation from '../components/LoadingAnimation'
 import GameClass from '../components/GameClass'
+import StarRating from 'react-native-star-rating';
 
 export default class GameList extends Component {
     constructor(props) {
@@ -57,13 +58,21 @@ export default class GameList extends Component {
                         <Image style={styles.thumb} source={{uri:rowData.icon}}/>
                         <View style={{width: 100}}>
                             <Text numberOfLines={1} style={styles.gameName}>{rowData.name}</Text>
-                            <View style={{flexDirection: 'row'}}>
-                                <Star starNumber={rowData.score} textStyle={{fontSize: 12}}></Star>
-                                <Text style={{fontSize: 12, marginLeft: 4}}>{parseInt(rowData.score)}</Text>
+                            <View style={{flexDirection: 'row',alignItems:'center',marginTop:3}}>
+                                <StarRating
+                                    disabled={true}
+                                    maxStars={5}
+                                    rating={rowData.score}
+                                    starColor="#ff8800"
+                                    emptyStarColor="gray"
+                                    starSize={12}
+                                    starStyle={{margin:1}}
+                                />
+                                <Text style={{fontSize: 12, marginLeft: 4}}>{parseInt(rowData.score)==rowData.score?rowData.score:rowData.score.toFixed(1)}</Text>
                             </View>
-                            <View style={{flexDirection: 'row' ,width:100,flexWrap:'wrap'}}>
+                            <View style={{flexDirection: 'row' ,width:110,flexWrap:'wrap'}}>
                                 {
-                                    rowData.label.length!==0?(rowData.label.map((item,i)=>{
+                                    rowData.label.length!==0?(rowData.label.slice(0,2).map((item,i)=>{
                                     return(
                                         <GameClass conterStyle={{marginRight:6,marginTop:6}}  style={{fontSize:10}}  key={i} gameClassText={item}/>
                                     )
@@ -106,7 +115,7 @@ export default class GameList extends Component {
                                     }
                                 onPress={
                                     () => {
-                                        RNInteraction.startCloudPlay()
+                                       // RNInteraction.startCloudPlay()
                                     }
                                 }
 

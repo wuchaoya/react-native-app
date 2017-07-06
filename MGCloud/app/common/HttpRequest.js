@@ -1,6 +1,6 @@
 import HttpUitl from "./HttpUitl";
 import responseData from "../model/ResponseData";
-
+import Fitter from '../common/Filter'
 const HttpRequest = {
     /**
      * 获取Home数据
@@ -28,7 +28,7 @@ const HttpRequest = {
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
                 if(response.state==200&&response.data){
-                    callbackSuccess(response.data);
+                    callbackSuccess(Fitter.dirtyData(response.data));
                 }
             },
             (error)=> {
@@ -98,6 +98,18 @@ const HttpRequest = {
     },
     loginRegister: (parameter, callbackSuccess, callbackError)=> {
         HttpUitl.post('/v2/login/register', parameter,
+            (response)=> {
+                // 解析处理成页面需要的数据格式,如list
+                if(response.state==200&&response.data){
+                    callbackSuccess(response.data);
+                }
+            },
+            (error)=> {
+                callbackError(error);
+            })
+    },
+    reserve: (parameter, callbackSuccess, callbackError)=> {
+        HttpUitl.post('/v2/game/reserve', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
                 if(response.state==200&&response.data){
