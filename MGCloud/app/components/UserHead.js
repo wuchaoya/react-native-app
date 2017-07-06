@@ -82,6 +82,10 @@ const styles = StyleSheet.create({
         borderColor:ColorStyle.colorWhite,
         justifyContent: 'center',
         alignItems:'center',
+        shadowColor:'red',
+        shadowOffset:{width:1,height:1,},
+        shadowOpacity:0.5,
+        shadowRadius:1
     },
     headImg:{
         height:60,
@@ -92,6 +96,9 @@ const styles = StyleSheet.create({
     userNameText:{
         color:ColorStyle.colorWhite,
         marginTop:9,
-        fontSize:15
+        fontSize:15,
+       /* textShadowOffset:{width:1,hegith:1},
+        textShadowColor:'red',*/
+
     }
 });

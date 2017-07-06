@@ -8,7 +8,8 @@ import {
     View,
     Image,
     StatusBar,
-    ScrollView
+    ScrollView,
+    Modal
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
 import UserHead from '../components/UserHead'
@@ -18,7 +19,12 @@ import VipBuy from '../components/VipBuy'
 import GiftBag from '../components/GiftBag'
 
 export default class user extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+           showOpen:false
+        }
+    }
     render() {
         return (
             <ScrollView>
@@ -49,6 +55,7 @@ export default class user extends Component {
                             price ={TextConst.VipBuyText.Featured.Price}
                             time = {TextConst.VipBuyText.Featured.SingleMonth}
                             buttonText = {TextConst.VipBuyText.Featured.open}
+                            buttonPress={()=>this.showOpen()}
                         />
                     </View>
                     <View style={[styles.container,{marginBottom:23}]}>
@@ -77,10 +84,22 @@ export default class user extends Component {
                             gameTimeText={TextConst.equityText.tasteOf.gameTimeText}
                             intro={TextConst.equityText.tasteOf.intro}
                         />
+                        <Modal
+                            transparent={true}
+                            animationType={"slide"}
+                            visible={this.state.showOpen}
+                            onRequestClose={()=>{
+                            }
+                            }
+                            style={{backgroundColor:'rgba(0,0,0,0.7)',flex:1}}>
+                        </Modal>
                      </View>
                 </View>
             </ScrollView>
         );
+    }
+    showOpen(){
+
     }
 }
 

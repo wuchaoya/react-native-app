@@ -29,25 +29,29 @@ export default class Topic extends Component {
     }
     _render(rowData,sectionID, rowID,highlightRow,navigate){
         const data = rowData
+        console.log(data.cover=='')
         return (
         <TouchableHighlight>
             <View style={styles.container}>
                 <View style={{flexDirection:'row', margin:10,}}>
-                    <Image style={styles.headImg} source={data.headImg}></Image>
+                    <Image style={styles.headImg} source={data.icon==''?require('../static/img/erromMin.png'):{uri:data.icon}}></Image>
                     <View style={{marginLeft:10}}>
-                        <Text style={{color:'#000000'}}>{data.titleText}</Text>
+                        <Text style={{color:'#000000'}}>{data.name}</Text>
                         <View style={{flexDirection:'row',alignItems:'center'}}>
-                            <GameClass gameClassText ={data.gameClass[0]} style={{fontSize: 10}}/>
-                            <Star starNumber = {data.starNumber} style={{marginLeft:5}}></Star>
-                            <Text style={{marginLeft:3,fontSize:12}}>{data.starNumber}</Text>
+                            {data.label.map((item,i)=>{
+
+                              return( <GameClass conterStyle={{marginRight:3}} key={i} gameClassText ={item} style={{fontSize: 10}}/>)
+                            })}
+                            <Star starNumber = {data.score} style={{marginLeft:5}}></Star>
+                            <Text style={{marginLeft:3,fontSize:12}}>{parseInt(data.score)}</Text>
                         </View>
                     </View>
                 </View>
-                <TouchableHighlight onPress={() => navigate('GameDetails')}>
-                    <Image style={{width:width-12,height:202}}  resizeMode="cover"  source={require('../static/img/topic1.png')}></Image>
+                <TouchableHighlight style={[{justifyContent:'center',alignItems:'center',width:width-12,height:202},data.cover==''?{backgroundColor:'#ddd'}:{}]} onPress={() => navigate('GameDetails')}>
+                    <Image style={data.cover==''?{width:40,height:30}:{width:width-12,height:202}}  resizeMode="cover"  source={data.cover==''?require('../static/img/error.png'):{uri:data.cover}}></Image>
                 </TouchableHighlight>
                 <View style={{marginLeft:10,marginBottom:18,marginTop:18,marginRight:10}}>
-                    <Text style={{fontSize: 12,color:'#666666',lineHeight:20}}>{data.summary}
+                    <Text style={{fontSize: 12,color:'#666666',lineHeight:20}}>{data.game_summary}
                     </Text>
                 </View>
             </View>

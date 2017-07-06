@@ -77,6 +77,7 @@ const HttpRequest = {
                 // 解析处理成页面需要的数据格式,如list
                 if(response.state==200&&response.data){
                     callbackSuccess(response.data);
+                    console.log(response)
                 }
             },
             (error)=> {

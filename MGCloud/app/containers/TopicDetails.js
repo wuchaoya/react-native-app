@@ -48,12 +48,10 @@ const data = [
 export default class TopicDetails extends Component {
     constructor(props) {
         super(props);
-        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows(data),
             header:'',
             navColor:null,
-            data:null
+            data:[]
         };
     }
     setNavColor(height){
@@ -83,7 +81,7 @@ export default class TopicDetails extends Component {
                             <Text style={[styles.headText,styles.fonSize_11]}>精品大作，够玩一个暑假</Text>
                         </View>
                     </Image>
-                    <Topic data = {data}  navigation={this.props.navigation}/>
+                    {this.state.data.length===0?null:<Topic data = {this.state.data}  navigation={this.props.navigation}/>}
                 </ScrollView>
             </View>
             
@@ -94,11 +92,14 @@ export default class TopicDetails extends Component {
         HttpRequest.getGameDissertationData(
             {did:44},
             (responseData)=>{
+                console.log(responseData)
+                console.log(typeof responseData)
                 this.setState({
-                    data:responseData
+                    data:responseData.game
                 },()=>{
-                    console.log(this.state.data)
+                    console.log('设置成功')
                 })
+                console.log(this.state.data)
             },
             (error)=>{
 
