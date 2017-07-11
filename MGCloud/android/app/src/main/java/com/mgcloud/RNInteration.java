@@ -27,7 +27,7 @@ public class RNInteration extends ReactContextBaseJavaModule {
      * @author: todo: 需要增加参数信息 shisheng.zhao
      */
     @ReactMethod
-    public void startCloudPlay() {
+    public void startCloudPlay(String packageName,String userId,String playTime) {
         Intent intent = new Intent();
         intent.setClass(getReactApplicationContext(), CloudPlayActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -39,7 +39,7 @@ public class RNInteration extends ReactContextBaseJavaModule {
      * @author: todo:需要增加参数信息 shisheng.zhao
      */
     @ReactMethod
-    public void playVideoByUrl() {
+    public void playVideoByUrl(String videoUrl) {
         Intent intent = new Intent();
         intent.setClass(getReactApplicationContext(), FullScreenVideoActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
