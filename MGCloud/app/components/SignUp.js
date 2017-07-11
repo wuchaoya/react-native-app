@@ -11,9 +11,10 @@ import {
     DeviceEventEmitter,
     TextInput,
     TouchableOpacity,
-    TouchableHighlight
+    TouchableHighlight,
+    Modal
 } from 'react-native';
-import CodeButton from '../components/CodeButton'
+import TimerButton from '../components/test'
 import HttpRequest from '../common/HttpRequest'
 
 let Dimensions = require('Dimensions');
@@ -37,6 +38,8 @@ export default class SignIn extends Component {
             clerUser:-100,
             clerPass:-100,
             clerCode:-100,
+            isShow:false,
+            loginErr:false
         }
     }
     render() {
@@ -60,6 +63,9 @@ export default class SignIn extends Component {
                                     clerUser:this.state.user.length!==0?34:-100,
                                     codeButtonDisabled:this.state.user.length===0,
                                     loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
+
+                            },()=>{
+                                console.log(this.state.codeButtonDisabled+' codebutton')
                             })}}
                     />
                     <TouchableOpacity onPress={()=>{
@@ -108,10 +114,16 @@ export default class SignIn extends Component {
                         style={[styles.clear,{right:this.state.clerCode,}]}>
                         <Text style={{fontSize:10}}>╳</Text>
                     </TouchableOpacity>
-                    <CodeButton
-                        onPress={()=>this.getCode()}
-                        disabled={this.state.codeButtonDisabled}
-                    />
+                    <TimerButton
+                        timerCount={60}
+                        disableColor="#aaa"
+                        buttonDisabledColor="#ccc"
+                        selfEnable={!this.state.codeButtonDisabled}
+                        textStyle={{color: '#fff'}}
+                        onclick={(start)=>{
+                            console.log('什么规')
+                           start(true)
+                        }}/>
                 </View>
 
 
@@ -161,6 +173,45 @@ export default class SignIn extends Component {
                 <View style={styles.foot}>
                     <Text style={styles.text}>注册代表已阅读并接受<Text onPress={() => navigate('Pact')} style={{color:'#83b233'}}>《使用协议》</Text></Text>
                 </View>
+                <Modal
+                    transparent={true}
+                    animationType={"slide"}
+                    visible={this.state.isShow}
+                    onRequestClose={()=>{
+                    }
+                    }
+                    style={{backgroundColor:'rgba(0,0,0,0.7)',flex:1}}>
+                    <View
+                        style={{
+                            flex:1,backgroundColor:'rgba(0,0,0,0.7)',
+                            justifyContent:'center',
+                            alignItems:'center'
+                        }}>
+                        {this.state.loginErr?
+                            <View style={{width:530/2,height:130,backgroundColor:'#fff',borderRadius:6,justifyContent:'center',alignItems:'center'}}>
+                                <View style={{height:130/2,width:530/2,justifyContent:'center',alignItems:'center',borderBottomWidth:1,borderBottomColor:'#ddd'}}>
+                                    <Text>验证码错误</Text>
+                                </View>
+                                <TouchableOpacity
+                                    onPress={()=>{
+                                        this.setState({
+                                            isShow:false,
+                                            loginErr:false
+                                        })
+                                    }}
+                                    style={{height:130/2,width:530/2,justifyContent:'center',alignItems:'center'}}>
+                                    <Text style={{color:'#83b233'}}>确定</Text>
+                                </TouchableOpacity>
+                            </View>
+                            :
+                            <View style={{width:100,height:100,backgroundColor:'#fff',borderRadius:15,justifyContent:'center',alignItems:'center'}}>
+                                <Image style={{width:27,height:29}} source={require('../static/img/loading.gif')}/>
+                                <Text style={{fontSize:10,marginTop:6,letterSpacing:1000}}>注册中</Text>
+                            </View>
+                        }
+                    </View>
+
+                </Modal>
             </View>
         );
     }
@@ -170,6 +221,7 @@ export default class SignIn extends Component {
                 businessID:0
             },
             (response)=>{
+
             },
             (error)=>{
 
@@ -177,16 +229,32 @@ export default class SignIn extends Component {
         )
     }
     loginRegister(){
+        this.setState({
+            isShow:true
+        })
         HttpRequest.loginRegister(
             {
                 phone:this.state.user,
                 password:this.state.pass,
-                veritycode:this.state.code,
+                veritycode:Number(this.state.code),
                 ip:'',
                 location:''
 
             },
             (response)=>{
+                console.log(response)
+                if(response.resultCode==0){
+                    this.setState({
+                        isShow:false
+                    },()=>{
+                        alert('注册成功')
+                    })
+                }
+                else {
+                    this.setState({
+                        loginErr:true
+                    })
+                }
             },
             (error)=>{
 

@@ -10,7 +10,8 @@ import {
     View,
     DeviceEventEmitter,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    Modal
 } from 'react-native';
 import LoginButton from '../components/LoginButton'
 import RNInteraction from '../common/RNInteraction'
@@ -18,7 +19,7 @@ import Empty from '../components/Empty'
 
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
-
+import HttpRequest from '../common/HttpRequest'
 export default class SignIn extends Component {
     constructor(props) {
         super(props);
@@ -33,11 +34,14 @@ export default class SignIn extends Component {
             signIn:true,
             clerUser:-100,
             clerPass:-100,
+            onLogin:false,//是否弹出弹框
+            loginErr:false//是否登陆失败
         }
     }
 
     render() {
         const { navigate ,goBack} = this.props.navigation;
+        this.goBack = goBack
         return (
             <View style={styles.container}>
                 <View >
@@ -118,8 +122,9 @@ export default class SignIn extends Component {
                     disabled={this.state.signIn}
                     style={{marginTop:20}}
                     onPress={()=>{
-                        DeviceEventEmitter.emit('LoginStatus',{userName:this.state.user} )
-                        goBack()
+
+                        this.login()
+
                     }}
                 />
                 <LoginButton text="中国移动用户一键登录" disabled={false} style={{marginTop:12}} onPress={()=>{
@@ -133,8 +138,80 @@ export default class SignIn extends Component {
                     <Text onPress={() => navigate('SMSLanding')} style={styles.text}>短信登录</Text>
                     <Text onPress={() => navigate('RestPass')}  style={styles.text}>忘记密码</Text>
                 </View>
+                <Modal
+                    transparent={true}
+                    animationType={"slide"}
+                    visible={this.state.onLogin}
+                    onRequestClose={()=>{
+                    }
+                    }
+                    style={{backgroundColor:'rgba(0,0,0,0.7)',flex:1}}>
+                    <View
+                        style={{
+                            flex:1,backgroundColor:'rgba(0,0,0,0.7)',
+                            justifyContent:'center',
+                            alignItems:'center'
+                        }}>
+                        {this.state.loginErr?
+                            <View style={{width:530/2,height:130,backgroundColor:'#fff',borderRadius:6,justifyContent:'center',alignItems:'center'}}>
+                                <View style={{height:130/2,width:530/2,justifyContent:'center',alignItems:'center',borderBottomWidth:1,borderBottomColor:'#ddd'}}>
+                                    <Text>账号或密码错误</Text>
+                                </View>
+                                <TouchableOpacity
+                                    onPress={()=>{
+                                        this.setState({
+                                            onLogin:false,
+                                            loginErr:false
+                                        })
+                                    }}
+                                    style={{height:130/2,width:530/2,justifyContent:'center',alignItems:'center'}}>
+                                    <Text style={{color:'#83b233'}}>再试一次</Text>
+                                </TouchableOpacity>
+                            </View>
+                            :
+                            <View style={{width:100,height:100,backgroundColor:'#fff',borderRadius:15,justifyContent:'center',alignItems:'center'}}>
+                                <Image style={{width:27,height:29}} source={require('../static/img/loading.gif')}/>
+                                <Text style={{fontSize:10,marginTop:6,letterSpacing:1000}}>登陆中</Text>
+                            </View>
+                        }
+                    </View>
+
+                </Modal>
             </View>
         );
+    }
+    login(){
+        this.setState({
+            onLogin:true
+        })
+        HttpRequest.login({
+                phone:this.state.user,
+                password:this.state.pass,
+                ip:'',
+                position:'',
+                DeviceType:''
+            },
+            (response)=>{
+            console.log(response)
+                if(response.resultCode==0){
+                    this.setState({
+                        onLogin:false
+                    },()=>{
+                        DeviceEventEmitter.emit('LoginStatus',{userName:this.state.user} )
+                        this.goBack()
+                    })
+
+                }
+                else {
+                    this.setState({
+                       loginErr:true
+                    })
+                }
+            },
+            (error)=>{
+
+            }
+        )
     }
 }
 

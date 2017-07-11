@@ -109,6 +109,42 @@ const HttpRequest = {
                 callbackError(error);
             })
     },
+    login: (parameter, callbackSuccess, callbackError)=> {
+        HttpUitl.post('/v2/login/password', parameter,
+            (response)=> {
+                // 解析处理成页面需要的数据格式,如list
+                if(response.state==200&&response.data){
+                    callbackSuccess(response.data);
+                }
+            },
+            (error)=> {
+                callbackError(error);
+            })
+    },
+    loginSMS: (parameter, callbackSuccess, callbackError)=> {
+        HttpUitl.post('/v2/login/sms_code', parameter,
+            (response)=> {
+                // 解析处理成页面需要的数据格式,如list
+                if(response.state==200&&response.data){
+                    callbackSuccess(response.data);
+                }
+            },
+            (error)=> {
+                callbackError(error);
+            })
+    },
+    resetPass: (parameter, callbackSuccess, callbackError)=> {
+        HttpUitl.post('/v2/login/reset_password', parameter,
+            (response)=> {
+                // 解析处理成页面需要的数据格式,如list
+                if(response.state==200&&response.data){
+                    callbackSuccess(response.data);
+                }
+            },
+            (error)=> {
+                callbackError(error);
+            })
+    },
     reserve: (parameter, callbackSuccess, callbackError)=> {
         HttpUitl.post('/v2/game/reserve', parameter,
             (response)=> {

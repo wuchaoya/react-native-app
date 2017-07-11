@@ -23,7 +23,7 @@ export default  class TimerButton extends Component {
             timerCount: this.props.timerCount || 60,
             timerTitle: this.props.timerTitle || '获取验证码',
             counting: false,
-            selfEnable: this.props.selfEnable,
+            selfEnable: true,
         };
         this.shouldStartCountting = this.shouldStartCountting.bind(this)
         this.countDownAction = this.countDownAction.bind(this)
@@ -78,20 +78,24 @@ export default  class TimerButton extends Component {
     }
 
     render() {
+        console.log(this.state.selfEnable+'selfenable')
+        console.log(this.props.selfEnable)
+        console.log(this.props)
         const {onClick, style, textStyle, disableColor,buttonDisabledColor} = this.props;
         const {counting, timerTitle, selfEnable} = this.state;
         return (
-
-                <TouchableOpacity
-                    activeOpacity={counting ? 1 : 0.8} onPress={() => {
-                    if (!counting &&selfEnable) {
-                        this.setState({selfEnable: false});
-                        this.shouldStartCountting();
-                    };}}
-                    style={[styles.styleCodeView,{backgroundColor: ((!counting && selfEnable) ? '#83b233' : buttonDisabledColor || 'gray')}]}>
-                    <Text
-                        style={[{fontSize: 12}, textStyle, {color: ((!counting && selfEnable) ? textStyle.color : disableColor || 'gray')}]}>{timerTitle}</Text>
-                </TouchableOpacity>
+            <TouchableOpacity
+                activeOpacity={counting ? 1 : 0.8} onPress={() => {
+                if (!counting &&selfEnable) {
+                    this.setState({selfEnable: false});
+                  console.log(onClick)
+                    onClick
+                 this.shouldStartCountting(true)
+                };}}
+                style={[styles.styleCodeView,{backgroundColor: ((!counting && selfEnable) ? '#83b233' : buttonDisabledColor || 'gray')}]}>
+                <Text
+                    style={[{fontSize: 12}, textStyle, {color: ((!counting && selfEnable) ? textStyle.color : disableColor || 'gray')}]}>{timerTitle}</Text>
+            </TouchableOpacity>
         )
     }
 }

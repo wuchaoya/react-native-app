@@ -4,33 +4,40 @@ import {
     View,
     Image
 } from 'react-native';
-import Gallery from 'react-native-gallery';
-
+import TimerButton from '../components/test'
+var Dimensions = require('Dimensions');
+var screenWidth = Dimensions.get('window').width;
 export default class extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            starCount: 3.5
+            starCount: 3.5,
+            phoneNumber:'aaaa'
         };
     }
     onStarRatingPress(rating) {
         this.setState({
-            starCount: rating
+            starCount: rating,
+            phoneNumber
         });
     }
     render() {
         return (
-            <Gallery
-                onSingleTapConfirmed={()=>{
-                    alert('haha')
-                }}
-                style={{flex: 1, backgroundColor: 'black'}}
-                images={[
-                    'http://ww2.sinaimg.cn/mw690/714a59a7tw1dxqkkg0cwlj.jpg',
-                    'http://www.bz55.com/uploads/allimg/150122/139-150122145421.jpg'
-                ]}
-            />
+            <View style={styles.container}>
+                <TimerButton
+                    style={{width: screenWidth*0.2,marginRight: 10}}
+                    timerCount={60}
+                    disableColor="#aaa"
+                    buttonDisabledColor="#ccc"
+                    selfEnable={false}
+                    textStyle={{color: '#fff'}}
+                    onClick={(start)=>{
+                        ()=>{
+                            console.log(start)
+                        }
+                    }}/>
+            </View>
         );
     }
 }

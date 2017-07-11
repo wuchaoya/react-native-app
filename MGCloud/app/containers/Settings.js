@@ -9,14 +9,18 @@ import {
     Image,
     View,
     DeviceEventEmitter,
-    TouchableOpacity
+    TouchableOpacity,
+    Modal,
+    BackAndroid
 } from 'react-native';
 import HeadNav from '../components/HeadNav'
 import TransparentStatusBar    from '../components/TransparentStatusBar'
 export default class Settings extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            isShow:false
+        }
     }
 
     render() {
@@ -39,11 +43,70 @@ export default class Settings extends Component {
                         <Image style={styles.nextImg} source={require('../static/img/next_icon.png')}/>
                     </TouchableOpacity>
                 </View>
-                <View style={{ justifyContent:'center',alignItems:'center',height:53,marginTop:6,backgroundColor:'#fff',}}>
+                <TouchableOpacity
+                    onPress={()=>{
+                        this.setState({
+                            isShow:true
+                        })
+                    }}
+                    style={{ justifyContent:'center',alignItems:'center',height:53,marginTop:6,backgroundColor:'#fff',}}>
                     <Text style={styles.text}>退出登录</Text>
-                </View>
+                </TouchableOpacity>
+                <Modal
+                    transparent={true}
+                    animationType={"slide"}
+                    visible={this.state.isShow}
+                    onRequestClose={()=>{
+                    }
+                    }
+                    style={{backgroundColor:'rgba(0,0,0,0.7)',flex:1}}>
+                    <View
+                        style={{
+                            flex:1,backgroundColor:'rgba(0,0,0,0.7)',
+                            justifyContent:'center',
+                            alignItems:'center'
+                        }}>
+                        <View style={{width:265,height:132,backgroundColor:'#f2f2f2',borderRadius:6}}>
+                            <View
+                                style={{
+                                    height:72,width:265,
+                                    justifyContent:'center',alignItems:'center',
+                                }}>
+                                <Text onPress={()=>this.subStar()}>是否确认评分</Text>
+                            </View>
+                            <View style={{
+                                borderTopWidth:1,
+                                height:60,
+                                borderTopColor:'#ddd',
+                                flexDirection:'row',
+                                alignItems:'center'
+                            }}>
+                                <TouchableOpacity
+                                    onPress={()=>this.siginOut(false)}
+                                    style={{width:265/2,height:40,justifyContent:'center',alignItems:'center',borderRightWidth:1,borderRightColor:'#ddd'}}>
+                                    <Text>取消</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={()=>this.siginOut(true)}
+                                    style={{width:265/2,height:40,justifyContent:'center',alignItems:'center'}}>
+                                    <Text style={{color:'#83b233'}}>确定</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+
+                </Modal>
             </View>
         );
+    }
+    siginOut(isOut){
+        this.setState({
+            isShow:false
+        },()=>{
+            if(isOut){
+                BackAndroid.exitApp()
+            }
+        })
     }
 }
 

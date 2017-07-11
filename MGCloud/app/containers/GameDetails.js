@@ -117,7 +117,7 @@ export default class GameDetails extends Component {
                                             height:72,width:265,
                                             justifyContent:'center',alignItems:'center',
                                         }}>
-                                        <Text>是否确认评分</Text>
+                                        <Text onPress={()=>this.subStar()}>是否确认评分</Text>
                                     </View>
                                     <View style={{
                                         borderTopWidth:1,
@@ -145,6 +145,20 @@ export default class GameDetails extends Component {
                 </ScrollView>
             </View>
         );
+    }
+    subStar(){
+        HttpRequest.reserve({
+               score:5,
+                user_id:"1100823869",
+                gid:"10000"
+            },
+            (response)=>{
+            console.log(response)
+            },
+            (error)=>{
+
+            }
+        )
     }
     componentWillMount() {
         this.gallery = DeviceEventEmitter.addListener('Gallery',(listenerMsg) => {

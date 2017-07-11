@@ -1,7 +1,9 @@
 const WebHost = {
-    // url: 'http://172.16.70.215', // 个人服务器
-    url: 'http://172.16.90.87', // 外网服务器
-    mp4:'http://play.28mtv.com:1010/play2/20219.mp4'
+    // url: 'http://172.16.70.215',
+    // url: 'http://172.16.90.87',
+    url: 'http://172.16.89.74:8888',
+    mp4:'http://play.28mtv.com:1010/play2/20219.mp4',
+    log:'http://218.205.115.220/app-7001.log'
 }
 
 module.exports = WebHost

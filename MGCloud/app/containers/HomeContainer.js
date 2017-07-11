@@ -75,6 +75,25 @@ export default class HomeContainer extends Component {
                     DeviceEventEmitter.emit('isLoadHome', false)
                     return
                 }
+                if(responseData.banner.length==0){
+                    responseData.banner.push('')
+                }
+                if(responseData.dissertation.length==0){
+                    let dissertation = [
+                        {cover:'',title:'"音乐游戏合集"'},
+                        {cover:'',title:"奇葩搞怪像素游戏集合"},
+                    ]
+                    responseData.dissertation=dissertation
+                }
+                if(responseData.gameList.length==0){
+                   let errArr = [
+                       {icon:'',name:'崩坏3'},
+                       {icon:'',name:'狙击之王'},
+                       {icon:'',name:'海洋连连看'},
+                       {icon:'',name:'数字猫'},
+                       {icon:'',name:'魔女之权'}]
+                    responseData.gameList=errArr
+                }
                 if(responseData.banner.length===0||responseData.dissertation.length===0||responseData.gameList.length===0){
                     DeviceEventEmitter.emit('isLoadHome', false)
                     return

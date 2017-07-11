@@ -25,15 +25,23 @@ export default class ScrollGameHighlights extends Component {
     }
     render() {
         return (
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}  showsHorizontalScrollIndicato={false}>
+            <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                showsHorizontalScrollIndicato={false}>
                 {this.props.data.map(
                     (obj,i)=>{
                         return(
                             <TouchableOpacity key={i}
                                 activeOpacity={0.9}
                                 onPress={() =>this.props.navigation.navigate('GameDetails',{gid:obj.gid})}
-                                style={styles.container}>
-                                <Image style={styles.radiuImg} source={{uri:obj.icon}} />
+                                style={[styles.container]}>
+                                <View style={styles.err} >
+                                    <Image
+                                        style={[obj.icon==''?{width:40,height:30}:styles.radiuImg]}
+                                        source={obj.icon==''?require('../static/img/error.png'):{uri:obj.icon}} />
+                                </View>
+
                                 <Text numberOfLines={2} style={styles.name}>{obj.name}</Text>
                             </TouchableOpacity>
                         )
@@ -67,6 +75,13 @@ const styles = StyleSheet.create({
         fontSize:13,
         color:'#333',
         lineHeight:20
+    },
+    err:{
+        backgroundColor:'#ddd', width:86,
+        height:86,
+        borderRadius:18,
+        justifyContent:'center',
+        alignItems:'center'
     }
 });
 

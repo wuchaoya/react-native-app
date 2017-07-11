@@ -18,7 +18,8 @@ export default class HomeComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            height:0
+            height:0,
+            imgList:[]
         }
     }
     render() {
@@ -27,7 +28,7 @@ export default class HomeComponent extends Component {
         return (
             <View style={styles.container}>
                 <Swiper style={styles.wrapper}
-                        height={this.state.height}
+                        height={144}
                         loop
                         autoplay
                         showsButtons={false}
@@ -38,14 +39,21 @@ export default class HomeComponent extends Component {
                 >
                     {
                         this.props.data.map((obj,i)=>{
+
                          return (
                              <TouchableOpacity
                                  key={i}
                                  activeOpacity={0.8}
                                  onPress={
-                                     () => navigate('GameDetails',{gid:obj.gid})} style={styles.slide1}
+                                     () => navigate('GameDetails',{gid:obj.gid})}
+                                 style={[this.state.imgList[i]==''?{backgroundColor:'#ddd'}:{},styles.slide1]}
                              >
-                                <Image style={{width:width,height:this.state.height}} resizeMode='stretch'  source={{uri:obj.cover}}></Image>
+                                <Image
+                                    style={[this.state.imgList[i]==''?{width:40,height:30}:{width:width,height:144}]}
+                                    resizeMode='stretch'  source={this.state.imgList[i]==''?require('../static/img/error.png'):{uri:obj.cover}}
+                                >
+
+                                </Image>
                             </TouchableOpacity>)
                         })
                     }
@@ -55,11 +63,25 @@ export default class HomeComponent extends Component {
         );
     }
     componentDidMount(){
-        Image.getSize(this.props.data[0].cover, (width, height) => {
-          this.setState(
-              {height:height/(width/widthPixels)}
-          )
-        });
+        this.props.data.map((item,i)=>{
+            Image.getSize(item.cover, (width, height) => {
+                    console.log('成功了'+i)
+                let arr = this.state.imgList
+                arr[i]=item.cover
+               this.setState({
+                   imgList: arr
+               })
+                },
+                (error)=>{
+                    let arr = this.state.imgList
+                    arr[i]=''
+                    this.setState({
+                        imgList:arr
+                    })
+                }
+            );
+        })
+
     }
 }
 
@@ -70,7 +92,8 @@ const styles = StyleSheet.create({
     wrapper: {
     },
     slide1: {
-        flex: 1,
+       width:width,
+        height:144,
         justifyContent: 'center',
         alignItems: 'center',
     },

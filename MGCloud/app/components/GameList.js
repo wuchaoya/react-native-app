@@ -115,7 +115,7 @@ export default class GameList extends Component {
                                     }
                                 onPress={
                                     () => {
-                                       // RNInteraction.startCloudPlay()
+                                       RNInteraction.startCloudPlay({})
                                     }
                                 }
 

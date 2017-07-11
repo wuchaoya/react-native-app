@@ -9,6 +9,7 @@ import {
     View,
     TextInput,
     TouchableOpacity,
+    Modal
 } from 'react-native';
 import HeadNav from '../components/HeadNav'
 import CodeButton from '../components/CodeButton'
@@ -34,6 +35,8 @@ export default class SMSLanding extends Component {
             clerUser:-100,
             clerPass:-100,
             clerCode:-100,
+            onLogin:false,
+            loginErr:false
         }
     }
     render() {
@@ -110,7 +113,7 @@ export default class SMSLanding extends Component {
                             style={[styles.clear,{right:this.state.clerCode,}]}>
                             <Text style={{fontSize:10}}>╳</Text>
                         </TouchableOpacity>
-                        <CodeButton disabled={this.state.codeButtonDisabled}/>
+                        <CodeButton onPress={()=>this.getCode()} disabled={this.state.codeButtonDisabled}/>
                     </View>
                     <View style={{width:width-80,justifyContent:'space-between'}}>
                         <TextInput
@@ -149,10 +152,94 @@ export default class SMSLanding extends Component {
                             <Image style={{ width:24,height:24,}} source={this.state.secureTextEntry?this.state.secretOn:this.state.secretOff}></Image>
                         </TouchableOpacity>
                     </View>
-                    <LoginButton text="确定" disabled={this.state.loginButtonDisabled} style={{marginTop:20}}/>
+                    <LoginButton
+                        onPress={()=>this.restPass()}
+                        text="确定" disabled={this.state.loginButtonDisabled} style={{marginTop:20}}/>
                 </View>
+                <Modal
+                    transparent={true}
+                    animationType={"slide"}
+                    visible={this.state.onLogin}
+                    onRequestClose={()=>{
+                    }
+                    }
+                    style={{backgroundColor:'rgba(0,0,0,0.7)',flex:1}}>
+                    <View
+                        style={{
+                            flex:1,backgroundColor:'rgba(0,0,0,0.7)',
+                            justifyContent:'center',
+                            alignItems:'center'
+                        }}>
+                        {this.state.loginErr?
+                            <View style={{width:530/2,height:130,backgroundColor:'#fff',borderRadius:6,justifyContent:'center',alignItems:'center'}}>
+                                <View style={{height:130/2,width:530/2,justifyContent:'center',alignItems:'center',borderBottomWidth:1,borderBottomColor:'#ddd'}}>
+                                    <Text>短信验证码错误</Text>
+                                </View>
+                                <TouchableOpacity
+                                    onPress={()=>{
+                                        this.setState({
+                                            onLogin:false,
+                                            loginErr:false
+                                        })
+                                    }}
+                                    style={{height:130/2,width:530/2,justifyContent:'center',alignItems:'center'}}>
+                                    <Text style={{color:'#83b233'}}>确定</Text>
+                                </TouchableOpacity>
+                            </View>
+                            :
+                            <View style={{width:100,height:100,backgroundColor:'#fff',borderRadius:15,justifyContent:'center',alignItems:'center'}}>
+                                <Image style={{width:27,height:29}} source={require('../static/img/loading.gif')}/>
+                                <Text style={{fontSize:10,marginTop:6,letterSpacing:1000}}>重置中</Text>
+                            </View>
+                        }
+                    </View>
+
+                </Modal>
             </View>
         );
+    }
+    getCode(){
+        HttpRequest.getVerityCode({
+                phone:this.state.user,
+                businessID:1
+            },
+            (response)=>{
+            console.log(response)
+            },
+            (error)=>{
+
+            }
+        )
+    }
+   restPass(){
+       this.setState({
+           onLogin:true
+       })
+        HttpRequest.resetPass({
+                phone:this.state.user,
+                newPassword:this.state.pass,
+                veritycode:Number(this.state.code)
+
+            },
+            (response)=>{
+                console.log(response)
+                if(response.resultCode==0){
+                    this.setState({
+                        onLogin:false
+                    },()=>{
+                        alert('登陆成功')
+                    })
+                }
+                else {
+                    this.setState({
+                        loginErr:true
+                    })
+                }
+            },
+            (error)=>{
+
+            }
+        )
     }
 }
 
