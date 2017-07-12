@@ -43,7 +43,7 @@ export default class SignIn extends Component {
     }
 
     render() {
-        global.isLogin = true
+
         const { navigate ,goBack} = this.props.navigation;
         this.goBack = goBack
         return (
@@ -241,6 +241,10 @@ export default class SignIn extends Component {
             (response)=>{
             console.log(response)
                 if(response.resultCode==0){
+                if(response.authenticateRsp.userInfo.identityID){
+                    global.userInfo =response
+                    global.userId = response.authenticateRsp.userInfo.identityID
+                }
                 let arr =[]
                     DeviceStorage.get('userList').then((v)=>{
                     console.log(v)

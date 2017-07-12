@@ -155,11 +155,14 @@ export default class GameList extends Component {
     renderFooter() {
         if(this.state.nomore) {
             return (
-                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 140,backgroundColor:'#fff'}}>
+            <View style={{height: 140,alignItems:'center',backgroundColor:'rgb(237,237,237)'}}>
+                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center',height:69 }}>
                     <View style={styles.line}></View>
-                    <Text ref={(c) => {this.txtPullrelease = c;}}>没有数据了....</Text>
+                    <Text style={{fontSize:13,color:'#c3c3c3'}} ref={(c) => {this.txtPullrelease = c;}}>底线都出来了</Text>
                     <View style={styles.line}></View>
                 </View>
+                <Image style={{width:40,height:40}} source={require('../static/img/emoji_bottom.png')}/>
+            </View>
             )
         }
         return (
