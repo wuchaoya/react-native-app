@@ -81,15 +81,13 @@ export default  class TimerButton extends Component {
         console.log(this.state.selfEnable+'selfenable')
         console.log(this.props.selfEnable)
         console.log(this.props)
-        const {onClick, style, textStyle, disableColor,buttonDisabledColor} = this.props;
+        const { style, textStyle, disableColor,buttonDisabledColor} = this.props;
         const {counting, timerTitle, selfEnable} = this.state;
         return (
             <TouchableOpacity
                 activeOpacity={counting ? 1 : 0.8} onPress={() => {
                 if (!counting &&selfEnable) {
                     this.setState({selfEnable: false});
-                  console.log(onClick)
-                    onClick
                  this.shouldStartCountting(true)
                 };}}
                 style={[styles.styleCodeView,{backgroundColor: ((!counting && selfEnable) ? '#83b233' : buttonDisabledColor || 'gray')}]}>

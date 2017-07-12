@@ -155,8 +155,10 @@ export default class GameList extends Component {
     renderFooter() {
         if(this.state.nomore) {
             return (
-                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60,backgroundColor:'#fff'}}>
+                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 140,backgroundColor:'#fff'}}>
+                    <View style={styles.line}></View>
                     <Text ref={(c) => {this.txtPullrelease = c;}}>没有数据了....</Text>
+                    <View style={styles.line}></View>
                 </View>
             )
         }
@@ -360,6 +362,11 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginRight: 10,
         borderRadius: 4
+    },
+    line:{
+        height:1,
+        backgroundColor:'#ddd',
+        flex:1
     }
 });
 

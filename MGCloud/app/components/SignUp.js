@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import TimerButton from '../components/test'
 import HttpRequest from '../common/HttpRequest'
+import  DeviceStorage from '../common/DeviceStorage'
 
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
@@ -29,6 +30,7 @@ export default class SignIn extends Component {
             secretOn:require('../static/img/secret-on.png'),
             off:require('../static/img/off_icon.png'),
             on:require('../static/img/on_icon.png'),
+            showList:false,
             secureTextEntry:true,
             codeButtonDisabled:true,
             loginButtonDisabled:true,
@@ -39,7 +41,8 @@ export default class SignIn extends Component {
             clerPass:-100,
             clerCode:-100,
             isShow:false,
-            loginErr:false
+            loginErr:false,
+            list:[]
         }
     }
     render() {
@@ -79,9 +82,53 @@ export default class SignIn extends Component {
                     }} style={[styles.clear,{right:this.state.clerUser,}]}>
                         <Text style={{fontSize:10}}>╳</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.off}>
-                        <Image style={{ width:24,height:24,}} source={this.state.off}></Image>
+                    <TouchableOpacity
+                        onPress={
+                            ()=>{
+                                this.setState({
+                                    showList:!this.state.showList
+                                },()=>{
+                                    DeviceStorage.get('userList').then((v)=>{
+                                        this.setState({
+                                            list:v
+                                        })
+                                        console.log(v)
+                                    })
+                                })
+                            }
+                        }
+                        style={styles.off}>
+                        <Image style={{ width:24,height:24,}} source={this.state.showList?this.state.on:this.state.off}></Image>
                     </TouchableOpacity>
+                    <View style={[styles.list,this.state.showList?{top:44,}:{top:-10000}]}>
+                        {this.state.list.map((item,i)=>{
+                            return(
+                                <TouchableOpacity
+                                    key={i}
+                                    onPress={()=>{
+                                        this.setState({
+                                            user:item,
+                                            showList:!this.state.showList,
+                                            clerUser:34
+                                        })
+                                    }}
+                                    activeOpacity={0.8} style={styles.item}>
+                                    <Text>{item}</Text>
+                                    <Text onPress={
+                                        ()=>{
+                                            let  arr = this.state.list
+                                            arr.splice(i,1)
+                                            this.setState({
+                                                list:arr
+                                            },()=>{
+                                                DeviceStorage.save('userList',arr)
+                                            })
+                                        }
+                                    } style={{fontSize:10}}>╳</Text>
+                                </TouchableOpacity>
+                            )
+                        })}
+                    </View>
                 </View>
                 <View style={{flexDirection:'row', alignItems:'center'}}>
                     <TextInput
@@ -312,6 +359,21 @@ const styles = StyleSheet.create({
         right:34,
         justifyContent:'center',
         alignItems:'center'
+    },
+    list:{
+        position: 'absolute',
+        top:44,
+        width:width-80,
+        zIndex:22
+    },
+    item:{
+        backgroundColor:'#ddd',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        height:44,
+        paddingLeft:10,
+        paddingRight:10
     }
 });
 

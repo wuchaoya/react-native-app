@@ -20,6 +20,7 @@ import Empty from '../components/Empty'
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
 import HttpRequest from '../common/HttpRequest'
+import  DeviceStorage from '../common/DeviceStorage'
 export default class SignIn extends Component {
     constructor(props) {
         super(props);
@@ -29,17 +30,20 @@ export default class SignIn extends Component {
             off:require('../static/img/off_icon.png'),
             on:require('../static/img/on_icon.png'),
             secureTextEntry:true,
+            showList:false,
             user:'',
             pass:'',
             signIn:true,
             clerUser:-100,
             clerPass:-100,
             onLogin:false,//是否弹出弹框
-            loginErr:false//是否登陆失败
+            loginErr:false,//是否登陆失败
+            list:[]
         }
     }
 
     render() {
+        global.isLogin = true
         const { navigate ,goBack} = this.props.navigation;
         this.goBack = goBack
         return (
@@ -73,9 +77,52 @@ export default class SignIn extends Component {
                     }} style={[styles.clear,{right:this.state.clerUser,}]}>
                         <Text style={{fontSize:10}}>╳</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.off}>
-                        <Image style={{ width:24,height:24,}} source={this.state.off}></Image>
+                    <TouchableOpacity onPress={
+                        ()=>{
+                            this.setState({
+                                showList:!this.state.showList
+                            },()=>{
+                                DeviceStorage.get('userList').then((v)=>{
+                                    this.setState({
+                                        list:v
+                                    })
+                                    console.log(v)
+                                })
+                            })
+
+                        }
+                    } style={styles.off}>
+                        <Image style={{ width:24,height:24,}} source={this.state.showList?this.state.on:this.state.off}></Image>
                     </TouchableOpacity>
+                    <View style={[styles.list,this.state.showList?{top:44,}:{top:-10000}]}>
+                        {this.state.list.map((item,i)=>{
+                           return(
+                               <TouchableOpacity
+                                   key={i}
+                                   onPress={()=>{
+                                       this.setState({
+                                           user:item,
+                                           showList:!this.state.showList,
+                                           clerUser:34
+                                       })
+                                   }}
+                                   activeOpacity={0.8} style={styles.item}>
+                                   <Text>{item}</Text>
+                                   <Text onPress={
+                                       ()=>{
+                                           let  arr = this.state.list
+                                           arr.splice(i,1)
+                                           this.setState({
+                                               list:arr
+                                           },()=>{
+                                               DeviceStorage.save('userList',arr)
+                                           })
+                                       }
+                                   } style={{fontSize:10}}>╳</Text>
+                               </TouchableOpacity>
+                           )
+                        })}
+                    </View>
                 </View>
                 <View style={{width:width-80,justifyContent:'space-between'}}>
                     <TextInput
@@ -194,12 +241,31 @@ export default class SignIn extends Component {
             (response)=>{
             console.log(response)
                 if(response.resultCode==0){
-                    this.setState({
-                        onLogin:false
-                    },()=>{
-                        DeviceEventEmitter.emit('LoginStatus',{userName:this.state.user} )
-                        this.goBack()
+                let arr =[]
+                    DeviceStorage.get('userList').then((v)=>{
+                    console.log(v)
+                    if(v){
+                        arr= v
+
+                    }
+                    else {
+                        arr = []
+                    }
+
+                    arr.push(this.state.user)
+                        DeviceStorage.save('userList',arr).then(
+                            this.setState({
+                                onLogin:false
+                            },()=>{
+
+                                DeviceEventEmitter.emit('LoginStatus',{userName:this.state.user} )
+                                this.goBack()
+                            })
+                        )
                     })
+
+
+
 
                 }
                 else {
@@ -262,6 +328,22 @@ const styles = StyleSheet.create({
         right:34,
         justifyContent:'center',
         alignItems:'center'
+    },
+    list:{
+        position: 'absolute',
+        top:44,
+       width:width-80,
+        zIndex:22
+    },
+    item:{
+        backgroundColor:'#ddd',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        height:44,
+        paddingLeft:10,
+        paddingRight:10
     }
+
 });
 

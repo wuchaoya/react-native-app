@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     View,
-    Image
+    Image,
+    TouchableOpacity,
+    Text
 } from 'react-native';
 import TimerButton from '../components/test'
 var Dimensions = require('Dimensions');
 var screenWidth = Dimensions.get('window').width;
+import  DeviceStorage from '../common/DeviceStorage'
 export default class extends Component {
 
     constructor(props) {
@@ -25,18 +28,22 @@ export default class extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TimerButton
-                    style={{width: screenWidth*0.2,marginRight: 10}}
-                    timerCount={60}
-                    disableColor="#aaa"
-                    buttonDisabledColor="#ccc"
-                    selfEnable={false}
-                    textStyle={{color: '#fff'}}
-                    onClick={(start)=>{
-                        ()=>{
-                            console.log(start)
-                        }
-                    }}/>
+
+                   <Text onPress={()=>{
+                       DeviceStorage.save('name',['a','b',1,2,3])
+                       alert('保存成功')
+                   }}>
+                       存
+                   </Text>
+                   <Text onPress={
+                       ()=>{
+
+                           DeviceStorage.get('name').then((v)=>{
+                               console.log('取出来了')
+                              console.log(v[0])
+                          })
+                       }
+                   }>取</Text>
             </View>
         );
     }
