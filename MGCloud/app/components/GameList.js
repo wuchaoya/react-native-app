@@ -115,15 +115,30 @@ export default class GameList extends Component {
                                     }
                                 onPress={
                                     () => {
-                                       RNInteraction.startCloudPlay({})
+                                        if(!global.userId){
+                                            if(this.props.showNumber){
+                                                DeviceEventEmitter.emit('gameRankingList', true)
+                                            }
+                                            else {
+                                                DeviceEventEmitter.emit('gameFeaturedList', true)
+                                            }
+                                            return
+                                        }
+
+                                       if(this.props.name!=='预约榜') {
+                                           RNInteraction.startCloudPlay({gid:rowData.gid})
+                                       }
+                                       else {
+                                            alert('预约功能敬请期待')
+                                       }
                                     }
                                 }
 
                             >
                                 <Text style={{fontSize: 10, margin: 0, padding: 0}}>
                                     {
-                                        rowData.gamePlayed !== undefined ?
-                                            (rowData.gamePlayed ? '试玩结束' : '试玩') :
+                                        this.props.name!=='预约榜' ?
+                                            (rowData.gamePlayed ? '云玩结束' : '云玩') :
                                             (rowData.gameReserve ? '取消预约' : '预约')
                                     }
                                 </Text>
@@ -317,7 +332,8 @@ export default class GameList extends Component {
     }
 
     render() {
-        console.log(this.props.data)
+
+        console.log(this.props)
         return (
             <PullList
                 style={{backgroundColor:'#fff'}}

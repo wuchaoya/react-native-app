@@ -1,60 +1,88 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
+    Text,
     View,
-    Image,
-    TouchableOpacity,
-    Text
+    ActivityIndicator,
+    Dimensions
 } from 'react-native';
-import TimerButton from '../components/test'
-var Dimensions = require('Dimensions');
-var screenWidth = Dimensions.get('window').width;
-import  DeviceStorage from '../common/DeviceStorage'
+
+import {PullView} from 'react-native-pull';
+
 export default class extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            starCount: 3.5,
-            phoneNumber:'aaaa'
-        };
+        this.state = {refreshing: false};
+        this.onPullRelease = this.onPullRelease.bind(this);
+        this.topIndicatorRender = this.topIndicatorRender.bind(this);
     }
-    onStarRatingPress(rating) {
-        this.setState({
-            starCount: rating,
-            phoneNumber
-        });
+
+    onPullRelease(resolve) {
+        //do something
+        setTimeout(() => {
+            resolve();
+        }, 3000);
     }
-    render() {
+
+    topIndicatorRender(pulling, pullok, pullrelease) {
+        const hide = {position: 'absolute', left: 10000};
+        const show = {position: 'relative', left: 0};
+        setTimeout(() => {
+            if (pulling) {
+                this.txtPulling && this.txtPulling.setNativeProps({style: show});
+                this.txtPullok && this.txtPullok.setNativeProps({style: hide});
+                this.txtPullrelease && this.txtPullrelease.setNativeProps({style: hide});
+            } else if (pullok) {
+                this.txtPulling && this.txtPulling.setNativeProps({style: hide});
+                this.txtPullok && this.txtPullok.setNativeProps({style: show});
+                this.txtPullrelease && this.txtPullrelease.setNativeProps({style: hide});
+            } else if (pullrelease) {
+                this.txtPulling && this.txtPulling.setNativeProps({style: hide});
+                this.txtPullok && this.txtPullok.setNativeProps({style: hide});
+                this.txtPullrelease && this.txtPullrelease.setNativeProps({style: show});
+            }
+        }, 1);
         return (
-            <View style={styles.container}>
-
-                   <Text onPress={()=>{
-                       DeviceStorage.save('name',['a','b',1,2,3])
-                       alert('保存成功')
-                   }}>
-                       存
-                   </Text>
-                   <Text onPress={
-                       ()=>{
-
-                           DeviceStorage.get('name').then((v)=>{
-                               console.log('取出来了')
-                              console.log(v[0])
-                          })
-                       }
-                   }>取</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60}}>
+                <ActivityIndicator size="small" color="gray" />
+                <Text ref={(c) => {this.txtPulling = c;}}>下拉刷新pulling...</Text>
+                <Text ref={(c) => {this.txtPullok = c;}}>松开刷新pullok......</Text>
+                <Text ref={(c) => {this.txtPullrelease = c;}}>玩命刷新中pullrelease......</Text>
             </View>
         );
     }
+
+    render() {
+        return (
+            <View style={[styles.container]}>
+                <PullView style={{width: Dimensions.get('window').width}}
+                          onPullRelease={this.onPullRelease}
+                          topIndicatorRender={this.topIndicatorRender}
+                          topIndicatorHeight={60}>
+
+                </PullView>
+            </View>
+        );
+    }
+
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: '#F5FCFF',
-        justifyContent:'center',
-        alignItems:'center'
+    },
+    welcome: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
+    },
+    instructions: {
+        textAlign: 'center',
+        color: '#333333',
+        marginBottom: 5,
     },
 });

@@ -8,7 +8,10 @@ import {
     StyleSheet,
     Text,
     View,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    BackAndroid,
+    TouchableOpacity,
+    Modal
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
 import RankingTabNav from '../components/RankingTabNav'
@@ -28,19 +31,69 @@ export default class RankingContainer extends Component {
             PullRelease:false,
             hotPlayPage:0,
             newProductsPage:0,
-            reservePage:0
+            reservePage:0,
+            isLogin:false
         }
     }
-
+    goLogin(bool){
+        this.setState({
+            isLogin:false
+        },()=>{
+            if(bool){
+                this.props.navigation.navigate('Login')
+            }
+        })
+    }
     render() {
         const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
-                <HeadNav header="排行榜" onPress={() => navigate('Home')}/>
-                {
-                    this.state.hotPlay!==null&&this.state.newProducts!==null&&this.state.reserve!==null?
-                        <RankingTabNav data={this.state} navigation={this.props.navigation}/>:null
-                }
+                <HeadNav header="排行榜" onPress={() => {BackAndroid.exitApp()}}/>
+                <RankingTabNav data={this.state} navigation={this.props.navigation}/>
+                <Modal
+                    transparent={true}
+                    animationType={"slide"}
+                    visible={this.state.isLogin}
+                    onRequestClose={()=>{
+                    }
+                    }
+                    style={{backgroundColor:'rgba(0,0,0,0.7)',flex:1}}>
+                    <View
+                        style={{
+                            flex:1,backgroundColor:'rgba(0,0,0,0.7)',
+                            justifyContent:'center',
+                            alignItems:'center'
+                        }}>
+                        <View style={{width:265,height:132,backgroundColor:'#f2f2f2',borderRadius:6}}>
+                            <View
+                                style={{
+                                    height:72,width:265,
+                                    justifyContent:'center',alignItems:'center',
+                                }}>
+                                <Text>您尚️未登陆，是否登陆</Text>
+                            </View>
+                            <View style={{
+                                borderTopWidth:1,
+                                height:60,
+                                borderTopColor:'#ddd',
+                                flexDirection:'row',
+                                alignItems:'center'
+                            }}>
+                                <TouchableOpacity
+                                    onPress={()=>this.goLogin(false)}
+                                    style={{width:265/2,height:40,justifyContent:'center',alignItems:'center',borderRightWidth:1,borderRightColor:'#ddd'}}>
+                                    <Text>取消</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={()=>this.goLogin(true)}
+                                    style={{width:265/2,height:40,justifyContent:'center',alignItems:'center'}}>
+                                    <Text style={{color:'#83b233'}}>确定</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+
+                </Modal>
             </View>
         );
     }
@@ -266,6 +319,14 @@ export default class RankingContainer extends Component {
                             });
                     })
                 }
+        });
+        //监听登陆事件
+        this.gameRankingList = DeviceEventEmitter.addListener('gameRankingList',(listenerMsg) => {
+            this.setState({
+                isLogin:listenerMsg,
+            },()=>{
+                console.log('当前是'+this.state.selectedTab+'页面')
+            })
         });
 
     }

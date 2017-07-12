@@ -11,15 +11,14 @@ import {
 import TabNavigator from 'react-native-tab-navigator';
 import ColorStyle from '../style/ColorStyle'
 import GameList from '../components/GameList'
-
-
+import  LoadingContainer from '../containers/LoadingContainer'
 
 export default class RankingTabNav extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'HotPlay',
+            selectedTab: 'hotPlay',
             theme: {
                 color:ColorStyle.colorGreen,
             },
@@ -32,6 +31,9 @@ export default class RankingTabNav extends Component {
     }
 
     _renderTab(Component, selectedTab, title, iconImg,selectedIconImg,data) {
+        console.log('看看')
+        console.log(this.props.data.hotPlay)
+
         return (
             <TabNavigator.Item
                 selected={this.state.selectedTab === selectedTab}
@@ -43,11 +45,11 @@ export default class RankingTabNav extends Component {
                 onPress={() => this.setState({selectedTab: selectedTab},()=>{
                     DeviceEventEmitter.emit('selectedTab', this.state.selectedTab)
                 })}>
-                <Component
+                {this.props.data[selectedTab]?<Component
                     showNumber={true}
                     name={title}
-                    data={data}
-                    navigation ={this.props.navigation}/>
+                    data={this.props.data[selectedTab]}
+                    navigation ={this.props.navigation}/>:<LoadingContainer load={selectedTab} isLoading={"is"+selectedTab}/>}
             </TabNavigator.Item>
         )
     }
@@ -55,14 +57,13 @@ export default class RankingTabNav extends Component {
     render() {
 
             return (
-                this.state.hotPlay!==undefined&&this.state.reserve!==undefined&&this.state.newProducts!==undefined?
             <TabNavigator
                 sceneStyle={{marginTop:48,paddingBottom:0}}
                 tabBarStyle={[styles.center,styles.tabBarStyle]}>
-                {this._renderTab(GameList,'HotPlay','热玩榜',this.state.lineIcon,this.state.lineGreenIcon,this.state.hotPlay)}
-                {this._renderTab(GameList,'NewProducts','新品榜',this.state.lineIcon,this.state.lineGreenIcon,this.state.newProducts)}
-                {this._renderTab(GameList,'Reserve','预约榜',this.state.lineIcon,this.state.lineGreenIcon,this.state.reserve)}
-            </TabNavigator>:null
+                {this._renderTab(GameList,'hotPlay','热玩榜',this.state.lineIcon,this.state.lineGreenIcon,this.state.hotPlay)}
+                {this._renderTab(GameList,'newProducts','新品榜',this.state.lineIcon,this.state.lineGreenIcon,this.state.newProducts)}
+                {this._renderTab(GameList,'reserve','预约榜',this.state.lineIcon,this.state.lineGreenIcon,this.state.reserve)}
+            </TabNavigator>
         )
     }
 

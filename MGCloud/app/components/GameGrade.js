@@ -27,6 +27,12 @@ export default class GameGrade extends Component {
         }
     }
     onStarRatingPress(rating) {
+        if(!global.userId){
+
+            DeviceEventEmitter.emit('gameGradeLogin', true)
+
+            return
+        }
         if(!this.state.isStar){
             DeviceEventEmitter.emit('subStar', true)
         }
@@ -43,6 +49,7 @@ export default class GameGrade extends Component {
         });
     }
     render() {
+
         return (
             <View style={styles.container}>
                 <View style={[styles.flexRow,{justifyContent:'space-around',alignItems: 'center',paddingBottom:15,}]}>
@@ -67,11 +74,16 @@ export default class GameGrade extends Component {
                         <Button
                             onPress={
                                 () => {
-                                    //RNInteraction.startCloudPlay()
+                                    if(!global.userId){
+                                        DeviceEventEmitter.emit('gameGradeLogin', true)
+                                        return
+                                    }
+                                    const  {params} = this.props.navigation.state
+                                    RNInteraction.startCloudPlay({gid:params.gid})
                                 }
                             }
                             rounded  style={{height:30,backgroundColor:'#83b233'}}>
-                            <Text style={[styles.fonSize_13,{color:'white'}]}>试玩</Text>
+                            <Text style={[styles.fonSize_13,{color:'white'}]}>云玩</Text>
                         </Button>
                     </View>
                 </View>

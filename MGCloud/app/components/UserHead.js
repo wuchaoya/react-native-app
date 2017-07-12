@@ -9,7 +9,8 @@ import {
     Image,
     StatusBar,
     TouchableHighlight,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    BackAndroid
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
 import TextConst from '../const/TextConst'
@@ -26,7 +27,7 @@ export default class UserHead extends Component {
         const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
-                <TouchableHighlight onPress={() => navigate('Home')}  style={styles.back} >
+                <TouchableHighlight onPress={() =>{BackAndroid.exitApp()}}  style={styles.back} >
                     <Image  style={{height:33,width:33}} source={require('../static/img/back_icon.png')} />
                 </TouchableHighlight>
                 <TouchableHighlight onPress={() => navigate('Settings')}  style={styles.iconSetup} >

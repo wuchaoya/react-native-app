@@ -11,7 +11,8 @@ import {
     StatusBar,
     DeviceEventEmitter,
     TouchableHighlight,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from 'react-native';
 export default class HeadNav extends Component {
     constructor(props) {
@@ -27,7 +28,7 @@ export default class HeadNav extends Component {
                return (<Image/>)
            }
 
-            return (  <TouchableOpacity    onPress={press}>
+            return (  <TouchableOpacity style={{width: Dimensions.get('window').width}}    onPress={press}>
                 <View style={{width:33,height:33,justifyContent:'center', alignItems:'center'}}>
                     <View style={[styles.icon,{borderColor:color?color:'#fff'}]}/>
                 </View>

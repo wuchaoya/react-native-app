@@ -38,8 +38,8 @@ export default class GameDetails extends Component {
             isShow:false,
             userId:null,
             subStar:false,
-            statusBarOpacity:0
-
+            statusBarOpacity:0,
+            isLogin:false
         }
     }
     setNavColor(height){
@@ -54,10 +54,52 @@ export default class GameDetails extends Component {
             statusBarOpacity:0
         })
     }
-    hidenSubStar(){
+    subStar(){
+        const  {params} = this.props.navigation.state
+        HttpRequest.reserve({
+                score:5,
+                user_id:global.userId,
+                gid:params.did
+            },
+            (response)=>{
+                console.log(response)
+            },
+            (error)=>{
+
+            }
+        )
+    }
+    hidenSubStar(bool){
         this.setState({
             subStar:false,
             statusBarOpacity:0
+        },()=>{
+            console.log(this)
+            if(bool){
+                const  {params} = this.props.navigation.state
+                HttpRequest.reserve({
+                        score:5,
+                        user_id:global.userId,
+                        gid:params.gid
+                    },
+                    (response)=>{
+                        console.log(response)
+                    },
+                    (error)=>{
+
+                    }
+                )
+            }
+        })
+    }
+    goLogin(bool){
+        this.setState({
+            isLogin:false
+        },()=>{
+            if(bool){
+                const  {params} = this.props.navigation.state
+                this.props.navigation.navigate('Login',params)
+            }
         })
     }
     render() {
@@ -75,7 +117,7 @@ export default class GameDetails extends Component {
                 >
                     {this.state.data.length!==0?<View style={styles.container}>
                         <GameDetailsVideo data={this.state.data.video_url}/>
-                        <GameGrade data={this.state.data}/>
+                        <GameGrade navigation={this.props.navigation} data={this.state.data}/>
                         <GameChart data={this.state.data} isShow={this.state.isShow}/>
                         <GameDescription data={this.state.data}/>
                         <GameOtherInfo data={this.state.data}/>
@@ -98,9 +140,52 @@ export default class GameDetails extends Component {
 
                         </Modal>
                         <Modal
+                        transparent={true}
+                        animationType={"slide"}
+                        visible={this.state.subStar}
+                        onRequestClose={()=>{
+                        }
+                        }
+                        style={{backgroundColor:'rgba(0,0,0,0.7)',flex:1}}>
+                        <View
+                            style={{
+                                flex:1,backgroundColor:'rgba(0,0,0,0.7)',
+                                justifyContent:'center',
+                                alignItems:'center'
+                            }}>
+                            <View style={{width:265,height:132,backgroundColor:'#f2f2f2',borderRadius:6}}>
+                                <View
+                                    style={{
+                                        height:72,width:265,
+                                        justifyContent:'center',alignItems:'center',
+                                    }}>
+                                    <Text onPress={()=>this.subStar()}>是否确认评分</Text>
+                                </View>
+                                <View style={{
+                                    borderTopWidth:1,
+                                    height:60,
+                                    borderTopColor:'#ddd',
+                                    flexDirection:'row',
+                                    alignItems:'center'
+                                }}>
+                                    <TouchableOpacity
+                                        onPress={()=>this.hidenSubStar(false)}
+                                        style={{width:265/2,height:40,justifyContent:'center',alignItems:'center',borderRightWidth:1,borderRightColor:'#ddd'}}>
+                                        <Text>取消</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={()=>this.hidenSubStar(true)}
+                                        style={{width:265/2,height:40,justifyContent:'center',alignItems:'center'}}>
+                                        <Text style={{color:'#83b233'}}>确定</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
+                        <Modal
                             transparent={true}
                             animationType={"slide"}
-                            visible={this.state.subStar}
+                            visible={this.state.isLogin}
                             onRequestClose={()=>{
                             }
                             }
@@ -117,7 +202,7 @@ export default class GameDetails extends Component {
                                             height:72,width:265,
                                             justifyContent:'center',alignItems:'center',
                                         }}>
-                                        <Text onPress={()=>this.subStar()}>是否确认评分</Text>
+                                        <Text>您尚️未登陆，是否登陆</Text>
                                     </View>
                                     <View style={{
                                         borderTopWidth:1,
@@ -127,12 +212,12 @@ export default class GameDetails extends Component {
                                         alignItems:'center'
                                     }}>
                                         <TouchableOpacity
-                                            onPress={()=>this.hidenSubStar()}
+                                            onPress={()=>this.goLogin(false)}
                                             style={{width:265/2,height:40,justifyContent:'center',alignItems:'center',borderRightWidth:1,borderRightColor:'#ddd'}}>
                                             <Text>取消</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={()=>this.hidenSubStar()}
+                                            onPress={()=>this.goLogin(true)}
                                             style={{width:265/2,height:40,justifyContent:'center',alignItems:'center'}}>
                                             <Text style={{color:'#83b233'}}>确定</Text>
                                         </TouchableOpacity>
@@ -146,20 +231,7 @@ export default class GameDetails extends Component {
             </View>
         );
     }
-    subStar(){
-        HttpRequest.reserve({
-               score:5,
-                user_id:"1100823869",
-                gid:"10000"
-            },
-            (response)=>{
-            console.log(response)
-            },
-            (error)=>{
 
-            }
-        )
-    }
     componentWillMount() {
         this.gallery = DeviceEventEmitter.addListener('Gallery',(listenerMsg) => {
             this.setState({
@@ -177,8 +249,16 @@ export default class GameDetails extends Component {
                 console.log('提交评分',this.state.isStar)
             })
         });
+        this.gameGradeLogin = DeviceEventEmitter.addListener('gameGradeLogin',(listenerMsg) => {
+            this.setState({
+                isLogin:listenerMsg,
+                statusBarOpacity:0.7
+            },()=>{
+                console.log('提交评分',this.state.isStar)
+            })
+        });
         const  {params} = this.props.navigation.state
-        console.log(params)
+
         HttpRequest.getGameDetailData({gid:params.gid,user_id:this.state.userId},
             (responseData)=> {
                 this.setState(
