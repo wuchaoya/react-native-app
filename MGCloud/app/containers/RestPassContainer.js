@@ -36,7 +36,8 @@ export default class SMSLanding extends Component {
             clerPass:-100,
             clerCode:-100,
             onLogin:false,
-            loginErr:false
+            loginErr:false,
+            codeText:'获取验证码'
         }
     }
     render() {
@@ -113,7 +114,7 @@ export default class SMSLanding extends Component {
                             style={[styles.clear,{right:this.state.clerCode,}]}>
                             <Text style={{fontSize:10}}>╳</Text>
                         </TouchableOpacity>
-                        <CodeButton onPress={()=>this.getCode()} disabled={this.state.codeButtonDisabled}/>
+                        <CodeButton codeText={this.state.codeText} onPress={()=>this.getCode()} disabled={this.state.codeButtonDisabled}/>
                     </View>
                     <View style={{width:width-80,justifyContent:'space-between'}}>
                         <TextInput
@@ -199,6 +200,26 @@ export default class SMSLanding extends Component {
         );
     }
     getCode(){
+        if(this.state.codeButtonDisabled){
+            return
+        }
+        this.setState({
+            codeButtonDisabled:true
+        },()=>{
+            let timeNumber =60
+            let time = setInterval(()=>{
+                this.setState({
+                    codeText:'重新获取('+--timeNumber+')'
+                })
+                if(timeNumber==0){
+                    clearInterval(time)
+                    this.setState({
+                        codeButtonDisabled:false,
+                        codeText:'重新获取'
+                    })
+                }
+            },1000)
+        })
         HttpRequest.getVerityCode({
                 phone:this.state.user,
                 businessID:1

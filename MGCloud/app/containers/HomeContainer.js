@@ -13,7 +13,7 @@ import {
     Image,
     Dimensions,
     DeviceEventEmitter,
-    BackAndroid,
+    BackHandler,
     ActivityIndicator
 } from 'react-native';
 import {PullView} from 'react-native-pull';
@@ -83,7 +83,7 @@ export default class HomeContainer extends Component {
         console.log(this.props.navigation)
         return (
             <View style={{flex:1,}}>
-                <HeadNav header="云游戏" onPress={() => {BackAndroid.exitApp()}}/>
+                <HeadNav header="云游戏" onPress={() => {BackHandler.exitApp()}}/>
                 <View style={{height:this.state.titleHeight,backgroundColor:'#ededed',justifyContent:'center',alignItems:'center',flexDirection:'row',overflow:'hidden'}}>
                     <Image style={{width:51,height:13}} source={require('../static/img/emoji.png')}/>
                     <Text>刷新成功</Text>

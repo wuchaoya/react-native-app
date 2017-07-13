@@ -40,7 +40,7 @@ export default class GameChart extends Component{
             >
 
                 <View style={{backgroundColor:'#fff'}}>
-                   <Image style={styles.img} source={{uri:rowData}}></Image>
+                   <Image resizeMode="cover" style={styles.img} source={{uri:rowData}}></Image>
                 </View>
             </TouchableOpacity>
         );
@@ -64,8 +64,8 @@ const styles =StyleSheet.create({
         flexDirection: 'row',
     },
     img:{
-        height:116,
-        width:207,
+        height:207,
+        width:116,
         margin:9,
         marginRight:0
     }

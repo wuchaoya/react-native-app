@@ -23,7 +23,7 @@ export default class GameGrade extends Component {
             data:this.props.data,
             starCount:this.props.data.my_score,
             isShow:false,
-            isStar:false
+            isStar:false,
         }
     }
     onStarRatingPress(rating) {
@@ -99,8 +99,9 @@ export default class GameGrade extends Component {
                             rating={this.state.starCount}
                             selectedStar={(rating) => this.onStarRatingPress(rating)}
                             starColor="#ff8800"
-                            emptyStarColor="gray"
+                            emptyStarColor="rgb(221,221,221)"
                             starSize={17}
+                            starStyle={{marginLeft:6}}
                         />
                         <Display
                             style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}

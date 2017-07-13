@@ -9,7 +9,7 @@ import {
     Text,
     View,
     DeviceEventEmitter,
-    BackAndroid,
+    BackHandler,
     TouchableOpacity,
     Modal
 } from 'react-native';
@@ -48,7 +48,7 @@ export default class RankingContainer extends Component {
         const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
-                <HeadNav header="排行榜" onPress={() => {BackAndroid.exitApp()}}/>
+                <HeadNav header="排行榜" onPress={() => {BackHandler.exitApp()}}/>
                 <RankingTabNav data={this.state} navigation={this.props.navigation}/>
                 <Modal
                     transparent={true}
@@ -234,7 +234,7 @@ export default class RankingContainer extends Component {
             })
         });
         //监听加载事件
-        this.isPullRelease = DeviceEventEmitter.addListener('loadMore',(listenerMsg) => {
+        this.loadMore = DeviceEventEmitter.addListener('loadMore',(listenerMsg) => {
             //加载时候发送过来加载前的数据，这边拿到数据发请求合并数组再发过去
                 if(this.state.selectedTab=='HotPlay'){
                     let page= this.state.hotPlayPage
@@ -337,6 +337,13 @@ export default class RankingContainer extends Component {
         this.getNewProducts()
         this.getReserve()
 
+    }
+    componentWillUnmount(){
+        //清除监听
+        this.msgListener.remove()
+        this.isPullRelease.remove()
+        this.loadMore.remove()
+        this.gameRankingList.remove()
     }
 }
 

@@ -14,15 +14,16 @@ import {
     TouchableHighlight,
     Modal
 } from 'react-native';
-import TimerButton from '../components/test'
+import CodeButton from '../components/CodeButton'
 import HttpRequest from '../common/HttpRequest'
 import  DeviceStorage from '../common/DeviceStorage'
-
+import md5 from '../common/md5.min'
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
 
 import LoginButton from '../components/LoginButton'
 export default class SignIn extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -42,7 +43,8 @@ export default class SignIn extends Component {
             clerCode:-100,
             isShow:false,
             loginErr:false,
-            list:[]
+            list:[],
+            codeText:'获取验证码'
         }
     }
     render() {
@@ -77,6 +79,7 @@ export default class SignIn extends Component {
                         },()=>{
                             this.setState({
                                 clerUser:this.state.user.length!==0?34:-100,
+                                codeButtonDisabled:true
                             })
                         })
                     }} style={[styles.clear,{right:this.state.clerUser,}]}>
@@ -161,16 +164,10 @@ export default class SignIn extends Component {
                         style={[styles.clear,{right:this.state.clerCode,}]}>
                         <Text style={{fontSize:10}}>╳</Text>
                     </TouchableOpacity>
-                    <TimerButton
-                        timerCount={60}
-                        disableColor="#aaa"
-                        buttonDisabledColor="#ccc"
-                        selfEnable={!this.state.codeButtonDisabled}
-                        textStyle={{color: '#fff'}}
-                        onclick={(start)=>{
-                            console.log('什么规')
-                           start(true)
-                        }}/>
+                    <CodeButton
+                        codeText={this.state.codeText}
+                        onPress={()=>this.getCode()}
+                        disabled={this.state.codeButtonDisabled}/>
                 </View>
 
 
@@ -262,7 +259,29 @@ export default class SignIn extends Component {
             </View>
         );
     }
+
     getCode(){
+        //禁用状态不能再点击
+        if(this.state.codeButtonDisabled){
+            return
+        }
+        this.setState({
+            codeButtonDisabled:true
+        },()=>{
+            let timeNumber =60
+            let time = setInterval(()=>{
+                this.setState({
+                    codeText:'重新获取('+--timeNumber+')'
+                })
+                if(timeNumber==0){
+                    clearInterval(time)
+                    this.setState({
+                        codeButtonDisabled:false,
+                        codeText:'重新获取'
+                    })
+                }
+            },1000)
+        })
         HttpRequest.getVerityCode({
                 phone:this.state.user,
                 businessID:0
@@ -275,6 +294,7 @@ export default class SignIn extends Component {
             }
         )
     }
+
     loginRegister(){
         this.setState({
             isShow:true
@@ -282,7 +302,7 @@ export default class SignIn extends Component {
         HttpRequest.loginRegister(
             {
                 phone:this.state.user,
-                password:this.state.pass,
+                password:md5(this.state.pass),
                 veritycode:Number(this.state.code),
                 ip:'',
                 location:''
@@ -308,6 +328,7 @@ export default class SignIn extends Component {
             }
         )
     }
+
     componentWillMount() {
 
     }

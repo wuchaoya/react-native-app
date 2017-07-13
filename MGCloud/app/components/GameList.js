@@ -21,6 +21,7 @@ import {PullList} from 'react-native-pull'
 import LoadingAnimation from '../components/LoadingAnimation'
 import GameClass from '../components/GameClass'
 import StarRating from 'react-native-star-rating';
+import HttpRequest from '../common/HttpRequest'
 
 export default class GameList extends Component {
     constructor(props) {
@@ -129,7 +130,18 @@ export default class GameList extends Component {
                                            RNInteraction.startCloudPlay({gid:rowData.gid})
                                        }
                                        else {
-                                            alert('预约功能敬请期待')
+                                           HttpRequest.reserve({
+                                                   type:1,
+                                                   user_id:global.userId,
+                                                   gid:rowData.gid
+                                               },
+                                               (response)=>{
+                                                   console.log(response)
+                                               },
+                                               (error)=>{
+
+                                               }
+                                           )
                                        }
                                     }
                                 }

@@ -39,7 +39,8 @@ export default class GameDetails extends Component {
             userId:null,
             subStar:false,
             statusBarOpacity:0,
-            isLogin:false
+            isLogin:false,
+            starDisable:false
         }
     }
     setNavColor(height){
@@ -75,9 +76,10 @@ export default class GameDetails extends Component {
             statusBarOpacity:0
         },()=>{
             console.log(this)
-            if(bool){
+            if(bool===true){
+
                 const  {params} = this.props.navigation.state
-                HttpRequest.reserve({
+                HttpRequest.score({
                         score:5,
                         user_id:global.userId,
                         gid:params.gid
@@ -117,7 +119,7 @@ export default class GameDetails extends Component {
                 >
                     {this.state.data.length!==0?<View style={styles.container}>
                         <GameDetailsVideo data={this.state.data.video_url}/>
-                        <GameGrade navigation={this.props.navigation} data={this.state.data}/>
+                        <GameGrade starDisable={this.state.starDisable} navigation={this.props.navigation} data={this.state.data}/>
                         <GameChart data={this.state.data} isShow={this.state.isShow}/>
                         <GameDescription data={this.state.data}/>
                         <GameOtherInfo data={this.state.data}/>
@@ -259,7 +261,7 @@ export default class GameDetails extends Component {
         });
         const  {params} = this.props.navigation.state
 
-        HttpRequest.getGameDetailData({gid:params.gid,user_id:this.state.userId},
+        HttpRequest.getGameDetailData({gid:params.gid,user_id:global.userId?global.userId:null},
             (responseData)=> {
                 this.setState(
                     {

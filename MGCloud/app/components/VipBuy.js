@@ -37,7 +37,7 @@ export default class VipBuy extends Component {
                 <Text style={[styles.fonSize_13]}>{this.props.name}</Text>
                 <Text style={styles.fonSize_13}><Text style={styles.color_darkorange}>{this.props.price}</Text>{this.props.time}</Text>
                 <View style={{alignItems:'flex-end'}}>
-                    <Button rounded  style={{height:30,backgroundColor:this.props.buttonColor}}>
+                    <Button onPress={this.props.onPress} rounded  style={{height:30,backgroundColor:this.props.buttonColor}}>
                         <Text style={[styles.fonSize_13,{color:'white'}]}>{this.props.buttonText}</Text>
                     </Button>
                 </View>
