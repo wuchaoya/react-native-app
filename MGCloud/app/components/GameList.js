@@ -127,7 +127,7 @@ export default class GameList extends Component {
                                         }
 
                                        if(this.props.name!=='预约榜') {
-                                           RNInteraction.startCloudPlay({gid:rowData.gid,userId:global.userId})
+                                           RNInteraction.startCloudPlay({pkg:rowData.pkg,userId:global.userId})
                                        }
                                        else {
                                            HttpRequest.reserve({

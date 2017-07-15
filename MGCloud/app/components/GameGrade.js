@@ -82,7 +82,7 @@ export default class GameGrade extends Component {
                                         return
                                     }
                                     const  {params} = this.props.navigation.state
-                                    RNInteraction.startCloudPlay({gid:params.gid})
+                                    RNInteraction.startCloudPlay({pkg:this.state.data.pkg,userId:global.userId})
                                 }
                             }
                             rounded  style={{height:30,backgroundColor:'#83b233'}}>
