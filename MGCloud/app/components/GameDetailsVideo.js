@@ -22,7 +22,8 @@ export default class GameDetailsVideo extends Component {
     }
 
     render() {
-
+        console.log(this.props.data.video_url)
+        console.log(this.props.data.video_url?true:false)
         return (
             <View>
                 <Image
@@ -32,10 +33,10 @@ export default class GameDetailsVideo extends Component {
                         <TouchableOpacity activeOpacity={0.9}
                                           onPress={
                                               () => {
-                                                  RNInteraction.playVideoByUrl()
+                                                  RNInteraction.playVideoByUrl(this.props.data)
                                               }
                                           }>
-                            {this.state.data.video_url?<Image
+                            {this.props.data?<Image
                                 style={{width: 50, height: 50}}
                                 source={require('../static/img/video_play.png')}/>:null}
                         </TouchableOpacity>

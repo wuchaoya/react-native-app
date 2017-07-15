@@ -10,7 +10,8 @@ import {
     StatusBar,
     TouchableHighlight,
     DeviceEventEmitter,
-    BackHandler
+    BackHandler,
+    ToastAndroid
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
 import TextConst from '../const/TextConst'
@@ -36,7 +37,11 @@ export default class UserHead extends Component {
                 <View style={styles.headImgBorder}>
                     <Image style={styles.headImg} source={this.state.userIcon}/>
                 </View>
-                <Text onPress={() => navigate('Login',{route:''})}  style={styles.userNameText}>{this.state.userName}</Text>
+                <Text onPress={() => {
+                    if(!global.userId){
+                        navigate('Login',{route:''})
+                    }
+                }}  style={styles.userNameText}>{this.state.userName}</Text>
             </View>
         );
     }
@@ -45,6 +50,14 @@ export default class UserHead extends Component {
             this.setState({
                 userName:listenerMsg.userName,
                 userIcon:require('../static/img/user_head_icon.jpg')
+            },()=>{
+                console.log('当前已经登陆')
+            })
+        });
+        this.LoginOut = DeviceEventEmitter.addListener('LoginOut',(listenerMsg) => {
+            this.setState({
+                userName:'未登录',
+                userIcon:require('../static/img/user.png')
             },()=>{
                 console.log('当前已经登陆')
             })

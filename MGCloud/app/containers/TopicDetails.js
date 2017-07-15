@@ -18,32 +18,6 @@ import Topic from '../components/Topic'
 import HttpRequest from '../common/HttpRequest'
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
-const data = [
-    {
-        headImg: require('../static/img/topic1_head.png'),
-        titleText: '辐射岛',
-        gameClass: ['益智'],
-        starNumber: 9,
-        gameImg: require('../static/img/topic1.png'),
-        summary: '孔乙己第一天'
-    },
-    {
-        headImg: require('../static/img/topic1_head.png'),
-        titleText: '辐射岛',
-        gameClass: ['益智'],
-        starNumber: 9,
-        gameImg: require('../static/img/topic1.png'),
-        summary: '孔乙己第一天'
-    },
-    {
-        headImg: require('../static/img/topic1_head.png'),
-        titleText: '辐射岛',
-        gameClass: ['益智'],
-        starNumber: 9,
-        gameImg: require('../static/img/topic1.png'),
-        summary: '孔乙己第一天'
-    }
-]
 
 export default class TopicDetails extends Component {
     constructor(props) {

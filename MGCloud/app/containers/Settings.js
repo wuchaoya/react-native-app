@@ -45,9 +45,9 @@ export default class Settings extends Component {
                 </View>
                 <TouchableOpacity
                     onPress={()=>{
-                        this.setState({
-                            isShow:true
-                        })
+                        global.userId=null
+                        DeviceEventEmitter.emit('LoginOut',{userName:this.state.user} )
+                        goBack()
                     }}
                     style={{ justifyContent:'center',alignItems:'center',height:53,marginTop:6,backgroundColor:'#fff',}}>
                     <Text style={styles.text}>退出登录</Text>

@@ -47,7 +47,7 @@ export default class Topic extends Component {
                         </View>
                     </View>
                 </View>
-                <TouchableHighlight style={[{justifyContent:'center',alignItems:'center',width:width-12,height:202},data.cover==''?{backgroundColor:'#ddd'}:{}]} onPress={() => navigate('GameDetails')}>
+                <TouchableHighlight style={[{justifyContent:'center',alignItems:'center',width:width-12,height:202},data.cover==''?{backgroundColor:'#ddd'}:{}]} onPress={() => navigate('GameDetails',{gid:rowData.gid})}>
                     <Image style={data.cover==''?{width:40,height:30}:{width:width-12,height:202}}  resizeMode="cover"  source={data.cover==''?require('../static/img/error.png'):{uri:data.cover}}></Image>
                 </TouchableHighlight>
                 <View style={{marginLeft:10,marginBottom:18,marginTop:18,marginRight:10}}>

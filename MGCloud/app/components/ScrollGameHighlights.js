@@ -9,7 +9,8 @@ import {
     View,
     ScrollView,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    ToastAndroid
 } from 'react-native';
 import TextConst from '../const/TextConst'
 
@@ -20,7 +21,8 @@ export default class ScrollGameHighlights extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            height:0
+            height:0,
+
         }
     }
     render() {
@@ -34,7 +36,14 @@ export default class ScrollGameHighlights extends Component {
                         return(
                             <TouchableOpacity key={i}
                                 activeOpacity={0.9}
-                                onPress={() =>this.props.navigation.navigate('GameDetails',{gid:obj.gid})}
+                                onPress={() =>{
+                                    if(obj.gid){
+                                        this.props.navigation.navigate('GameDetails',{gid:obj.gid})
+                                    }
+                                   else {
+                                        ToastAndroid.show('该游戏已下架', ToastAndroid.SHORT);
+                                    }
+                                }}
                                 style={[styles.container]}>
                                 <View style={styles.err} >
                                     <Image

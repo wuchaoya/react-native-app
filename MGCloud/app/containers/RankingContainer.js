@@ -136,14 +136,15 @@ export default class RankingContainer extends Component {
                 console.log(error);
             });
     }
-
+    //"83215266088121"
     getReserve(){
         HttpRequest.getRankListData({
-                user_id:1,
+                user_id:'83215266088121',
                 page:0,
                 type:3
             },
             (responseData)=> {
+            console.log('预约的数据')
             console.log(responseData)
                 this.setState({
                     reserve:Filter.dirtyData(responseData)

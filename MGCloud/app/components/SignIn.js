@@ -257,8 +257,10 @@ export default class SignIn extends Component {
                     else {
                         arr = []
                     }
+                    if (arr.indexOf(this.state.user)==-1){
+                        arr.push(this.state.user)
 
-                    arr.push(this.state.user)
+                    }
                         DeviceStorage.save('userList',arr).then(
                             this.setState({
                                 onLogin:false
@@ -269,10 +271,6 @@ export default class SignIn extends Component {
                             })
                         )
                     })
-
-
-
-
                 }
                 else {
                     this.setState({
