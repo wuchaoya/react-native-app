@@ -22,24 +22,27 @@ export default class GameGrade extends Component {
         this.state = {
             data:this.props.data,
             starCount:this.props.data.my_score,
-            isShow:false,
             isStar:false,
+            isShow:false
         }
     }
     onStarRatingPress(rating) {
+        console.log(this.props.isStar+'我看看有没有评过分')
         if(!global.userId){
 
-            DeviceEventEmitter.emit('gameGradeLogin', true)
+            DeviceEventEmitter.emit('gameGradeLogin',true)
 
             return
         }
-        if(!this.state.isStar){
-            DeviceEventEmitter.emit('subStar', true)
+        if(this.props.isStar){
+            console.log('评过了')
+        }
+        if(!this.props.isStar){
+            DeviceEventEmitter.emit('subStar', rating)
         }
         this.setState({
-            starCount: this.state.isStar?this.state.starCount:rating,
-            isStar:true,
-            isShow:this.state.isStar?true:false
+            starCount: this.props.isStar?this.state.starCount:rating,
+            isShow:this.props.isStar?true:false
         },()=>{
             setTimeout(()=>{
                 this.setState({
@@ -96,7 +99,7 @@ export default class GameGrade extends Component {
                         <StarRating
                             disabled={false}
                             maxStars={5}
-                            rating={this.state.starCount}
+                            rating={this.props.starNumber}
                             selectedStar={(rating) => this.onStarRatingPress(rating)}
                             starColor="#ff8800"
                             emptyStarColor="rgb(221,221,221)"

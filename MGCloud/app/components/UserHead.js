@@ -36,7 +36,7 @@ export default class UserHead extends Component {
                 <View style={styles.headImgBorder}>
                     <Image style={styles.headImg} source={this.state.userIcon}/>
                 </View>
-                <Text onPress={() => navigate('Login')}  style={styles.userNameText}>{this.state.userName}</Text>
+                <Text onPress={() => navigate('Login',{route:''})}  style={styles.userNameText}>{this.state.userName}</Text>
             </View>
         );
     }

@@ -113,6 +113,6 @@ const SimpleApp = StackNavigator(
         },
 
     },
-    {initialRouteName:'Home'});
+    {initialRouteName:'Pact'});
 
 export default SimpleApp;

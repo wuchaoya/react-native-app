@@ -29,7 +29,7 @@ export default class extends Component {
 
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}  showsHorizontalScrollIndicato={false}>
                     {this.props.data.map((obj,i)=>{
-                     return ( <View style={styles.slide} key={i} title={<Text numberOfLines={1}></Text>}>
+                     return ( <View style={[styles.slide,i==0?{ marginLeft:12}:null]} key={i} title={<Text numberOfLines={1}></Text>}>
                             <TouchableOpacity activeOpacity={0.8}
                                               onPress={() => navigate('TopicDetails')} style={styles.image}>
                                 <View style={styles.image}>
@@ -65,7 +65,8 @@ const styles = {
         flex: 1,
         padding:12,
         paddingLeft:0,
-        paddingBottom:0
+        paddingBottom:0,
+
     },
 
 

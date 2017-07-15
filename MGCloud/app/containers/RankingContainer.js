@@ -20,6 +20,7 @@ import HttpRequest from '../common/HttpRequest'
 import Filter from '../common/Filter'
 
 export default class RankingContainer extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -35,6 +36,7 @@ export default class RankingContainer extends Component {
             isLogin:false
         }
     }
+
     goLogin(bool){
         this.setState({
             isLogin:false
@@ -44,6 +46,7 @@ export default class RankingContainer extends Component {
             }
         })
     }
+
     render() {
         const {navigate} = this.props.navigation;
         return (
@@ -97,7 +100,6 @@ export default class RankingContainer extends Component {
             </View>
         );
     }
-
 
     getHotPlayList(){
         HttpRequest.getRankListData({
@@ -156,9 +158,6 @@ export default class RankingContainer extends Component {
             });
     }
 
-    /**
-     * 监听事件
-     */
     componentDidMount() {
         //监听是那个选项
         this.msgListener = DeviceEventEmitter.addListener('selectedTab',(listenerMsg) => {
@@ -338,6 +337,7 @@ export default class RankingContainer extends Component {
         this.getReserve()
 
     }
+
     componentWillUnmount(){
         //清除监听
         this.msgListener.remove()

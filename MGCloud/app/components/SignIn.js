@@ -16,6 +16,7 @@ import {
 import LoginButton from '../components/LoginButton'
 import RNInteraction from '../common/RNInteraction'
 import Empty from '../components/Empty'
+import md5 from '../common/md5.min'
 
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
@@ -233,6 +234,7 @@ export default class SignIn extends Component {
         })
         HttpRequest.login({
                 phone:this.state.user,
+                //先不加密，因为我以前注册的账号都没加密
                 password:this.state.pass,
                 ip:'',
                 position:'',

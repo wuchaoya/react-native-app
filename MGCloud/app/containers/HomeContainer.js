@@ -28,8 +28,9 @@ import HeadNav from '../components/HeadNav'
 import HttpRequest from '../common/HttpRequest'
 import  LoadingContainer from '../containers/LoadingContainer'
 import LoadingAnimation from '../components/LoadingAnimation'
-
+import Orientation from 'react-native-orientation';
 export default class HomeContainer extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -80,7 +81,7 @@ export default class HomeContainer extends Component {
 
     render() {
         const {navigate,goBack} = this.props.navigation;
-        console.log(this.props.navigation)
+
         return (
             <View style={{flex:1,}}>
                 <HeadNav header="云游戏" onPress={() => {BackHandler.exitApp()}}/>
@@ -95,8 +96,9 @@ export default class HomeContainer extends Component {
                     {this.state.gameList.length!==0&&this.state.dissertation.length!==0&&this.state.bannerArray.length!==0?
                         <View style={styles.container}>
                             {this.state.bannerArray.length!==0?<Banner navigation={this.props.navigation} data={this.state.bannerArray}/>:null}
-                            <View style={CommonStyle.container}>
+                            <View style={styles.gameTheme}>
                                 <Title
+                                    style={{marginLeft:12}}
                                     titleText={TextConst.HomeContainerText.gameTheme.title}
                                     color="#000"
                                 ></Title>
@@ -104,6 +106,7 @@ export default class HomeContainer extends Component {
                                     style={styles.subtitle}>{TextConst.HomeContainerText.gameTheme.subtitle}</Text>
                                 {this.state.dissertation.length!==0?<ScrollGameThemes data={this.state.dissertation} navigation={this.props.navigation}></ScrollGameThemes>:null}
                             </View>
+
                             <View style={[{marginTop: 12, paddingTop: 12, backgroundColor: ColorStyle.colorWhite}]}>
                                 <View style={styles.homeContainer}>
                                     <Title color="#000" titleText={TextConst.HomeContainerText.gameHighlights.title}></Title>
@@ -121,6 +124,7 @@ export default class HomeContainer extends Component {
 
         );
     }
+
     getHomeData(resolve){
         HttpRequest.getHomeData('',
             (responseData)=> {
@@ -143,7 +147,7 @@ export default class HomeContainer extends Component {
                    let errArr = [
                        {icon:'',name:'崩坏3'},
                        {icon:'',name:'狙击之王'},
-                       {icon:'',name:'海洋连连看'},
+                       {icon:'',name:'海洋连连看海洋连连看海洋连连看'},
                        {icon:'',name:'数字猫'},
                        {icon:'',name:'魔女之权'}]
                     responseData.gameList=errArr
@@ -190,16 +194,19 @@ export default class HomeContainer extends Component {
     componentWillMount() {
         this.failedLoad()
         this.getHomeData()
+        Orientation.lockToPortrait();
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: ColorStyle.colorLightSteelGray,
     },
     subtitle: {
-        marginTop: 12,
-        color: '#999'
+        marginTop: 6,
+        color: '#999',
+        marginLeft:12
     },
     homeContainer: {
         flexDirection: 'row',
@@ -211,6 +218,13 @@ const styles = StyleSheet.create({
     },
     more: {
         color: ColorStyle.colorGreen
+    },
+    gameTheme:{
+            flex: 1,
+            marginTop:12,
+            paddingTop:12,
+            paddingLeft:0,
+            backgroundColor:ColorStyle.colorWhite
     }
 
 });

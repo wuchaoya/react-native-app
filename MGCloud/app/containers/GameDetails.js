@@ -11,7 +11,7 @@ import {
     DeviceEventEmitter,
     ScrollView,
     Modal,
-    TouchableOpacity
+    TouchableOpacity,
 } from 'react-native';
 import GameDetailsVideo from '../components/GameDetailsVideo'
 import TransparentStatusBar from '../components/TransparentStatusBar'
@@ -22,17 +22,18 @@ import GameOtherInfo from  '../components/GameOtherInfo'
 import HeadNav from '../components/HeadNav'
 import HttpRequest from '../common/HttpRequest'
 import GameGallery from '../components/GameGallery'
-
+import  LoadingContainer from '../containers/LoadingContainer'
 
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
-
+let starNumber=0
 export default class GameDetails extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            header:'',
-            navColor:null,
+            header:'游戏详情',
+            navColor:'#000',
             height:0,
             data:[],
             isShow:false,
@@ -40,52 +41,65 @@ export default class GameDetails extends Component {
             subStar:false,
             statusBarOpacity:0,
             isLogin:false,
-            starDisable:false
+            starDisable:false,
+            isStar:false,
+            starNumber:0
+
         }
     }
+
     setNavColor(height){
         this.setState({
-            navColor: height>42?'#000':null,
+            navColor: 'rgba(0,0,0,'+0.01*height+')',
             header:height>42?'游戏详情':'',
         })
     }
+
     heiden(){
         this.setState({
             isShow:false,
             statusBarOpacity:0
         })
     }
-    subStar(){
-        const  {params} = this.props.navigation.state
-        HttpRequest.reserve({
-                score:5,
-                user_id:global.userId,
-                gid:params.did
-            },
-            (response)=>{
-                console.log(response)
-            },
-            (error)=>{
 
-            }
-        )
+    getDetailsData(){
+        let  {params} = this.props.navigation.state
+        HttpRequest.getGameDetailData({gid:params.gid,user_id:global.userId?global.userId:null},
+            (responseData)=> {
+                this.setState(
+                    {
+                        data:responseData,
+                        starNumber:responseData.my_score,
+                        isStar:responseData.my_score!=0?true:false,
+                        header:'',
+                        navColor:null
+                    },()=>{
+                        console.log(this.state.isStar)
+                    }
+                )
+            },
+            (error)=> {
+                console.log(error);
+            });
     }
+
     hidenSubStar(bool){
         this.setState({
             subStar:false,
-            statusBarOpacity:0
+            statusBarOpacity:0,
+            starNumber:bool?starNumber:this.state.starNumber
         },()=>{
             console.log(this)
             if(bool===true){
-
                 const  {params} = this.props.navigation.state
                 HttpRequest.score({
-                        score:5,
+                        score:starNumber,
                         user_id:global.userId,
                         gid:params.gid
                     },
                     (response)=>{
                         console.log(response)
+                        this.getDetailsData()
                     },
                     (error)=>{
 
@@ -94,6 +108,7 @@ export default class GameDetails extends Component {
             }
         })
     }
+
     goLogin(bool){
         this.setState({
             isLogin:false
@@ -104,6 +119,7 @@ export default class GameDetails extends Component {
             }
         })
     }
+
     render() {
         const { goBack } = this.props.navigation;
         return (
@@ -114,12 +130,14 @@ export default class GameDetails extends Component {
                     onPress={() => goBack()}
                     color={this.state.navColor}
                     style={[styles.headNav]}/>
-                <ScrollView
+                {this.state.data.length==0?
+                    <LoadingContainer load='GameDetail' isLoading={"isGameDetail"}/>:
+                    <ScrollView
                     onScroll={(e)=>this.setNavColor(e.nativeEvent.contentOffset.y)}
                 >
                     {this.state.data.length!==0?<View style={styles.container}>
                         <GameDetailsVideo data={this.state.data.video_url}/>
-                        <GameGrade starDisable={this.state.starDisable} navigation={this.props.navigation} data={this.state.data}/>
+                        <GameGrade starNumber={this.state.starNumber} isStar={this.state.isStar} starDisable={this.state.starDisable} navigation={this.props.navigation} data={this.state.data}/>
                         <GameChart data={this.state.data} isShow={this.state.isShow}/>
                         <GameDescription data={this.state.data}/>
                         <GameOtherInfo data={this.state.data}/>
@@ -161,7 +179,7 @@ export default class GameDetails extends Component {
                                         height:72,width:265,
                                         justifyContent:'center',alignItems:'center',
                                     }}>
-                                    <Text onPress={()=>this.subStar()}>是否确认评分</Text>
+                                    <Text>是否确认评分</Text>
                                 </View>
                                 <View style={{
                                     borderTopWidth:1,
@@ -230,6 +248,7 @@ export default class GameDetails extends Component {
                         </Modal>
                     </View>:null}
                 </ScrollView>
+                }
             </View>
         );
     }
@@ -245,10 +264,10 @@ export default class GameDetails extends Component {
         });
         this.subStar = DeviceEventEmitter.addListener('subStar',(listenerMsg) => {
             this.setState({
-                subStar:listenerMsg,
+                subStar:true,
                 statusBarOpacity:0.7
             },()=>{
-                console.log('提交评分',this.state.isStar)
+               starNumber = listenerMsg
             })
         });
         this.gameGradeLogin = DeviceEventEmitter.addListener('gameGradeLogin',(listenerMsg) => {
@@ -259,21 +278,19 @@ export default class GameDetails extends Component {
                 console.log('提交评分',this.state.isStar)
             })
         });
-        const  {params} = this.props.navigation.state
+        this.LoginStatus = DeviceEventEmitter.addListener('LoginStatus',(listenerMsg) => {
+            this.getDetailsData()
+        });
+        this.getDetailsData()
 
-        HttpRequest.getGameDetailData({gid:params.gid,user_id:global.userId?global.userId:null},
-            (responseData)=> {
-                this.setState(
-                    {
-                        data:responseData
-                    },()=>{
-                        console.log(this.state.data)
-                    }
-                )
-            },
-            (error)=> {
-                console.log(error);
-            });
+    }
+
+    componentWillUnmount(){
+        this.gallery.remove()
+        this.subStar.remove()
+        this.gameGradeLogin.remove()
+        Dimensions=null;
+        width=null;
     }
 }
 

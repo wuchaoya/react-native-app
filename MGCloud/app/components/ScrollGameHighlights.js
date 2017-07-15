@@ -62,7 +62,7 @@ export default class ScrollGameHighlights extends Component {
 const styles = StyleSheet.create({
     container: {
         marginLeft:12,
-        marginBottom:18,
+        marginBottom:20,
     },
     radiuImg:{
         width:86,
@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
         width:86,
         fontSize:13,
         color:'#333',
-        lineHeight:20
+        lineHeight:20,
+        marginTop:9
     },
     err:{
         backgroundColor:'#ddd', width:86,

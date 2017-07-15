@@ -1,106 +1,73 @@
-"use strict";
+'use strict';
 
-import React,{PropTypes} from 'react';
+import React, {Component} from 'react';
+
 import {
+    StyleSheet,
     View,
-    Text,
     TouchableOpacity,
-    ViewPropTypes
+    Text
 } from 'react-native';
-export default class TimerButton extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            timerCount: this.props.timerCount || 60,
-            timerTitle: this.props.timerTitle || '获取验证码',
-            counting: false,
-            selfEnable: true,
-        };
-        this._shouldStartCountting = this._shouldStartCountting.bind(this)
-        this._countDownAction = this._countDownAction.bind(this)
-    }
-    static propTypes = {
-        style: ViewPropTypes.style,
-        textStyle: Text.propTypes.style,
-        onClick: PropTypes.func,
-        disableColor: PropTypes.string,
-        timerTitle: PropTypes.string,
-        enable: PropTypes.oneOfType([PropTypes.bool,PropTypes.number]),
-        timerEnd: PropTypes.func
-    };
 
-    _countDownAction(){
-        const codeTime = this.state.timerCount;
-        const now = Date.now()
-        const overTimeStamp = now + codeTime * 1000 + 100/*过期时间戳（毫秒） +100 毫秒容错*/
-        this.interval = setInterval(() =>{
-            /* 切换到后台不受影响*/
-            const nowStamp = Date.now()
-            if (nowStamp >= overTimeStamp) {
-                /* 倒计时结束*/
-                this.interval&&clearInterval(this.interval);
-                this.setState({
-                    timerCount: codeTime,
-                    timerTitle: this.props.timerTitle || '获取验证码',
-                    counting: false,
-                    selfEnable: true
-                })
-                if (this.props.timerEnd) {
-                    this.props.timerEnd()
-                };
-            }else{
-                const leftTime = parseInt((overTimeStamp - nowStamp)/1000, 10)
-                this.setState({
-                    timerCount: leftTime,
-                    timerTitle: `重新获取(${leftTime}s)`,
-                })
-            }
-            /* 切换到后台 timer 停止计时 */
-            /*
-             const timer = this.state.timerCount - 1
-             if(timer===0){
-             this.interval&&clearInterval(this.interval);
-             this.setState({
-             timerCount: codeTime,
-             timerTitle: this.props.timerTitle || '获取验证码',
-             counting: false,
-             selfEnable: true
-             })
-             }else{
-             this.setState({
-             timerCount:timer,
-             timerTitle: `重新获取(${timer}s)`,
-             })
-             }
-             */
-        },1000)
+
+
+export default class WeixinTabBar extends Component {
+
+    propTypes = {
+        goToPage: React.PropTypes.func, // 跳转到对应tab的方法
+        activeTab: React.PropTypes.number, // 当前被选中的tab下标
+        tabs: React.PropTypes.array, // 所有tabs集合
+        tabNames: React.PropTypes.array, // 保存Tab名称
     }
-    _shouldStartCountting(shouldStart){
-        if (this.state.counting) {return}
-        if (shouldStart) {
-            this._countDownAction()
-            this.setState({counting: true,selfEnable:false})
-        }else{
-            this.setState({selfEnable:true})
-        }
+
+    setAnimationValue({value}) {
+        console.log(value);
     }
-    componentWillUnmount(){
-        clearInterval(this.interval)
+
+    componentDidMount() {
+        // Animated.Value监听范围 [0, tab数量-1]
+        this.props.scrollValue.addListener(this.setAnimationValue);
     }
-    render(){
-        const {onClick,style,textStyle,enable,disableColor} = this.props
-        const {counting,timerTitle,selfEnable} = this.state
+
+    renderTabOption(tab, i) {
+        let color = this.props.activeTab == i ? "#6B8E23" : "#ADADAD"; // 判断i是否是当前选中的tab，设置不同的颜色
         return (
-            <TouchableOpacity activeOpacity={counting ? 1 : 0.8} onPress={()=>{
-                if (!counting && enable && selfEnable) {
-                    this.setState({selfEnable:false})
-                    this.props.onClick(this._shouldStartCountting)
-                };
-            }}>
-                <View style={[{width:120, height:44,justifyContent:'center',alignItems:'center'},style]}>
-                    <Text style={[{fontSize: 16},textStyle,{color: ((!counting && enable && selfEnable) ? (textStyle ? textStyle.color : 'blue') : disableColor || 'gray')}]}>{timerTitle}</Text>
+            <TouchableOpacity onPress={()=>this.props.goToPage(i)} style={[styles.tab,this.props.style]}>
+                <View style={styles.tabItem}>
+                    <Text style={{color: color}}>
+                        {this.props.tabNames[i]}
+                    </Text>
                 </View>
             </TouchableOpacity>
-        )
+        );
+    }
+
+    render() {
+        return (
+            <View style={styles.tabs}>
+                {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
+            </View>
+        );
     }
 }
+
+const styles = StyleSheet.create({
+    tabs: {
+        flexDirection: 'row',
+        height: 50,
+    },
+
+    tab: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf:'center'
+    },
+
+    tabItem: {
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+});
+
+
