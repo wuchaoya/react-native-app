@@ -116,6 +116,8 @@ export default class GameList extends Component {
                                     }
                                 onPress={
                                     () => {
+                                        console.log("-------------------")
+                                        console.log(rowData.pkg)
                                         if(!global.userId){
                                             if(this.props.showNumber){
                                                 DeviceEventEmitter.emit('gameRankingList', true)

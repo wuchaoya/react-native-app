@@ -170,5 +170,19 @@ const HttpRequest = {
                 callbackError(error);
             })
     },
+    quickLogin: (parameter, callbackSuccess, callbackError)=> {
+        HttpUitl.post('/v2/login/quick_login', parameter,
+            (response)=> {
+                console.log(response)
+                // 解析处理成页面需要的数据格式,如list
+                if(response.state==200&&response.data){
+                    callbackSuccess(response.data);
+                }
+            },
+            (error)=> {
+                callbackError(error);
+            })
+    },
+
 }
 module.exports = HttpRequest

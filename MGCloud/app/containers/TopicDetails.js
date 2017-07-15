@@ -16,6 +16,7 @@ import {
 import HeadNav from '../components/HeadNav'
 import Topic from '../components/Topic'
 import HttpRequest from '../common/HttpRequest'
+import  LoadingContainer from '../containers/LoadingContainer'
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
 
@@ -44,7 +45,7 @@ export default class TopicDetails extends Component {
                     onPress={() => goBack()}
                     color={this.state.navColor}
                     style={[styles.headNav,{marginLeft:this.state.margin}]}/>
-                <ScrollView
+                {this.state.data.length!==0?<ScrollView
                     onScroll={(e)=>this.setNavColor(e.nativeEvent.contentOffset.y)}
                     contentContainerStyle={styles.contentContainer}>
                     <Image
@@ -56,7 +57,7 @@ export default class TopicDetails extends Component {
                         </View>
                     </Image>
                     {this.state.data.length===0?null:<Topic data = {this.state.data}  navigation={this.props.navigation}/>}
-                </ScrollView>
+                </ScrollView>:<  LoadingContainer load="loadHome" isLoading="isLoadHome"/>}
             </View>
             
         );

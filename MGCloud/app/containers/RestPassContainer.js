@@ -9,11 +9,12 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    Modal
+    Modal,
 } from 'react-native';
 import HeadNav from '../components/HeadNav'
 import CodeButton from '../components/CodeButton'
 import HttpRequest from '../common/HttpRequest'
+import  DeviceStorage from '../common/DeviceStorage'
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
 
@@ -37,7 +38,9 @@ export default class SMSLanding extends Component {
             clerCode:-100,
             onLogin:false,
             loginErr:false,
-            codeText:'获取验证码'
+            codeText:'获取验证码',
+            list:[],
+            showList:false,
         }
     }
     render() {
@@ -79,9 +82,56 @@ export default class SMSLanding extends Component {
                         }} style={[styles.clear,{right:this.state.clerUser,}]}>
                             <Text style={{fontSize:10}}>╳</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.off}>
+                        <TouchableOpacity
+                            onPress={
+                                ()=>{
+                                    this.setState({
+                                        showList:!this.state.showList
+                                    },()=>{
+                                        DeviceStorage.get('userList').then((v)=>{
+                                            if(!v){
+                                                v=[]
+                                            }
+                                            this.setState({
+                                                list:v
+                                            })
+                                            console.log(v)
+                                        })
+                                    })
+                                }
+                            }
+                            style={styles.off}>
                             <Image style={{ width:24,height:24,}} source={this.state.off}></Image>
                         </TouchableOpacity>
+                        <View style={[styles.list,this.state.showList?{top:44,}:{top:-10000}]}>
+                            {this.state.list.map((item,i)=>{
+                                return(
+                                    <TouchableOpacity
+                                        key={i}
+                                        onPress={()=>{
+                                            this.setState({
+                                                user:item,
+                                                showList:!this.state.showList,
+                                                clerUser:34
+                                            })
+                                        }}
+                                        activeOpacity={0.8} style={styles.item}>
+                                        <Text>{item}</Text>
+                                        <Text onPress={
+                                            ()=>{
+                                                let  arr = this.state.list
+                                                arr.splice(i,1)
+                                                this.setState({
+                                                    list:arr
+                                                },()=>{
+                                                    DeviceStorage.save('userList',arr)
+                                                })
+                                            }
+                                        } style={{fontSize:10}}>╳</Text>
+                                    </TouchableOpacity>
+                                )
+                            })}
+                        </View>
                     </View>
                     <View style={{flexDirection:'row'}}>
                         <TextInput
@@ -328,6 +378,21 @@ const styles = StyleSheet.create({
         right:34,
         justifyContent:'center',
         alignItems:'center'
+    },
+    list:{
+        position: 'absolute',
+        top:44,
+        width:width-80,
+        zIndex:22
+    },
+    item:{
+        backgroundColor:'#ddd',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        height:44,
+        paddingLeft:10,
+        paddingRight:10
     }
 });
 

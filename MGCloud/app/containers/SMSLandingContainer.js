@@ -91,6 +91,9 @@ export default class SMSLanding extends Component {
                                         showList:!this.state.showList
                                     },()=>{
                                         DeviceStorage.get('userList').then((v)=>{
+                                            if(!v){
+                                                v=[]
+                                            }
                                             this.setState({
                                                 list:v
                                             })
