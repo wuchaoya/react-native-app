@@ -35,11 +35,15 @@ import com.mgcloud.R;
 public class CloudPlayActivity extends AppCompatActivity implements HmcpPlayerListener,
         View.OnSystemUiVisibilityChangeListener {
     private HmcpVideoView hmcpVideoView;
+    private String packageName = "com.netease.onmyoji";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cloudplay);
+        packageName = getIntent().getStringExtra("packageName");
+        getIntent().getStringExtra("userId");
+        getIntent().getStringExtra("playTime");
         hmcpVideoView = (HmcpVideoView) this.findViewById(R.id.gameView);
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(this);
         initSDK();
@@ -79,7 +83,7 @@ public class CloudPlayActivity extends AppCompatActivity implements HmcpPlayerLi
         int playTime = 20 * 60 * 1000; // 用户可以玩游戏的时长，以ms为单位
         int priority = 0; // 用户申请游戏服务的优先级,传0就可以
         int appId = 0; // 预留参数，可以为0
-        String packageName = "com.netease.onmyoji"; // 游戏包名
+//        String packageName = "com.netease.onmyoji"; // 游戏包名
         String cToken = ""; // 用来校验参数的有效性，cToken的计算方法请参考服务端SDK文档
         cToken = CryptoUtils.generateCToken(packageName, mUserInfo.userId, mUserInfo.userToken,
                 "F367353CDAB", "migu-channel", "513647564b706e753354475a38344366");

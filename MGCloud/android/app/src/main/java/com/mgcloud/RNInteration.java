@@ -44,8 +44,9 @@ public class RNInteration extends ReactContextBaseJavaModule {
         Intent intent = new Intent();
         intent.setClass(getReactApplicationContext(), CloudPlayActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        intent.putExtra("pkg", packageName);
-//        intent.putExtra("userId", userId);
+        intent.putExtra("packageName", "com.netease.onmyoji");
+        intent.putExtra("userId", userId);
+        intent.putExtra("playTime", "");
         getReactApplicationContext().startActivity(intent);
     }
 
