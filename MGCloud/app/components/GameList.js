@@ -196,7 +196,7 @@ export default class GameList extends Component {
         }
         return (
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60,backgroundColor:'#fff'}}>
-                <LoadingAnimation style={{
+                <LoadingAnimation size={0.7} style={{
                     marginRight:10
                 }}/>
                 <Text ref={(c) => {this.txtPullrelease = c;}}>正在加载数据....</Text>
@@ -415,7 +415,7 @@ export default class GameList extends Component {
         }, 1);
         return (
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60,backgroundColor:'#fff'}}>
-                <LoadingAnimation style={{
+                <LoadingAnimation size={0.7} style={{
                     marginRight:10
                 }}/>
                 <Text ref={(c) => {this.txtPulling = c;}}>下拉刷新</Text>
@@ -441,6 +441,7 @@ export default class GameList extends Component {
             />
         );
     }
+
 }
 
 const styles = StyleSheet.create({

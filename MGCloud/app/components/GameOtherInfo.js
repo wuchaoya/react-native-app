@@ -30,19 +30,19 @@ export default class GameOtherInfo extends Component {
                        {this.state.data.version? <Text style={styles.textLeft}>版本</Text>:null}
                        {this.state.data.size?<Text style={styles.textLeft}>大小</Text>:null}
                    </View>
-                   <View style={{marginTop:10,marginBottom:30,marginLeft:30}}>
+                   <View style={{marginTop:10,marginBottom:30,marginLeft:30,width:250}}>
                        {this.state.data.company?
-                           <Text
+                           <Text numberOfLines={1}
                                style={[styles.textLeft,styles.textColor]}>{this.state.data.company}
                                </Text>:null
                        }
                        {this.state.data.update_time?
-                           <Text style={[styles.textLeft,styles.textColor]}>{this.state.data.update_time}</Text>
+                           <Text numberOfLines={1} style={[styles.textLeft,styles.textColor]}>{this.state.data.update_time}</Text>
                        :null}
                        {this.state.data.version?
-                           <Text style={[styles.textLeft,styles.textColor]}>{this.state.data.version}</Text>
+                           <Text numberOfLines={1} style={[styles.textLeft,styles.textColor]}>{this.state.data.version}</Text>
                        :null}
-                       {this.state.data.size?<Text style={[styles.textLeft,styles.textColor]}>{this.state.data.size}</Text>
+                       {this.state.data.size?<Text numberOfLines={1}  style={[styles.textLeft,styles.textColor]}>{this.state.data.size}</Text>
                        :null}
                    </View>
                </View>

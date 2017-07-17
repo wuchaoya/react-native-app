@@ -45,8 +45,13 @@ export default class HomeContainer extends Component {
     }
 
     onPullRelease(resolve) {
+        this.setState({
+            titleHeight:0
+        },()=>{
+            this.getHomeData(resolve)
+        })
         //do something
-        this.getHomeData(resolve)
+
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
@@ -69,7 +74,7 @@ export default class HomeContainer extends Component {
         }, 1);
         return (
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 44,backgroundColor:'#ededed'}}>
-                <LoadingAnimation style={{
+                <LoadingAnimation size={0.7} style={{
                     marginRight:10
                 }}/>
                 <Text ref={(c) => {this.txtPulling = c;}}>使劲拉</Text>
@@ -194,6 +199,8 @@ export default class HomeContainer extends Component {
     componentWillMount() {
         this.failedLoad()
         this.getHomeData()
+        console.disableYellowBox = true
+        console.log(console)
         Orientation.lockToPortrait();
     }
 }

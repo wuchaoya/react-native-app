@@ -22,7 +22,7 @@ export default class LoadingAnimation extends Component {
             <View style={[styles.container,this.props.style]}>
                 <Image
                        style={
-                           {width:27,height:29,
+                           {width:this.props.size?27*this.props.size:27,height:this.props.size?29*this.props.size:29,
                            }}
                        source={require('../static/img/loading.gif')}/>
             </View>

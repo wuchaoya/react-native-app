@@ -33,7 +33,9 @@ export default class RankingContainer extends Component {
             hotPlayPage:0,
             newProductsPage:0,
             reservePage:0,
-            isLogin:false
+            isLogin:false,
+            newProductsr:false,
+            reserver:false
         }
     }
 
@@ -111,10 +113,13 @@ export default class RankingContainer extends Component {
                     hotPlay:Filter.dirtyData(responseData)
                 },()=>{
                     DeviceEventEmitter.emit('onLoadHotPlay', true)
+                    DeviceEventEmitter.emit('ishotPlay', true)
+
                 })
 
             },
             (error)=> {
+                DeviceEventEmitter.emit('ishotPlay', false)
                 console.log(error);
             });
     }
@@ -129,14 +134,16 @@ export default class RankingContainer extends Component {
                     newProducts:Filter.dirtyData(responseData)
                 },()=>{
                     DeviceEventEmitter.emit('onLoadNewProducts', true)
+                    DeviceEventEmitter.emit('isnewProducts', true)
                 })
 
             },
             (error)=> {
+                DeviceEventEmitter.emit('isnewProducts', false)
                 console.log(error);
             });
     }
-    //"83215266088121"
+
     getReserve(){
         HttpRequest.getRankListData({
                 user_id:global.userId?global.userId:null,
@@ -147,14 +154,17 @@ export default class RankingContainer extends Component {
             console.log('预约的数据')
             console.log(responseData)
                 this.setState({
+
                     reserve:Filter.dirtyData(responseData)
                 },()=>{
                     console.log(this.state.reserve)
+                    DeviceEventEmitter.emit('isreserve', true)
                     DeviceEventEmitter.emit('onLoadReserve', true)
                 })
 
             },
             (error)=> {
+                DeviceEventEmitter.emit('isreserve', false)
                 console.log(error);
             });
     }
@@ -217,7 +227,7 @@ export default class RankingContainer extends Component {
                         reservePage:0
                     },()=>{
                         HttpRequest.getRankListData({
-                                user_id:1,
+                                user_id:global.userId?global.userId:null,
                                 page:this.state.reservePage,
                                 type:3
                             },
@@ -299,7 +309,7 @@ export default class RankingContainer extends Component {
                         reservePage:page+1
                     },()=>{
                         HttpRequest.getRankListData({
-                                user_id:1,
+                                user_id:global.userId?global.userId:null,
                                 page:this.state.reservePage,
                                 type:3
                             },
@@ -350,14 +360,32 @@ export default class RankingContainer extends Component {
                     });
             })
         });
-
+        //监听重试
+        this.hotPlay = DeviceEventEmitter.addListener('hotPlay',(listenerMsg) => {
+            console.log('重新刷新热玩')
+            this.getHotPlayList()
+        });
+        this.newProducts = DeviceEventEmitter.addListener('newProducts',(listenerMsg) => {
+            console.log('重新刷新新品')
+            this.getNewProducts()
+        });
+        this.reserve = DeviceEventEmitter.addListener('reserve',(listenerMsg) => {
+            console.log('重新刷新预约')
+            this.getReserve()
+        });
     }
 
     componentWillMount() {
 
-        this.getHotPlayList()
-        this.getNewProducts()
-        this.getReserve()
+        this.hotPlayrender = DeviceEventEmitter.addListener('hotPlayrender',(listenerMsg) => {
+            this.getHotPlayList()
+        });
+        this.newProductsrender = DeviceEventEmitter.addListener('newProductsrender',(listenerMsg) => {
+           this.getNewProducts()
+        });
+        this.reserverender = DeviceEventEmitter.addListener('reserverender',(listenerMsg) => {
+            this.getReserve()
+        });
 
     }
 
@@ -368,6 +396,13 @@ export default class RankingContainer extends Component {
         this.isPullRelease.remove()
         this.loadMore.remove()
         this.gameRankingList.remove()
+        this.newProductsrender.remove()
+        this.hotPlayrender.remove()
+        this.reserverender.remove()
+        this.LoginStatus.remove()
+        this.hotPlay.remove()
+        this.newProducts.remove()
+        this.reserve.remove()
     }
 }
 

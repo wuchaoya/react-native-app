@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 import HeadNav from '../components/HeadNav'
 import TransparentStatusBar    from '../components/TransparentStatusBar'
+
+let url ='http://www.migu.cn/about.html'
 export default class Settings extends Component {
     constructor(props) {
         super(props);
@@ -33,12 +35,12 @@ export default class Settings extends Component {
                 <HeadNav header="设置"  onPress={() => goBack()} />
                 <View style={{  paddingLeft:12,paddingRight:12,backgroundColor:'#fff',}}>
                     <TouchableOpacity
-                        activeOpacity={0.9} style={styles.conter} onPress={() => navigate('Pact',{url:'http://www.58.com',title:'用户服务协议'})}>
+                        activeOpacity={0.9} style={styles.conter} onPress={() => navigate('Pact',{url:url,title:'用户服务协议'})}>
                         <Text style={styles.text} >用户服务协议</Text>
                         <Image style={styles.nextImg} source={require('../static/img/next_icon.png')}/>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => navigate('Pact',{url:'http://www.baidu.com',title:'联系客服'})}
+                        onPress={() => navigate('Pact',{url:url,title:'联系客服'})}
                         activeOpacity={0.9}
                         style={[styles.conter,{marginTop:0,borderTopWidth: 1,borderTopColor:'#ededed'}]}>
                         <Text style={styles.text}>联系客服</Text>

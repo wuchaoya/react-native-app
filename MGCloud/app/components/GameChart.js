@@ -21,7 +21,8 @@ export default class GameChart extends Component{
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows(this.props.data.images),
-            modalVisible:false
+            modalVisible:false,
+            isShow:false
         };
     }
     hiden(){
@@ -31,6 +32,7 @@ export default class GameChart extends Component{
     }
 
     _renderRow(rowData, sectionID, rowID, highlightRow) {
+
         return (
             <TouchableOpacity
                 onPress={()=>{
@@ -39,9 +41,9 @@ export default class GameChart extends Component{
                 activeOpacity={0.7}
             >
 
-                <View style={{backgroundColor:'#fff'}}>
-                   <Image resizeMode="cover" style={styles.img} source={{uri:rowData}}></Image>
-                </View>
+                {this.state.isShow?<View style={{backgroundColor:'#fff'}}>
+                    <Image resizeMode="cover" style={[styles.img,{width:this.state.imgwidth,height:this.state.imgheight}]} source={{uri:rowData}}></Image>
+                </View>:null}
             </TouchableOpacity>
         );
     }
@@ -56,6 +58,26 @@ export default class GameChart extends Component{
                 renderRow={(rowData, sectionID, rowID, highlightRow)=>this._renderRow(rowData, sectionID, rowID, highlightRow)}
             />
         );
+    }
+    componentDidMount(){
+
+            Image.getSize(this.props.data.images[0], (width, height) => {
+                console.log('图片的宽高',width,height)
+                    this.setState({
+                        imgheight:height/2,
+                        imgwidth:width/2
+                    },()=>{
+                        this.setState({
+                            isShow:true
+                        })
+                    })
+                },
+                (error)=>{
+
+                }
+            );
+
+
     }
 }
 

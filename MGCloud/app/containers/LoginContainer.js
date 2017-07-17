@@ -28,6 +28,7 @@ export default class Forum extends Component {
             </View>
         );
     }
+
 }
 
 const styles = StyleSheet.create({

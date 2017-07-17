@@ -67,6 +67,15 @@ export default class GameDetails extends Component {
         let  {params} = this.props.navigation.state
         HttpRequest.getGameDetailData({gid:params.gid,user_id:global.userId?global.userId:null},
             (responseData)=> {
+                if(responseData.images.length!==0){
+                    let  arr = []
+                    responseData.images.forEach((url)=>{
+                       if( (/\.jpg$|\.jpeg$|\.gif$|\.png$/i).test(url)){
+                           arr.push(url)
+                       }
+                    })
+                    responseData.images = arr
+                }
                 this.setState(
                     {
                         data:responseData,

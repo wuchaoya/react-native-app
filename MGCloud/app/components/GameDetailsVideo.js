@@ -23,11 +23,17 @@ export default class GameDetailsVideo extends Component {
 
     render() {
         return (
-            <View>
+            <View style={this.props.data.video_url==''?{
+                height: 200,
+                width: width,
+                justifyContent: 'center',
+                alignItems: 'center',
+            backgroundColor:'rgb(221,221,221)'}:{}}>
                 <Image
-                    resizeMode="cover" style={styles.container}
-                    source={{uri:this.props.data.cover}}>
-                    <View style={[styles.container,{backgroundColor:'rgba(0,0,0,0.4)'}]}>
+                    resizeMode="cover" style={this.props.data.video_url==""?{width:40,height:30}:styles.container}
+                    source={this.props.data.video_url==""?require('../static/img/error.png'):{uri:this.props.data.cover}}
+                >
+                    <View style={this.props.data.video_url==""?null:[styles.container,{backgroundColor:'rgba(0,0,0,0.4)'}]}>
                         <TouchableOpacity activeOpacity={0.9}
                                           onPress={
                                               () => {

@@ -13,7 +13,7 @@ import TransparentStatusBar from '../components/TransparentStatusBar'
 import HeadNav from '../components/HeadNav'
 
 const {width, height} = Dimensions.get('window');
-let url = 'http://www.58.com'
+let url = 'http://www.migu.cn/about.html'
 
 export default class extends Component {
 
@@ -33,7 +33,7 @@ export default class extends Component {
                     <HeadNav header={params.title} onPress={() => {BackHandler.exitApp()}}/>
                     <View style={styles.container}>
                         <WebView
-                            style={{width:width,height:height-20,backgroundColor:'gray'}}
+                            style={{width:width,height:height-20,backgroundColor:'gray',}}
                             source={{uri:params.url,method: 'GET'}}
                             javaScriptEnabled={true}
                             domStorageEnabled={true}

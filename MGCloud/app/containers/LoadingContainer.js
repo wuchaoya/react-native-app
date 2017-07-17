@@ -50,16 +50,23 @@ export default class LoadingContainer extends Component {
         })
 
     }
-    componentWillMount(){
+
+    componentDidMount(){
+        let name = this.props.load+'render'
+        DeviceEventEmitter.emit(name, true)
+        console.log(name+'加载好了')
         console.log(this.props.isLoading,this.props.load)
 
-        DeviceEventEmitter.addListener(this.props.isLoading,(listenerMsg) => {
+      this[this.props.isLoading] = DeviceEventEmitter.addListener(this.props.isLoading,(listenerMsg) => {
             console.log(this.props.isLoading+'收到加载失败')
             this.setState({
                 isLoading:listenerMsg,
             })
         });
         console.log(DeviceEventEmitter)
+    }
+    componentWillUnmount(){
+        this[this.props.isLoading].remove()
     }
 }
 

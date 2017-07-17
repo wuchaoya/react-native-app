@@ -222,7 +222,7 @@ export default class SignIn extends Component {
                     style={{marginTop:20}}
                 />
                 <View style={styles.foot}>
-                    <Text style={styles.text}>注册代表已阅读并接受<Text onPress={() => navigate('Pact',{url:'http://www.taobao.com',title:'使用协议'})} style={{color:'#83b233'}}>《使用协议》</Text></Text>
+                    <Text style={styles.text}>注册代表已阅读并接受<Text onPress={() => navigate('Pact',{url:'http://www.migu.cn/about.html',title:'使用协议'})} style={{color:'#83b233'}}>《使用协议》</Text></Text>
                 </View>
                 <Modal
                     transparent={true}

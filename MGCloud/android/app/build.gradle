@@ -101,7 +101,7 @@ android {
         versionCode 1
         versionName "1.0"
         ndk {
-            abiFilters "armeabi-v7a"
+            abiFilters "armeabi-v7a",
         }
     }
     splits {
@@ -109,7 +109,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a"
+            include "armeabi-v7a",
         }
     }
     buildTypes {
