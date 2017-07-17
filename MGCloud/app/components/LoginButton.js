@@ -21,6 +21,7 @@ export default class LoginButton extends Component {
     render() {
         return (
             <TouchableOpacity
+                activeOpacity={0.8}
                 onPress={this.props.onPress}
                 style={[styles.button,{backgroundColor:this.props.disabled?'#ccc':'#83b233'},this.props.style]}>
 

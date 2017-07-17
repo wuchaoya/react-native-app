@@ -12,16 +12,19 @@ import {
     TextInput,
     TouchableOpacity,
     TouchableHighlight,
-    Modal
+    Modal,
+    ToastAndroid
 } from 'react-native';
 import CodeButton from '../components/CodeButton'
 import HttpRequest from '../common/HttpRequest'
 import  DeviceStorage from '../common/DeviceStorage'
+import LoginButton from '../components/LoginButton'
 import md5 from '../common/md5.min'
+
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
 
-import LoginButton from '../components/LoginButton'
+
 export default class SignIn extends Component {
 
     constructor(props) {
@@ -44,9 +47,10 @@ export default class SignIn extends Component {
             isShow:false,
             loginErr:false,
             list:[],
-            codeText:'获取验证码'
+            codeText:'获取验证码',
         }
     }
+
     render() {
         const { navigate } = this.props.navigation;
         return (
@@ -218,7 +222,7 @@ export default class SignIn extends Component {
                     style={{marginTop:20}}
                 />
                 <View style={styles.foot}>
-                    <Text style={styles.text}>注册代表已阅读并接受<Text onPress={() => navigate('Pact')} style={{color:'#83b233'}}>《使用协议》</Text></Text>
+                    <Text style={styles.text}>注册代表已阅读并接受<Text onPress={() => navigate('Pact',{url:'http://www.taobao.com',title:'使用协议'})} style={{color:'#83b233'}}>《使用协议》</Text></Text>
                 </View>
                 <Modal
                     transparent={true}
@@ -299,6 +303,10 @@ export default class SignIn extends Component {
     }
 
     loginRegister(){
+        if(!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)){
+            ToastAndroid.show('请输入完整的注册的信息', ToastAndroid.SHORT);
+            return
+        }
         this.setState({
             isShow:true
         })

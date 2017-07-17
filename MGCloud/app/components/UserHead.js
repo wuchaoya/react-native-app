@@ -11,7 +11,8 @@ import {
     TouchableHighlight,
     DeviceEventEmitter,
     BackHandler,
-    ToastAndroid
+    ToastAndroid,
+    TouchableOpacity
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
 import TextConst from '../const/TextConst'
@@ -34,9 +35,13 @@ export default class UserHead extends Component {
                 <TouchableHighlight onPress={() => navigate('Settings')}  style={styles.iconSetup} >
                     <Image  style={{height:22,width:22}} source={require('../static/img/setting_icon.png')} />
                 </TouchableHighlight>
-                <View style={styles.headImgBorder}>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => {
+                    if(!global.userId){
+                        navigate('Login',{route:''})
+                    }
+                }} style={styles.headImgBorder}>
                     <Image style={styles.headImg} source={this.state.userIcon}/>
-                </View>
+                </TouchableOpacity>
                 <Text onPress={() => {
                     if(!global.userId){
                         navigate('Login',{route:''})

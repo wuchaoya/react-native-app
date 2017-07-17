@@ -24,15 +24,15 @@ export default class TopicDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            header:'',
-            navColor:null,
+            header:this.props.navigation.state.params.name,
+            navColor:'#000',
             data:[]
         };
     }
     setNavColor(height){
       this.setState({
-          navColor: height>42?'#000':null,
-          header:height>42?'高考结束来完大作':'',
+          navColor: 'rgba(0,0,0,'+0.01*height+')',
+          header:height>42?this.props.navigation.state.params.name:'',
 
       })
     }
@@ -50,9 +50,9 @@ export default class TopicDetails extends Component {
                     contentContainerStyle={styles.contentContainer}>
                     <Image
                         style={styles.headImg} resizeMode="cover"
-                        source = {require('../static/img/4.jpg')}>
+                        source = {{uri:this.state.headImg}}>
                         <View style={styles.headView}>
-                            <Text style={[styles.headText,styles.fonSize_15,{marginBottom:18}]}>文案高考结束来玩大作</Text>
+                            <Text style={[styles.headText,styles.fonSize_15,{marginBottom:18}]}>{this.state.title}</Text>
                             <Text style={[styles.headText,styles.fonSize_11]}>精品大作，够玩一个暑假</Text>
                         </View>
                     </Image>
@@ -64,13 +64,18 @@ export default class TopicDetails extends Component {
     }
 
     componentWillMount() {
+        let  {params} = this.props.navigation.state
         HttpRequest.getGameDissertationData(
-            {did:44},
+            {did:params.did},
             (responseData)=>{
                 console.log(responseData)
                 console.log(typeof responseData)
                 this.setState({
-                    data:responseData.game
+                    data:responseData.game,
+                    navColor:null,
+                    header:'',
+                    headImg:responseData.cover,
+                    title:responseData.title
                 },()=>{
                     console.log('设置成功')
                 })
@@ -90,6 +95,7 @@ const styles = StyleSheet.create({
     },
     headImg:{
         width:width,
+        height:200,
         marginBottom:12,
     },
     headView:{

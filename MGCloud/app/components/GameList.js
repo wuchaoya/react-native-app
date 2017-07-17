@@ -219,29 +219,78 @@ export default class GameList extends Component {
             },()=>{
                 //排行榜
                 if(this.props.showNumber){
-                    //发送加载事件
-                    DeviceEventEmitter.emit('loadMore', this.state.data)
-                    //监听加载状态
-                    this.loadComplete= DeviceEventEmitter.addListener('loadComplete',(listenerMsg) => {
-                        //没有更多数据
-                        if(listenerMsg===false){
+                    if(this.props.name=="热玩榜"){
+                        //发送加载事件
+                        DeviceEventEmitter.emit('loadMore', this.state.data)
+                        //监听加载状态
+                        this.hotPlayloadComplete= DeviceEventEmitter.addListener('hotPlayloadComplete',(listenerMsg) => {
+                            //没有更多数据
+                            if(listenerMsg===false){
+                                this.setState({
+                                    nomore:true,
+                                    isRefreshing:false,
+                                })
+                                this.hotPlayloadComplete.remove();
+                                return
+                            }
                             this.setState({
-                                nomore:true,
                                 isRefreshing:false,
+                                data:listenerMsg,
+                                dataSource:this.state.dataSource.cloneWithRows(listenerMsg)
                             })
+                            console.log('热玩榜加载完毕')
                             this.loadComplete.remove();
-                            return
-                        }
-                        this.setState({
-                            isRefreshing:false,
-                            data:listenerMsg,
-                            dataSource:this.state.dataSource.cloneWithRows(listenerMsg)
-                        })
-                        console.log('加载完毕')
-                        console.log(this.props.data)
-                        this.loadComplete.remove();
 
-                    });
+                        });
+                    }
+                    if(this.props.name=="新品榜"){
+                        //发送加载事件
+                        DeviceEventEmitter.emit('loadMore', this.state.data)
+                        //监听加载状态
+                        this.newProductsloadComplete= DeviceEventEmitter.addListener('newProductsloadComplete',(listenerMsg) => {
+                            //没有更多数据
+                            if(listenerMsg===false){
+                                this.setState({
+                                    nomore:true,
+                                    isRefreshing:false,
+                                })
+                                this.newProductsloadComplete.remove();
+                                return
+                            }
+                            this.setState({
+                                isRefreshing:false,
+                                data:listenerMsg,
+                                dataSource:this.state.dataSource.cloneWithRows(listenerMsg)
+                            })
+                            console.log('新品榜加载完毕')
+                            this.newProductsloadComplete.remove();
+
+                        });
+                    }
+                    if(this.props.name=="预约榜"){
+                        //发送加载事件
+                        DeviceEventEmitter.emit('loadMore', this.state.data)
+                        //监听加载状态
+                        this.reserveloadComplete= DeviceEventEmitter.addListener('reserveloadComplete',(listenerMsg) => {
+                            //没有更多数据
+                            if(listenerMsg===false){
+                                this.setState({
+                                    nomore:true,
+                                    isRefreshing:false,
+                                })
+                                this.reserveloadComplete.remove();
+                                return
+                            }
+                            this.setState({
+                                isRefreshing:false,
+                                data:listenerMsg,
+                                dataSource:this.state.dataSource.cloneWithRows(listenerMsg)
+                            })
+                            console.log('预约加载完毕')
+                            this.reserveloadComplete.remove();
+
+                        });
+                    }
                 }
                 //游戏列表
                 else {
@@ -276,23 +325,54 @@ export default class GameList extends Component {
      * 刷新
      */
     onPullRelease(resolve){
+        if(this.props.name){
+            console.log(this.props.name)
+        }
        //刷新一环扣一环
         this.setState({
             nomore:false,
 
         },()=>{
             //排行榜页
+
             if(this.props.showNumber){
-                DeviceEventEmitter.emit('PullRelease', true)
-                this.onLoad= DeviceEventEmitter.addListener('onLoad',(listenerMsg) => {
-                    console.log('刷新完毕')
-                    this.setState({
-                        data:listenerMsg,
-                        dataSource: this.state.dataSource.cloneWithRows(listenerMsg)
-                    })
-                    this.onLoad.remove();
-                    resolve()
-                });
+                if(this.props.name=='热玩榜'){
+                    DeviceEventEmitter.emit('PullRelease', true)
+                    this.onLoadHotPlay= DeviceEventEmitter.addListener('onLoadHotPlay',(listenerMsg) => {
+                        console.log('刷新完毕')
+                        this.setState({
+                            data:listenerMsg,
+                            dataSource: this.state.dataSource.cloneWithRows(listenerMsg)
+                        })
+                        this.onLoadHotPlay.remove();
+                        resolve()
+                    });
+                }
+                if(this.props.name=="新品榜"){
+                    DeviceEventEmitter.emit('PullRelease', true)
+                    this.onLoadNewProducts= DeviceEventEmitter.addListener('onLoadNewProducts',(listenerMsg) => {
+                        console.log('刷新完毕')
+                        this.setState({
+                            data:listenerMsg,
+                            dataSource: this.state.dataSource.cloneWithRows(listenerMsg)
+                        })
+                        this.onLoadNewProducts.remove();
+                        resolve()
+                    });
+                }
+                if(this.props.name=='预约榜'){
+                    DeviceEventEmitter.emit('PullRelease', true)
+                    this.onLoadReserve= DeviceEventEmitter.addListener('onLoadReserve',(listenerMsg) => {
+                        console.log('刷新完毕')
+                        this.setState({
+                            data:listenerMsg,
+                            dataSource: this.state.dataSource.cloneWithRows(listenerMsg)
+                        })
+                        this.onLoadReserve.remove();
+                        resolve()
+                    });
+                }
+
             }
             //游戏列表
             else {
@@ -347,7 +427,7 @@ export default class GameList extends Component {
 
     render() {
 
-        console.log(this.props)
+        console.log(this.props.name+"--------------------")
         return (
             <PullList
                 style={{backgroundColor:'#fff'}}

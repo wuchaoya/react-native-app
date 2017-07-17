@@ -11,7 +11,8 @@ import {
     DeviceEventEmitter,
     TextInput,
     TouchableOpacity,
-    Modal
+    Modal,
+    ToastAndroid
 } from 'react-native';
 import LoginButton from '../components/LoginButton'
 import RNInteraction from '../common/RNInteraction'
@@ -232,6 +233,10 @@ export default class SignIn extends Component {
         );
     }
     login(){
+        if(!(this.state.user.length!==0&&this.state.pass.length!==0)){
+            ToastAndroid.show('请输入您的账号密码', ToastAndroid.SHORT);
+            return
+        }
         this.setState({
             onLogin:true
         })

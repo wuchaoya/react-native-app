@@ -25,7 +25,7 @@ export default class RankingContainer extends Component {
         super(props);
         this.state = {
             starNumber: 1,
-            selectedTab:'HotPlay',
+            selectedTab:'hotPlay',
             hotPlay:null,
             newProducts:null,
             reserve:null,
@@ -110,7 +110,7 @@ export default class RankingContainer extends Component {
                 this.setState({
                     hotPlay:Filter.dirtyData(responseData)
                 },()=>{
-                    DeviceEventEmitter.emit('onLoad', true)
+                    DeviceEventEmitter.emit('onLoadHotPlay', true)
                 })
 
             },
@@ -128,7 +128,7 @@ export default class RankingContainer extends Component {
                 this.setState({
                     newProducts:Filter.dirtyData(responseData)
                 },()=>{
-                    DeviceEventEmitter.emit('onLoad', true)
+                    DeviceEventEmitter.emit('onLoadNewProducts', true)
                 })
 
             },
@@ -139,7 +139,7 @@ export default class RankingContainer extends Component {
     //"83215266088121"
     getReserve(){
         HttpRequest.getRankListData({
-                user_id:'83215266088121',
+                user_id:global.userId?global.userId:null,
                 page:0,
                 type:3
             },
@@ -150,7 +150,7 @@ export default class RankingContainer extends Component {
                     reserve:Filter.dirtyData(responseData)
                 },()=>{
                     console.log(this.state.reserve)
-                    DeviceEventEmitter.emit('onLoad', true)
+                    DeviceEventEmitter.emit('onLoadReserve', true)
                 })
 
             },
@@ -173,8 +173,8 @@ export default class RankingContainer extends Component {
             this.setState({
                 PullRelease:listenerMsg,
             },()=>{
-                if(this.state.selectedTab=='HotPlay'){
-                    console.log('热玩刷新')
+                console.log(this.state.selectedTab+'++++++++++++++++++')
+                if(this.state.selectedTab=='hotPlay'){
                     this.setState({
                         hotPlayPage:0
                     },()=>{
@@ -184,7 +184,7 @@ export default class RankingContainer extends Component {
                             },
                             (responseData)=> {
                                     if(responseData.length!==0){
-                                        DeviceEventEmitter.emit('onLoad', responseData)
+                                        DeviceEventEmitter.emit('onLoadHotPlay', responseData)
                                     }
                             },
                             (error)=> {
@@ -192,7 +192,7 @@ export default class RankingContainer extends Component {
                             });
                     })
                 }
-                if(this.state.selectedTab=='NewProducts'){
+                if(this.state.selectedTab=='newProducts'){
                     console.log('新品刷新')
                     this.setState({
                         newProductsPage:0
@@ -203,7 +203,7 @@ export default class RankingContainer extends Component {
                             },
                             (responseData)=> {
                                 if(responseData.length!==0){
-                                    DeviceEventEmitter.emit('onLoad', responseData)
+                                    DeviceEventEmitter.emit('onLoadNewProducts', responseData)
                                 }
                             },
                             (error)=> {
@@ -211,7 +211,7 @@ export default class RankingContainer extends Component {
                             });
                     })
                 }
-                if(this.state.selectedTab=='Reserve'){
+                if(this.state.selectedTab=='reserve'){
                     console.log('预约刷新')
                     this.setState({
                         reservePage:0
@@ -223,7 +223,7 @@ export default class RankingContainer extends Component {
                             },
                             (responseData)=> {
                                 if(responseData.length!==0){
-                                    DeviceEventEmitter.emit('onLoad', responseData)
+                                    DeviceEventEmitter.emit('onLoadReserve', responseData)
                                 }
                             },
                             (error)=> {
@@ -236,7 +236,7 @@ export default class RankingContainer extends Component {
         //监听加载事件
         this.loadMore = DeviceEventEmitter.addListener('loadMore',(listenerMsg) => {
             //加载时候发送过来加载前的数据，这边拿到数据发请求合并数组再发过去
-                if(this.state.selectedTab=='HotPlay'){
+                if(this.state.selectedTab=='hotPlay'){
                     let page= this.state.hotPlayPage
                     console.log('热玩加载')
                     this.setState({
@@ -250,13 +250,13 @@ export default class RankingContainer extends Component {
                             (responseData)=> {
                             //没有数据的时候
                             if(responseData.length===0){
-                                DeviceEventEmitter.emit('loadComplete', false)
+                                DeviceEventEmitter.emit('hotPlayloadComplete', false)
                                 return
                             }
                                 let  data = this.state.hotPlay
                                 data = data.concat(responseData)
                                 console.log(data)
-                                DeviceEventEmitter.emit('loadComplete', data)
+                                DeviceEventEmitter.emit('hotPlayloadComplete', data)
                             },
                             (error)=> {
                                 console.log(error);
@@ -264,7 +264,7 @@ export default class RankingContainer extends Component {
                     })
 
                 }
-                if(this.state.selectedTab=='NewProducts'){
+                if(this.state.selectedTab=='newProducts'){
                     let page= this.state.newProductsPage
                     console.log('热玩加载')
                     this.setState({
@@ -278,20 +278,20 @@ export default class RankingContainer extends Component {
                             (responseData)=> {
                                 //没有数据的时候
                                 if(responseData.length===0){
-                                    DeviceEventEmitter.emit('loadComplete', false)
+                                    DeviceEventEmitter.emit('newProductsloadComplete', false)
                                     return
                                 }
                                 let  data = this.state.newProducts
                                 data = data.concat(responseData)
                                 console.log(data)
-                                DeviceEventEmitter.emit('loadComplete', data)
+                                DeviceEventEmitter.emit('newProductsloadComplete', data)
                             },
                             (error)=> {
                                 console.log(error);
                             });
                     })
                 }
-                if(this.state.selectedTab=='Reserve'){
+                if(this.state.selectedTab=='reserve'){
                     console.log('预约加载')
                     let page= this.state.reservePage
                     this.setState({
@@ -306,13 +306,13 @@ export default class RankingContainer extends Component {
                             (responseData)=> {
                                 //没有数据的时候
                                 if(responseData.length===0){
-                                    DeviceEventEmitter.emit('loadComplete', false)
+                                    DeviceEventEmitter.emit('reserveloadComplete', false)
                                     return
                                 }
                                 let  data = this.state.reserve
                                 data = data.concat(responseData)
                                 console.log(data)
-                                DeviceEventEmitter.emit('loadComplete', data)
+                                DeviceEventEmitter.emit('reserveloadComplete', data)
                             },
                             (error)=> {
                                 console.log(error);
@@ -329,6 +329,28 @@ export default class RankingContainer extends Component {
             })
         });
 
+        //监听登陆状态
+        this.LoginStatus = DeviceEventEmitter.addListener('LoginStatus',(listenerMsg) => {
+           console.log('登陆后刷新预约榜的数据')
+            this.setState({
+                reservePage:0
+            },()=>{
+                HttpRequest.getRankListData({
+                        user_id:global.userId?global.userId:null,
+                        page:this.state.reservePage,
+                        type:3
+                    },
+                    (responseData)=> {
+                        if(responseData.length!==0){
+                            DeviceEventEmitter.emit('onLoadReserve', responseData)
+                        }
+                    },
+                    (error)=> {
+                        console.log(error);
+                    });
+            })
+        });
+
     }
 
     componentWillMount() {
@@ -341,6 +363,7 @@ export default class RankingContainer extends Component {
 
     componentWillUnmount(){
         //清除监听
+        console.log('清除监听')
         this.msgListener.remove()
         this.isPullRelease.remove()
         this.loadMore.remove()

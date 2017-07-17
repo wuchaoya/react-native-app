@@ -22,21 +22,19 @@ export default class GameDetailsVideo extends Component {
     }
 
     render() {
-        console.log(this.props.data.video_url)
-        console.log(this.props.data.video_url?true:false)
         return (
             <View>
                 <Image
                     resizeMode="cover" style={styles.container}
-                    source={require('../static/img/game_vidoe.png')}>
+                    source={{uri:this.props.data.cover}}>
                     <View style={[styles.container,{backgroundColor:'rgba(0,0,0,0.4)'}]}>
                         <TouchableOpacity activeOpacity={0.9}
                                           onPress={
                                               () => {
-                                                  RNInteraction.playVideoByUrl(this.props.data)
+                                                  RNInteraction.playVideoByUrl(this.props.data.video_url)
                                               }
                                           }>
-                            {this.props.data?<Image
+                            {this.props.data.video_url?<Image
                                 style={{width: 50, height: 50}}
                                 source={require('../static/img/video_play.png')}/>:null}
                         </TouchableOpacity>

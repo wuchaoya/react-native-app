@@ -10,7 +10,8 @@ import {
     StatusBar,
     ScrollView,
     Modal,
-    TouchableOpacity
+    TouchableOpacity,
+    WebView
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
 import UserHead from '../components/UserHead'
@@ -18,6 +19,7 @@ import TextConst from '../const/TextConst'
 import Title from '../components/Title'
 import VipBuy from '../components/VipBuy'
 import GiftBag from '../components/GiftBag'
+import HttpRequest from '../common/HttpRequest'
 
 export default class user extends Component {
     constructor(props) {
@@ -46,6 +48,8 @@ export default class user extends Component {
         }
         else {
             //发送开通请求
+
+
             //成功后弹出提示
             this.setState({
                 isOpen:true
@@ -58,6 +62,7 @@ export default class user extends Component {
             <ScrollView>
                 <View style={styles.centering}>
                     <UserHead navigation={this.props.navigation}/>
+                    <WebView style={{flex:1}} source={{uri:'https://223.111.8.100:9443/h5pay/api/ygPay?channelCode=41638000&serviceID=760000050880&monthStatus=1&productDescribe=testido&spCode=701095&webId=kztest161010001'}}/>
                     <View style={styles.container}>
                         <Title
                             titleText={TextConst.VipBuyText.title}
@@ -214,6 +219,33 @@ export default class user extends Component {
     }
     showOpen(){
 
+    }
+
+    open(){
+        HttpRequest.ygPay({
+                uId:"1100823869",
+                channelCode:'41638000',
+                serviceID:'760000050880',
+                monthStatus:'1',
+                productDescribe:'testido',
+                spCode:'701095',
+                etel:'13939448850',
+                theme:'',
+                cloudgame:1,
+                signature:'',
+
+            },
+            (response)=>{
+                console.log(response)
+            },
+            (error)=>{
+
+            }
+        )
+    }
+
+    componentWillMount(){
+        this.open()
     }
 }
 

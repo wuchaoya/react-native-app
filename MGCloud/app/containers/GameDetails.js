@@ -27,6 +27,7 @@ import  LoadingContainer from '../containers/LoadingContainer'
 let Dimensions = require('Dimensions');
 let width = Dimensions.get('window').width;
 let starNumber=0
+
 export default class GameDetails extends Component {
 
     constructor(props) {
@@ -136,7 +137,7 @@ export default class GameDetails extends Component {
                     onScroll={(e)=>this.setNavColor(e.nativeEvent.contentOffset.y)}
                 >
                     {this.state.data.length!==0?<View style={styles.container}>
-                        <GameDetailsVideo data={this.state.data.video_url}/>
+                        <GameDetailsVideo data={this.state.data}/>
                         <GameGrade starNumber={this.state.starNumber} isStar={this.state.isStar} starDisable={this.state.starDisable} navigation={this.props.navigation} data={this.state.data}/>
                         <GameChart data={this.state.data} isShow={this.state.isShow}/>
                         <GameDescription data={this.state.data}/>

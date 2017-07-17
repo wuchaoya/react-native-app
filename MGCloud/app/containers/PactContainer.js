@@ -6,43 +6,41 @@ import {
     View,
     ActivityIndicator,
     Dimensions,
-    BackHandler
+    BackHandler,
+    WebView
 } from 'react-native';
-import {PullView} from 'react-native-pull';
-import ScrollableTabView ,{DefaultTabBar} from 'react-native-scrollable-tab-view'
-import TabBartest from '../components/test'
 import TransparentStatusBar from '../components/TransparentStatusBar'
 import HeadNav from '../components/HeadNav'
+
+const {width, height} = Dimensions.get('window');
+let url = 'http://www.58.com'
+
 export default class extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            tabNames: ['热玩榜', '新品榜', '预约榜',],
+
         };
     }
 
 
     render() {
+        let  {params} = this.props.navigation.state
         return(
                 <View style={styles.container}>
                     <TransparentStatusBar/>
-                    <HeadNav header="排行榜" onPress={() => {BackHandler.exitApp()}}/>
-                    <ScrollableTabView
-                        style={{height:96/2 }}
-                        tabBarUnderlineStyle={{backgroundColor:'#83b233',height:1,width:90,
-                        }}
-                        tabBarBackgroundColor='#fff'
-                        tabBarActiveTextColor='#83b233'
-                        tabBarInactiveTextColor="#888"
-                        tabBarTextStyle={{fontSize:14}}
-                        renderTabBar={() => <DefaultTabBar style={{paddingLeft:30,paddingRight:30}} underlineStyle={{paddingLeft:30}}  tabStyle={{width:90,}}  />
-                        }
-                    >
-                        <Text tabLabel='热玩榜'>My</Text>
-                        <Text tabLabel='新品榜'>favorite</Text>
-                        <Text tabLabel='预约榜'>project</Text>
-                    </ScrollableTabView>
+                    <HeadNav header={params.title} onPress={() => {BackHandler.exitApp()}}/>
+                    <View style={styles.container}>
+                        <WebView
+                            style={{width:width,height:height-20,backgroundColor:'gray'}}
+                            source={{uri:params.url,method: 'GET'}}
+                            javaScriptEnabled={true}
+                            domStorageEnabled={true}
+                            scalesPageToFit={false}
+                            startInLoadingState={true}
+                        />
+                    </View>
                 </View>
             )
 

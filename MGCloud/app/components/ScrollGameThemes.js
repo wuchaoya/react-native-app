@@ -31,7 +31,7 @@ export default class extends Component {
                     {this.props.data.map((obj,i)=>{
                      return ( <View style={[styles.slide,i==0?{ marginLeft:12}:null]} key={i} title={<Text numberOfLines={1}></Text>}>
                             <TouchableOpacity activeOpacity={0.8}
-                                              onPress={() => navigate('TopicDetails')} style={styles.image}>
+                                              onPress={() => navigate('TopicDetails',{did:obj.did,name:obj.title})} style={styles.image}>
                                 <View style={styles.image}>
                                     <Image resizeMode='stretch' style={{flex: 1,width:this.state.width,height:350/2}} source={{uri:obj.cover}}  />
                                     <View style={{height:52,justifyContent:'center'}}>
