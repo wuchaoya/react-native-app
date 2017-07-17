@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -78,15 +79,19 @@ public class CloudPlayActivity extends AppCompatActivity implements HmcpPlayerLi
         UserInfo mUserInfo = new UserInfo();
         mUserInfo.userId = "migu" + System.currentTimeMillis();
         mUserInfo.userToken = "userToken" + System.currentTimeMillis();
+        Log.e("========","---"+System.currentTimeMillis());
         hmcpVideoView.setUserInfo(mUserInfo);
         ScreenOrientation orientation = ScreenOrientation.LANDSCAPE; // 手机游戏默认都传ScreenOrientation.LANDSCAPE
         int playTime = 20 * 60 * 1000; // 用户可以玩游戏的时长，以ms为单位
         int priority = 0; // 用户申请游戏服务的优先级,传0就可以
         int appId = 0; // 预留参数，可以为0
 //        String packageName = "com.netease.onmyoji"; // 游戏包名
+        String accessKeyID = this.getResources().getString(R.string.access_key_id);
+        String channelID = this.getResources().getString(R.string.channel_id);
+        String accessKey = this.getResources().getString(R.string.access_key);
         String cToken = ""; // 用来校验参数的有效性，cToken的计算方法请参考服务端SDK文档
         cToken = CryptoUtils.generateCToken(packageName, mUserInfo.userId, mUserInfo.userToken,
-                "F367353CDAB", "migu-channel", "513647564b706e753354475a38344366");
+                accessKeyID, channelID, accessKey);
         String extraId = ""; // 预留参数
         String payStr = ""; // 支付相关参数，默认为空字符串
         String CONFIG_INFO = "123";
