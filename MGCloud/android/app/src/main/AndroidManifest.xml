@@ -24,8 +24,8 @@
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:theme="@style/AppTheme"
-        android:largeHeap="true">
+        android:largeHeap="true"
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".MainActivity"
@@ -34,6 +34,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <!--<action android:name="android.intent.action.APP_ERROR" />-->
             </intent-filter>
         </activity>
 
@@ -41,13 +42,13 @@
             android:name=".activity.CloudPlayActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape"/>
 
         <activity
             android:name=".activity.FullScreenVideoActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape"/>
 
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
