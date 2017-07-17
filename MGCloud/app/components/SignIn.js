@@ -181,7 +181,7 @@ export default class SignIn extends Component {
                 />
                 <LoginButton text="中国移动用户一键登录" disabled={false} style={{marginTop:12}} onPress={()=>{
                     RNInteraction.sendSms('').then((result)=>{
-
+                        // result 代表一键登录需要提交的验证码
                     }).catch((error)=>{
 
                     });

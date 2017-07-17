@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.telephony.SmsManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 import com.facebook.react.bridge.Promise;
@@ -18,7 +19,6 @@ import java.util.List;
  * @date 2017-06-27
  */
 public class SendMessage {
-    private static final String TAG = "SendMsg";
     private String SENT_SMS_ACTION = "SENT_SMS_ACTION";
     private Context context;
     private Promise promise;
@@ -28,6 +28,7 @@ public class SendMessage {
     private String DELIVERED_SMS_ACTION = "DELIVERED_SMS_ACTION";
     private Intent deliverIntent = new Intent(DELIVERED_SMS_ACTION);
     private PendingIntent deliverPI;
+    private String msgCode = "";
 
     /**
      * 构造函数
@@ -66,7 +67,6 @@ public class SendMessage {
         //短信是否被接收状态监控
         deliverPI = PendingIntent.getBroadcast(context, 0, deliverIntent, 0);
         context.registerReceiver(new BroadcastReceiver() {
-
             @Override
             public void onReceive(Context context, Intent intent) {
                 // TODO Auto-generated method stub
@@ -79,33 +79,52 @@ public class SendMessage {
     /**
      * 发送短信，这里是我需要的几个参数，你可以根据你的具体情况来使用不同的参数
      * @param mobile 要发送的目标手机号，这个必须要有
-     * @param code
-     * @param msg    发送的短信内容
      */
-    public void send(String mobile, String code, String msg) {
-        String msg1 = "尊敬的客户，您正在进行";
-        String msg2 = "(6小时内有效)，我站工作人员不会向您索取短信内容。[咪咕云游戏]";
-        msg1 += msg + "操作，短信授权码为";
-        String content = msg1 + code + msg2;
-        List<String> divideContents = smsManager.divideMessage(content);
-        for (String text : divideContents) {
-            try {
-                smsManager.sendTextMessage(mobile, null, text, sentPI, deliverPI);
-            } catch (Exception e) {
-                Toast.makeText(this.context, "短信发送失败，请检查是系统否限制本应用发送短信", Toast.LENGTH_LONG).show();
-                updateStatus("0");
-                e.printStackTrace();
+    public void send(String mobile) {
+        boolean isYDIMSI = getIsYDIMSI();
+        if (isYDIMSI) {
+            msgCode = System.currentTimeMillis() + "";
+            List<String> divideContents = smsManager.divideMessage(msgCode);
+            for (String text : divideContents) {
+                try {
+                    smsManager.sendTextMessage(mobile, null, text, sentPI, deliverPI);
+                } catch (Exception e) {
+                    Toast.makeText(this.context, "短信发送失败，请检查是系统否限制本应用发送短信", Toast.LENGTH_LONG).show();
+                    updateStatus("0");
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            Toast.makeText(context, "该功能只针对移动用户可用，谢谢～～", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * 获取运营商类型是否为移动用户
+     * @return
+     */
+    private boolean getIsYDIMSI() {
+        TelephonyManager telManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String imsi = telManager.getSubscriberId();
+        if (imsi != null) {
+            if (imsi.startsWith("46000") || imsi.startsWith("46002")) {
+                return true; //因为移动网络编号46000下的IMSI已经用完，所以虚拟了一个46002编号，134/159号段使用了此编号 //中国移动
+            } else if (imsi.startsWith("46001")) {
+                return false; //中国联通
+            } else if (imsi.startsWith("46003")) {
+                return false; //中国电信
             }
         }
+        return false;
     }
 
     private void updateStatus(String status) {
         //短信发送成功后做什么事情，就自己定吧
         Log.e("=======", status + "");
         if ("0".equals(status)) {
-            promise.resolve(status);
+//            promise.resolve(status);
         } else if ("1".equals(status)) {
-            promise.reject(status);
+            promise.reject(msgCode);
         }
     }
 }
