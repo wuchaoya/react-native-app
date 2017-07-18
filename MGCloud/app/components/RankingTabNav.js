@@ -59,7 +59,7 @@ export default class RankingTabNav extends Component {
     }
 
     render() {
-
+        console.log('登陆成功预约Tab从新渲染了')
             return (
             <TabNavigator
                 sceneStyle={{marginTop:48,paddingBottom:0}}

@@ -50,7 +50,7 @@ export default class RankingContainer extends Component {
     }
 
     render() {
-        const {navigate} = this.props.navigation;
+       console.log('登陆成功预约容器从新渲染了')
         return (
             <View style={styles.container}>
                 <HeadNav header="排行榜" onPress={() => {BackHandler.exitApp()}}/>
@@ -359,6 +359,7 @@ export default class RankingContainer extends Component {
                         console.log(error);
                     });
             })
+
         });
         //监听重试
         this.hotPlay = DeviceEventEmitter.addListener('hotPlay',(listenerMsg) => {

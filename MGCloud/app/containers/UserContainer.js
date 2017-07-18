@@ -229,11 +229,11 @@ export default class user extends Component {
     open(){
         HttpRequest.ygPay({
                 uId:"1100823869",
-                channelCode:'41638000',
-                serviceID:'760000050880',
+                channelCode:'40288000',
+                serviceID:"500230544000",
                 monthStatus:'1',
                 productDescribe:'testido',
-                spCode:'701095',
+                spCode:'698042',
                 etel:'13939448850',
                 theme:'',
                 cloudgame:1,

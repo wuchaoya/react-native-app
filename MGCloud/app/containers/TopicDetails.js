@@ -53,7 +53,7 @@ export default class TopicDetails extends Component {
                         source = {{uri:this.state.headImg}}>
                         <View style={styles.headView}>
                             <Text style={[styles.headText,styles.fonSize_15,{marginBottom:18}]}>{this.state.title}</Text>
-                            <Text style={[styles.headText,styles.fonSize_11]}>精品大作，够玩一个暑假</Text>
+                            <Text style={[styles.headText,styles.fonSize_11]}></Text>
                         </View>
                     </Image>
                     {this.state.data.length===0?null:<Topic data = {this.state.data}  navigation={this.props.navigation}/>}

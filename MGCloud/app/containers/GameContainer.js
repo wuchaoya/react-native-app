@@ -130,6 +130,10 @@ export default class GameContainer extends Component {
                 HttpRequest.getGameListData(
                     {page:this.state.page},
                     (responseData)=>{
+                        if(responseData.length===0){
+                            DeviceEventEmitter.emit('gameListloadData', false)
+                            return
+                        }
                        data=data.concat(responseData)
                         DeviceEventEmitter.emit('gameListloadData', data)
                     },

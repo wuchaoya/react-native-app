@@ -94,7 +94,7 @@ export default class GameList extends Component {
                             <TouchableOpacity
                                 rounded
                                 success
-                                style={{width:70, height:30,borderWidth:1,borderColor:'#83b223',borderRadius:15,justifyContent:'center',alignItems:'center',marginRight:12}}
+                                style={[styles.buttonStyle,rowData.reserve==1?{borderColor:'#eee'}:null]}
                                 onPress={
                                     () => {
                                         console.log("-------------------")
@@ -113,13 +113,23 @@ export default class GameList extends Component {
                                            RNInteraction.startCloudPlay({pkg:rowData.pkg,userId:global.userId})
                                        }
                                        else {
+                                            if(rowData.reserve==1){
+                                               return
+                                            }
                                            HttpRequest.reserve({
                                                    type:1,
                                                    user_id:global.userId,
                                                    gid:rowData.gid
                                                },
                                                (response)=>{
-                                                   console.log(response)
+                                                   let data = this.state.data
+                                                   data[rowID].reserve=1
+                                                   let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                                                   this.setState({
+                                                       data:data,
+                                                       dataSource: ds.cloneWithRows(data)
+                                                   })
+
                                                },
                                                (error)=>{
 
@@ -130,11 +140,11 @@ export default class GameList extends Component {
                                 }
 
                             >
-                                <Text style={{fontSize: 12, margin: 0, padding: 0,color:'#83b233'}}>
+                                <Text style={[{fontSize: 12, margin: 0, padding: 0,color:'#83b233'},rowData.reserve==1 ?{color:'#aaa'}:null]}>
                                     {
                                         this.props.name!=='预约榜' ?
                                             (rowData.gamePlayed ? '云玩结束' : '云玩') :
-                                            (rowData.greserve==1 ? '取消预约' : '预约')
+                                            (rowData.reserve==1 ? '已预约' : '预约')
                                     }
                                 </Text>
                             </TouchableOpacity>
@@ -449,7 +459,7 @@ export default class GameList extends Component {
          }
      }
     render() {
-
+         console.log('登陆成功预约页面从新渲染了')
         return (
         <View style={{flex:1,backgroundColor:'#fff'}}>
             <Display enable={this.state[this.returnName()]}
@@ -475,6 +485,27 @@ export default class GameList extends Component {
 
 
         );
+    }
+    componentDidMount() {
+        this.LoginStatus = DeviceEventEmitter.addListener('LoginStatus',(listenerMsg) => {
+            DeviceEventEmitter.emit('PullRelease', true)
+            this.onLoadReserve= DeviceEventEmitter.addListener('onLoadReserve',(listenerMsg) => {
+                console.log('刷新完毕')
+                this.setState({
+                    data:listenerMsg,
+                    dataSource: this.state.dataSource.cloneWithRows(listenerMsg),
+                    reserveEnable:true
+                },()=>{
+                    setTimeout(()=>{
+                        this.setState({
+                            reserveEnable :false
+                        })
+                    },1000)
+                })
+                this.onLoadReserve.remove();
+            });
+
+        });
     }
 
 }
@@ -516,6 +547,16 @@ const styles = StyleSheet.create({
         height:1,
         backgroundColor:'#ddd',
         flex:1
+    },
+    buttonStyle:{
+        width:70,
+        height:30,
+        borderWidth:1,
+        borderColor:'#83b223',
+        borderRadius:15,
+        justifyContent:'center',
+        alignItems:'center',
+        marginRight:12
     }
 });
 
