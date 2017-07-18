@@ -10,7 +10,7 @@ const HttpRequest = {
         HttpUitl.post('/v2/homepage', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -27,7 +27,7 @@ const HttpRequest = {
         HttpUitl.post('/v2/rank/rank_list', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(Fitter.dirtyData(response.data));
                 }
             },
@@ -43,7 +43,7 @@ const HttpRequest = {
         HttpUitl.post('/v2/game/game_list', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -59,7 +59,7 @@ const HttpRequest = {
         HttpUitl.post('/v2/game/game_detail', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -75,7 +75,7 @@ const HttpRequest = {
         HttpUitl.post('/v2/dissertation/', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                     console.log(response)
                 }
@@ -89,7 +89,7 @@ const HttpRequest = {
         HttpUitl.post('/v2/login/verity_code', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -101,7 +101,7 @@ const HttpRequest = {
         HttpUitl.post('/v2/login/register', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -113,7 +113,7 @@ const HttpRequest = {
         HttpUitl.post('/v2/login/password', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -125,7 +125,19 @@ const HttpRequest = {
         HttpUitl.post('/v2/login/sms_code', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
+                    callbackSuccess(response.data);
+                }
+            },
+            (error)=> {
+                callbackError(error);
+            })
+    },
+    loginQuick: (parameter, callbackSuccess, callbackError)=> {
+        HttpUitl.post('/v2/login/quick_login', parameter,
+            (response)=> {
+                // 解析处理成页面需要的数据格式,如list
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -137,7 +149,7 @@ const HttpRequest = {
         HttpUitl.post('/v2/login/reset_password', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -149,7 +161,7 @@ const HttpRequest = {
         HttpUitl.post('/v2/game/reserve', parameter,
             (response)=> {
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -162,20 +174,7 @@ const HttpRequest = {
             (response)=> {
                 console.log(response)
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
-                    callbackSuccess(response.data);
-                }
-            },
-            (error)=> {
-                callbackError(error);
-            })
-    },
-    quickLogin: (parameter, callbackSuccess, callbackError)=> {
-        HttpUitl.post('/v2/login/quick_login', parameter,
-            (response)=> {
-                console.log(response)
-                // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -188,7 +187,7 @@ const HttpRequest = {
             (response)=> {
                 console.log(response)
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -196,6 +195,5 @@ const HttpRequest = {
                 callbackError(error);
             })
     },
-
 }
 module.exports = HttpRequest

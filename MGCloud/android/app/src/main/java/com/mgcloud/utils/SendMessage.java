@@ -10,11 +10,14 @@ import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.facebook.react.bridge.Promise;
+
 import java.util.List;
 
 /**
  * 发送短信,接收发送短信成功与失败
+ *
  * @author shisheng.zhao
  * @date 2017-06-27
  */
@@ -32,6 +35,7 @@ public class SendMessage {
 
     /**
      * 构造函数
+     *
      * @param c
      * @param promise
      */
@@ -66,18 +70,22 @@ public class SendMessage {
 
         //短信是否被接收状态监控
         deliverPI = PendingIntent.getBroadcast(context, 0, deliverIntent, 0);
-        context.registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                // TODO Auto-generated method stub
-                Toast.makeText(context, "短信发送成功,对方已接受!", Toast.LENGTH_LONG).show();
-                updateStatus("1");
-            }
-        }, new IntentFilter(DELIVERED_SMS_ACTION));
+        try {
+            context.registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    Toast.makeText(context, "短信发送成功,对方已接受!", Toast.LENGTH_LONG).show();
+                    updateStatus("1");
+                }
+            }, new IntentFilter(DELIVERED_SMS_ACTION));
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * 发送短信，这里是我需要的几个参数，你可以根据你的具体情况来使用不同的参数
+     *
      * @param mobile 要发送的目标手机号，这个必须要有
      */
     public void send(String mobile) {
@@ -89,7 +97,7 @@ public class SendMessage {
                 try {
                     smsManager.sendTextMessage(mobile, null, text, sentPI, deliverPI);
                 } catch (Exception e) {
-                    Toast.makeText(this.context, "短信发送失败，请检查是系统否限制本应用发送短信", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this.context, "短信发送失败，请检查系统是否限制本应用发送短信", Toast.LENGTH_LONG).show();
                     updateStatus("0");
                     e.printStackTrace();
                 }
@@ -101,6 +109,7 @@ public class SendMessage {
 
     /**
      * 获取运营商类型是否为移动用户
+     *
      * @return
      */
     private boolean getIsYDIMSI() {
@@ -119,12 +128,14 @@ public class SendMessage {
     }
 
     private void updateStatus(String status) {
-        //短信发送成功后做什么事情，就自己定吧
-        Log.e("=======", status + "");
+        Log.i("", "短信流程最终状态：" + status);
+        // 失败
         if ("0".equals(status)) {
-//            promise.resolve(status);
-        } else if ("1".equals(status)) {
             promise.reject(msgCode);
+        }
+        // 成功
+        else if ("1".equals(status)) {
+            promise.resolve(msgCode);
         }
     }
 }
