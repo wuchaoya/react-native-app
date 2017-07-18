@@ -2,6 +2,6 @@
     <string name="app_name">MGCloud</string>
     <string name="video_error">视频播放错误，请重试!</string>
     <string name="access_key_id">xiamatest01</string>
-    <string name="channel_id">migu-2.0</string>
+    <string name="channel_id">migu-channel</string>
     <string name="access_key">305835466a45754e496633356a76445a</string>
 </resources>

@@ -52,6 +52,18 @@
             android:screenOrientation="landscape"/>
 
         <activity
+            android:name=".activity.cloud.GameListActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.cloud.CloudPlayActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"/>
+
+        <activity
             android:name=".activity.FullScreenVideoActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"

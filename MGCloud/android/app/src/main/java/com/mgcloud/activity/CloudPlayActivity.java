@@ -37,13 +37,14 @@ public class CloudPlayActivity extends AppCompatActivity implements HmcpPlayerLi
         View.OnSystemUiVisibilityChangeListener {
     private HmcpVideoView hmcpVideoView;
     private String packageName = "com.netease.onmyoji";
+    private String userId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cloudplay);
         packageName = getIntent().getStringExtra("packageName");
-        getIntent().getStringExtra("userId");
+        userId = getIntent().getStringExtra("userId");
         getIntent().getStringExtra("playTime");
         hmcpVideoView = (HmcpVideoView) this.findViewById(R.id.gameView);
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(this);
@@ -77,7 +78,7 @@ public class CloudPlayActivity extends AppCompatActivity implements HmcpPlayerLi
 
     private void startPlayCloudGame() {
         UserInfo mUserInfo = new UserInfo();
-        mUserInfo.userId = "migu" + System.currentTimeMillis();
+        mUserInfo.userId = userId;
         mUserInfo.userToken = "userToken" + System.currentTimeMillis();
         Log.e("========","---"+System.currentTimeMillis());
         hmcpVideoView.setUserInfo(mUserInfo);
@@ -150,7 +151,8 @@ public class CloudPlayActivity extends AppCompatActivity implements HmcpPlayerLi
     }
 
     @Override
-    public void onNetworkChanged(NetWorkState state) {    // 网络发生变化时的回调。
+    public void onNetworkChanged(NetWorkState netWorkState) {
+
     }
 
     @Override
