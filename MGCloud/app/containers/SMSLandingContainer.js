@@ -274,7 +274,7 @@ export default class SMSLanding extends Component {
                     this.setState({
                         onLogin:false
                     },()=>{
-                        alert('登陆成功')
+
                     })
                 }
                 else {

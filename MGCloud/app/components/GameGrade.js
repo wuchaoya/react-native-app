@@ -59,7 +59,7 @@ export default class GameGrade extends Component {
                     <Image style={styles.gameImg} source={{uri:this.state.data.icon}}></Image>
                     <View style={{marginTop:9,justifyContent:'space-around',width: 180}}>
                         <Text style={{fontSize:15,color:'#000'}}>{this.state.data.name}</Text>
-                        <Text numberOfLines={1} style={{fontSize:12,color:'#999',marginBottom:4}}>{this.state.data.introduction}</Text>
+                        <Text numberOfLines={1} style={{fontSize:12,color:'#999',marginBottom:4}}>{this.state.data.company}</Text>
                         <View style={[styles.flexRow,{height:25,flexWrap:'wrap'}]}>
                             {this.state.data.label.slice(0,2).map((item,i)=>{
                                 return (

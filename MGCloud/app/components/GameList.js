@@ -229,7 +229,7 @@ export default class GameList extends Component {
                                 dataSource:this.state.dataSource.cloneWithRows(listenerMsg)
                             })
                             console.log('热玩榜加载完毕')
-                            this.loadComplete.remove();
+                            this.hotPlayloadComplete.remove();
 
                         });
                     }
