@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     },
     iconStyle: {
         width: 21,
-        height: 18,
+        height: 21,
     },
     titleTextColor:{
         color:ColorStyle.colorSlategray

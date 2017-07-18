@@ -29,6 +29,8 @@ import HttpRequest from '../common/HttpRequest'
 import  LoadingContainer from '../containers/LoadingContainer'
 import LoadingAnimation from '../components/LoadingAnimation'
 import Orientation from 'react-native-orientation';
+import Display from 'react-native-display';
+
 export default class HomeContainer extends Component {
 
     constructor(props) {
@@ -38,19 +40,15 @@ export default class HomeContainer extends Component {
             dissertation:[],
             gameList:[],
             refreshing: false,
-            titleHeight:0
+            enable:false
         }
         this.onPullRelease = this.onPullRelease.bind(this);
         this.topIndicatorRender = this.topIndicatorRender.bind(this);
     }
 
     onPullRelease(resolve) {
-        this.setState({
-            titleHeight:0
-        },()=>{
+
             this.getHomeData(resolve)
-        })
-        //do something
 
     }
 
@@ -62,6 +60,7 @@ export default class HomeContainer extends Component {
                 this.txtPulling && this.txtPulling.setNativeProps({style: show});
                 this.txtPullok && this.txtPullok.setNativeProps({style: hide});
                 this.txtPullrelease && this.txtPullrelease.setNativeProps({style: hide});
+
             } else if (pullok) {
                 this.txtPulling && this.txtPulling.setNativeProps({style: hide});
                 this.txtPullok && this.txtPullok.setNativeProps({style: show});
@@ -90,11 +89,18 @@ export default class HomeContainer extends Component {
         return (
             <View style={{flex:1,}}>
                 <HeadNav header="云游戏" onPress={() => {BackHandler.exitApp()}}/>
-                <View style={{height:this.state.titleHeight,backgroundColor:'#ededed',justifyContent:'center',alignItems:'center',flexDirection:'row',overflow:'hidden'}}>
-                    <Image style={{width:51,height:13}} source={require('../static/img/emoji.png')}/>
-                    <Text>刷新成功</Text>
+                <View>
+                    <Display enable={this.state.enable}
+                             enter='fadeIn'
+                             exit='fadeOut'
+                             enterDuration={800}
+                             exitDuration={800}
+                             style={{height:44,backgroundColor:'#ededed',justifyContent:'center',alignItems:'center',flexDirection:'row',overflow:'hidden'}}>
+                        <Image style={{width:51,height:13}} source={require('../static/img/emoji.png')}/>
+                        <Text>刷新成功</Text>
+                    </Display>
                 </View>
-                <PullView style={{width: Dimensions.get('window').width}}
+                <PullView style={{width: Dimensions.get('window').width,backgroundColor:'#ededed'}}
                           onPullRelease={this.onPullRelease}
                           topIndicatorRender={this.topIndicatorRender}
                           topIndicatorHeight={44} >
@@ -169,13 +175,13 @@ export default class HomeContainer extends Component {
                     if(resolve){
                         resolve()
                         this.setState({
-                            titleHeight:44,
+                            enable:true,
                         },()=>{
                             setTimeout(()=>{
                                 this.setState({
-                                    titleHeight:0
+                                    enable:false
                                 })
-                            },1500)
+                            },1000)
                         })
                     }
                     console.log(responseData.gameList

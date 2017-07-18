@@ -35,14 +35,15 @@ export default class GameChart extends Component{
 
         return (
             <TouchableOpacity
+                style={{width:this.state.imgwidth,height:this.state.imgheight}}
                 onPress={()=>{
                     DeviceEventEmitter.emit('Gallery', true)
                 }}
                 activeOpacity={0.7}
             >
 
-                {this.state.isShow?<View style={{backgroundColor:'#fff'}}>
-                    <Image resizeMode="cover" style={[styles.img,{width:this.state.imgwidth,height:this.state.imgheight}]} source={{uri:rowData}}></Image>
+                {this.state.isShow?<View style={{backgroundColor:'#fff',width:this.state.imgwidth,height:this.state.imgheight}}>
+                    <Image style={[styles.img,{width:this.state.imgwidth,height:this.state.imgheight}]} source={{uri:rowData}}></Image>
                 </View>:null}
             </TouchableOpacity>
         );
@@ -64,8 +65,8 @@ export default class GameChart extends Component{
             Image.getSize(this.props.data.images[0], (width, height) => {
                 console.log('图片的宽高',width,height)
                     this.setState({
-                        imgheight:height/2,
-                        imgwidth:width/2
+                        imgheight:180,
+                        imgwidth:width/(height/2/180)/2
                     },()=>{
                         this.setState({
                             isShow:true
@@ -86,7 +87,7 @@ const styles =StyleSheet.create({
         flexDirection: 'row',
     },
     img:{
-        height:207,
+        height:180,
         width:116,
         margin:9,
         marginRight:0

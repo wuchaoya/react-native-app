@@ -22,14 +22,17 @@ import GiftBag from '../components/GiftBag'
 import HttpRequest from '../common/HttpRequest'
 
 export default class user extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
            showOpen:false,
             isLogin:false,
-            isOpen:false
+            isOpen:false,
+            data:[]
         }
     }
+
     goLogin(bool){
         this.setState({
             isLogin:false
@@ -39,6 +42,7 @@ export default class user extends Component {
             }
         })
     }
+
     openVip(){
         console.log('点了')
         if(!global.userId){
@@ -57,44 +61,45 @@ export default class user extends Component {
 
         }
     }
+
     render() {
         return (
             <ScrollView>
                 <View style={styles.centering}>
                     <UserHead navigation={this.props.navigation}/>
                     <WebView style={{flex:1}} source={{uri:'https://223.111.8.100:9443/h5pay/api/ygPay?channelCode=41638000&serviceID=760000050880&monthStatus=1&productDescribe=testido&spCode=701095&webId=kztest161010001'}}/>
-                    <View style={styles.container}>
+                    {this.state.data.length==0?null: <View style={styles.container}>
                         <Title
                             titleText={TextConst.VipBuyText.title}
                             color={ColorStyle.colorBlack}
                             fontWeight="400"
                             style={{marginBottom:15}}/>
 
-                         <VipBuy
-                                backgroundColor="#FAF0E6"
-                                borderColor="#F4A460"
-                                buttonColor ='darkorange'
-                                recommend={true}
-                                name={TextConst.VipBuyText.Exclusive.name}
-                                price ={TextConst.VipBuyText.Exclusive.Price}
-                                time = {TextConst.VipBuyText.Exclusive.SingleMonth}
-                                buttonText = {TextConst.VipBuyText.Exclusive.open}
-                                onPress={this.openVip.bind(this)}
-                            />
-                         <VipBuy
-                                backgroundColor="#ffffff"
-                                borderColor="#cccccc"
-                                buttonColor ='#83b233'
-                                recommend={false}
-                                name={TextConst.VipBuyText.Featured.name}
-                                price ={TextConst.VipBuyText.Featured.Price}
-                                time = {TextConst.VipBuyText.Featured.SingleMonth}
-                                buttonText = {TextConst.VipBuyText.Featured.open}
-                                onPress={this.openVip.bind(this)}
-                            />
+                        <VipBuy
+                            backgroundColor="#FAF0E6"
+                            borderColor="#F4A460"
+                            buttonColor ='darkorange'
+                            recommend={true}
+                            name={this.state.data[1].prodect_title}
+                            price ={this.state.data[1].prize}
+                            time = {' 元/'+this.state.data[1].time_length+'分'}
+                            buttonText = {TextConst.VipBuyText.Exclusive.open}
+                            onPress={this.openVip.bind(this)}
+                        />
+                        <VipBuy
+                            backgroundColor="#ffffff"
+                            borderColor="#cccccc"
+                            buttonColor ='#83b233'
+                            recommend={false}
+                            name={this.state.data[2].prodect_title}
+                            price ={this.state.data[2].prize}
+                            time = {' 元/'+this.state.data[2].time_length+'分'}
+                            buttonText = {TextConst.VipBuyText.Featured.open}
+                            onPress={this.openVip.bind(this)}
+                        />
 
-                    </View>
-                    <View style={[styles.container,{marginBottom:23}]}>
+                    </View>}
+                    {this.state.data.length==0?null: <View style={[styles.container,{marginBottom:23}]}>
                         <Title
                             titleText={TextConst.equityText.title}
                             color={ColorStyle.colorBlack}
@@ -105,20 +110,20 @@ export default class user extends Component {
                             border={true}
                             name={TextConst.equityText.exclusive.name}
                             gameTimeText={TextConst.equityText.exclusive.gameTimeText}
-                            intro={TextConst.equityText.exclusive.intro}
+                            intro={this.state.data[0].prodect_describe}
                         />
                         <GiftBag
                             color="#ffba00"
                             border={true}
                             name={TextConst.equityText.chosen.name}
                             gameTimeText={TextConst.equityText.chosen.gameTimeText}
-                            intro={TextConst.equityText.chosen.intro}
+                            intro={this.state.data[1].prodect_describe}
                         />
                         <GiftBag
                             color="#999999"
                             name={TextConst.equityText.tasteOf.name}
                             gameTimeText={TextConst.equityText.tasteOf.gameTimeText}
-                            intro={TextConst.equityText.tasteOf.intro}
+                            intro={this.state.data[2].prodect_describe}
                         />
                         <Modal
                             transparent={true}
@@ -212,7 +217,7 @@ export default class user extends Component {
                             </View>
 
                         </Modal>
-                     </View>
+                    </View>}
                 </View>
             </ScrollView>
         );
@@ -244,8 +249,22 @@ export default class user extends Component {
         )
     }
 
+    getService(){
+        HttpRequest.serviceList('',
+            (response)=>{
+                console.log(response)
+                this.setState({
+                    data:response
+                })
+            },
+            (error)=>{
+
+            }
+        )
+    }
     componentWillMount(){
         this.open()
+        this.getService()
     }
 }
 

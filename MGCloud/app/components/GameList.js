@@ -12,7 +12,8 @@ import  {
     TouchableOpacity,
     RefreshContro,
     ActivityIndicator,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    Dimensions
 } from'react-native';
 import {Button} from 'native-base';
 import Star from './Star'
@@ -22,6 +23,9 @@ import LoadingAnimation from '../components/LoadingAnimation'
 import GameClass from '../components/GameClass'
 import StarRating from 'react-native-star-rating';
 import HttpRequest from '../common/HttpRequest'
+import Display from 'react-native-display';
+
+let width = Dimensions.get('window').width;
 
 export default class GameList extends Component {
     constructor(props) {
@@ -31,7 +35,11 @@ export default class GameList extends Component {
             dataSource: ds.cloneWithRows(this.props.data),
             isRefreshing: false,
             data:this.props.data,
-            nomore:false
+            nomore:false,
+            hotPlayEnable:false,
+            newProductsEnable:false,
+            reserveEnable:false,
+            gameListEnable:false
         };
         this.renderHeader = this.renderHeader.bind(this);
         this._renderRow = this._renderRow.bind(this);
@@ -52,14 +60,14 @@ export default class GameList extends Component {
         return (
             <TouchableOpacity onPress={() => navigate('GameDetails',{gid:rowData.gid})}>
                 <View>
-                    <View style={[styles.row,{justifyContent:this.props.showNumber?'space-around':'space-between',}]}>
+                    <View style={[styles.row,{justifyContent:'space-between',}]}>
                         <View style={{width:this.props.showNumber?30:0,}}>
                             {this._renderNumber(this.props.showNumber,rowID)}
                         </View>
                         <Image style={styles.thumb} source={{uri:rowData.icon}}/>
-                        <View style={{width: 100}}>
+                        <View style={{width:width-94-12-15-84, marginLeft:12}}>
                             <Text numberOfLines={1} style={styles.gameName}>{rowData.name}</Text>
-                            <View style={{flexDirection: 'row',alignItems:'center',marginTop:3}}>
+                            <View style={{flexDirection: 'row',alignItems:'center',marginTop:10}}>
                                 <StarRating
                                     disabled={true}
                                     maxStars={5}
@@ -71,7 +79,7 @@ export default class GameList extends Component {
                                 />
                                 <Text style={{fontSize: 12, marginLeft: 4}}>{parseInt(rowData.score)==rowData.score?rowData.score:rowData.score.toFixed(1)}</Text>
                             </View>
-                            <View style={{flexDirection: 'row' ,width:110,flexWrap:'wrap'}}>
+                            <View style={{flexDirection: 'row' ,width:110,flexWrap:'wrap',marginTop:6}}>
                                 {
                                     rowData.label.length!==0?(rowData.label.slice(0,2).map((item,i)=>{
                                     return(
@@ -82,38 +90,11 @@ export default class GameList extends Component {
 
                             </View>
                         </View>
-                        <View style={{width: 90,}}>
-                            <Button
-                                bordered={!rowData.gamePlayed}
+
+                            <TouchableOpacity
                                 rounded
                                 success
-                                style=
-                                    {
-                                        rowData.gamePlayed !== undefined ?
-                                            (rowData.gamePlayed ?
-                                                {
-                                                    backgroundColor: '#DDDDDD',
-                                                    height: 30,
-                                                    paddingLeft: 20,
-                                                    paddingRight: 20,
-                                                } :
-                                                {
-                                                    borderColor: '#6dae31',
-                                                    height: 30,
-                                                }) :
-                                            (rowData.gameReserve ?
-                                                    {
-                                                        borderColor: '#dddddd',
-                                                        height: 30,
-                                                        paddingLeft: 20,
-                                                        paddingRight: 20,
-                                                    } :
-                                                    {
-                                                        borderColor: '#6dae31',
-                                                        height: 30,
-                                                    }
-                                            )
-                                    }
+                                style={{width:70, height:30,borderWidth:1,borderColor:'#83b223',borderRadius:15,justifyContent:'center',alignItems:'center',marginRight:12}}
                                 onPress={
                                     () => {
                                         console.log("-------------------")
@@ -149,15 +130,14 @@ export default class GameList extends Component {
                                 }
 
                             >
-                                <Text style={{fontSize: 10, margin: 0, padding: 0}}>
+                                <Text style={{fontSize: 12, margin: 0, padding: 0,color:'#83b233'}}>
                                     {
                                         this.props.name!=='预约榜' ?
                                             (rowData.gamePlayed ? '云玩结束' : '云玩') :
-                                            (rowData.gameReserve ? '取消预约' : '预约')
+                                            (rowData.greserve==1 ? '取消预约' : '预约')
                                     }
                                 </Text>
-                            </Button>
-                        </View>
+                            </TouchableOpacity>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -342,7 +322,14 @@ export default class GameList extends Component {
                         console.log('刷新完毕')
                         this.setState({
                             data:listenerMsg,
-                            dataSource: this.state.dataSource.cloneWithRows(listenerMsg)
+                            dataSource: this.state.dataSource.cloneWithRows(listenerMsg),
+                            hotPlayEnable:true
+                        },()=>{
+                            setTimeout(()=>{
+                                this.setState({
+                                    hotPlayEnable :false
+                                })
+                            },1000)
                         })
                         this.onLoadHotPlay.remove();
                         resolve()
@@ -354,7 +341,15 @@ export default class GameList extends Component {
                         console.log('刷新完毕')
                         this.setState({
                             data:listenerMsg,
-                            dataSource: this.state.dataSource.cloneWithRows(listenerMsg)
+                            dataSource: this.state.dataSource.cloneWithRows(listenerMsg),
+                            newProductsEnable:true
+
+                        },()=>{
+                            setTimeout(()=>{
+                                this.setState({
+                                    newProductsEnable :false
+                                })
+                            },1000)
                         })
                         this.onLoadNewProducts.remove();
                         resolve()
@@ -366,7 +361,14 @@ export default class GameList extends Component {
                         console.log('刷新完毕')
                         this.setState({
                             data:listenerMsg,
-                            dataSource: this.state.dataSource.cloneWithRows(listenerMsg)
+                            dataSource: this.state.dataSource.cloneWithRows(listenerMsg),
+                            reserveEnable:true
+                        },()=>{
+                            setTimeout(()=>{
+                                this.setState({
+                                    reserveEnable :false
+                                })
+                            },1000)
                         })
                         this.onLoadReserve.remove();
                         resolve()
@@ -381,7 +383,14 @@ export default class GameList extends Component {
                     console.log('刷新完毕')
                     this.setState({
                         data:listenerMsg,
+                        gameListEnable:true,
                         dataSource: this.state.dataSource.cloneWithRows(listenerMsg)
+                    },()=>{
+                        setTimeout(()=>{
+                            this.setState({
+                                gameListEnable :false
+                            })
+                        },1000)
                     })
                     this.onLoad.remove();
                     resolve()
@@ -425,10 +434,33 @@ export default class GameList extends Component {
         );
     }
 
+     returnName (){
+        if(this.props.name=="热玩榜"){
+            return 'hotPlayEnable'
+        }
+        if(this.props.name=="新品榜"){
+            return 'newProductsEnable'
+        }
+         if(this.props.name=="预约榜"){
+             return 'reserveEnable'
+         }
+         if(this.props.name=="gameList"){
+             return 'gameListEnable'
+         }
+     }
     render() {
 
-        console.log(this.props.name+"--------------------")
         return (
+        <View style={{flex:1,backgroundColor:'#fff'}}>
+            <Display enable={this.state[this.returnName()]}
+                     enter='fadeIn'
+                     exit='fadeOut'
+                     enterDuration={800}
+                     exitDuration={800}
+                     style={{height:44,backgroundColor:'#fff',justifyContent:'center',alignItems:'center',flexDirection:'row',overflow:'hidden'}}>
+                <Image style={{width:51,height:13}} source={require('../static/img/emoji.png')}/>
+                <Text>刷新成功</Text>
+            </Display>
             <PullList
                 style={{backgroundColor:'#fff'}}
                 onPullRelease={this.onPullRelease.bind(this)} topIndicatorRender={this.topIndicatorRender} topIndicatorHeight={60}
@@ -439,6 +471,9 @@ export default class GameList extends Component {
                 onEndReachedThreshold={60}
                 renderFooter={this.renderFooter}
             />
+        </View>
+
+
         );
     }
 

@@ -25,7 +25,7 @@ export default class LoadingContainer extends Component {
         return (
             <View style={styles.container}>
                 {this.state.isLoading?
-                    <View>
+                    <View style={{alignItems:'center',justifyContent:'center'}}>
                         <LoadingAnimation/>
                         <Text style={{fontSize:12, color:'#666',marginTop:6}}>加载中</Text>
                     </View>:

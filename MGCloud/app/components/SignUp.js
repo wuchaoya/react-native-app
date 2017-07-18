@@ -324,8 +324,6 @@ export default class SignIn extends Component {
                 if(response.resultCode==0){
                     this.setState({
                         isShow:false
-                    },()=>{
-                        alert('注册成功')
                     })
                 }
                 else {

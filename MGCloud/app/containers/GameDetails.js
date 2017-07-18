@@ -299,6 +299,7 @@ export default class GameDetails extends Component {
         this.gallery.remove()
         this.subStar.remove()
         this.gameGradeLogin.remove()
+        this.LoginStatus.remove()
         Dimensions=null;
         width=null;
     }

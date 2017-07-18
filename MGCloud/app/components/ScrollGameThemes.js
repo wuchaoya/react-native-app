@@ -34,7 +34,7 @@ export default class extends Component {
                                               onPress={() => navigate('TopicDetails',{did:obj.did,name:obj.title})} style={styles.image}>
                                 <View style={styles.image}>
                                     <Image resizeMode='stretch' style={{flex: 1,width:this.state.width,height:350/2}} source={{uri:obj.cover}}  />
-                                    <View style={{height:52,justifyContent:'center'}}>
+                                    <View style={{height:52,justifyContent:'center',marginTop:-3}}>
                                         <Text style={{fontSize:15,color:'#333',}}>{obj.title}</Text>
                                     </View>
                                 </View>

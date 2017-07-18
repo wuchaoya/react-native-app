@@ -6,12 +6,14 @@ import {
     StyleSheet,
     Image,
     View,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    Text
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import ColorStyle from '../style/ColorStyle'
 import GameList from '../components/GameList'
 import  LoadingContainer from '../containers/LoadingContainer'
+import Display from 'react-native-display';
 
 export default class RankingTabNav extends Component {
 
@@ -26,7 +28,8 @@ export default class RankingTabNav extends Component {
             lineGreenIcon : require('../static/img/line_green_icon.png'),
             hotPlay:this.props.data.hotPlay,
             newProducts:this.props.data.newProducts,
-            reserve:this.props.data.reserve
+            reserve:this.props.data.reserve,
+            Display:false
         }
     }
 
@@ -45,6 +48,7 @@ export default class RankingTabNav extends Component {
                 onPress={() => this.setState({selectedTab: selectedTab},()=>{
                     DeviceEventEmitter.emit('selectedTab', this.state.selectedTab)
                 })}>
+
                 {this.props.data[selectedTab]?<Component
                     showNumber={true}
                     name={title}
@@ -91,8 +95,7 @@ const styles = StyleSheet.create({
     },
     titleTextColor:{
         fontSize: 14,
-        color:'#888',
-        fontWeight:'800',
+        color:'#999',
         height:31
     },
     tabBarStyle:{
@@ -102,6 +105,7 @@ const styles = StyleSheet.create({
         paddingLeft: 40,
         paddingRight: 40,
         margin:0,
-        padding:0
+        padding:0,
+        backgroundColor:'#fff'
     }
 });

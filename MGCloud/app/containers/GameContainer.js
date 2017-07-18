@@ -22,7 +22,8 @@ export default class GameContainer extends Component {
         this.state = {
             page:0,
             data:null,
-            isLogin:false
+            isLogin:false,
+            enable:false
         }
     }
 
@@ -40,7 +41,7 @@ export default class GameContainer extends Component {
         return (
             <View style={{flex:1}} >
                 <HeadNav header="游戏列表"  onPress={() => goBack()}  />
-                {this.state.data!==null?<GameList data={this.state.data} navigation = {this.props.navigation} />:<  LoadingContainer load="gameList" isLoading="isGameList"/>}
+                {this.state.data!==null?<GameList name="gameList" data={this.state.data} navigation = {this.props.navigation} />:<  LoadingContainer load="gameList" isLoading="isGameList"/>}
                 <Modal
                     transparent={true}
                     animationType={"slide"}

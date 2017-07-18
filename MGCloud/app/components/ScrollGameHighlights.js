@@ -45,7 +45,7 @@ export default class ScrollGameHighlights extends Component {
                                     }
                                 }}
                                 style={[styles.container]}>
-                                <View style={styles.err} >
+                                <View>
                                     <Image
                                         style={[obj.icon==''?{width:40,height:30}:styles.radiuImg]}
                                         source={obj.icon==''?require('../static/img/error.png'):{uri:obj.icon}} />
@@ -83,15 +83,15 @@ const styles = StyleSheet.create({
         width:86,
         fontSize:13,
         color:'#333',
-        lineHeight:20,
-        marginTop:9
+        marginTop:-4
+
     },
     err:{
         backgroundColor:'#ddd', width:86,
         height:86,
         borderRadius:18,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
     }
 });
 

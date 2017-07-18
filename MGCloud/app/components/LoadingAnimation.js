@@ -33,8 +33,10 @@ export default class LoadingAnimation extends Component {
 const styles = StyleSheet.create({
     container:{
         width:27,
-        height:27,
+        height:29,
         overflow:'hidden',
+        justifyContent:'center',
+        alignItems:'center'
 
     }
 });
