@@ -288,7 +288,7 @@ export default class SignIn extends Component {
         HttpRequest.login({
                 phone: this.state.user,
                 //先不加密，因为我以前注册的账号都没加密
-                password: this.state.pass,
+                password:md5(this.state.pass),
                 ip: '',
                 position: '',
                 DeviceType: ''

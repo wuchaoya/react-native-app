@@ -42,7 +42,7 @@ export default class GameGrade extends Component {
         }
         this.setState({
             starCount: this.props.isStar?this.state.starCount:rating,
-            isShow:this.props.isStar?true:false
+            isShow:this.props.isStar
         },()=>{
             setTimeout(()=>{
                 this.setState({

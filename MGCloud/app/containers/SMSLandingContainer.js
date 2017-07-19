@@ -79,6 +79,7 @@ export default class SMSLanding extends Component {
                             },()=>{
                                 this.setState({
                                     clerUser:this.state.user.length!==0?34:-100,
+                                    codeButtonDisabled:true
                                 })
                             })
                         }} style={[styles.clear,{right:this.state.clerUser,}]}>

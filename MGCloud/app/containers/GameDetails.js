@@ -99,7 +99,7 @@ export default class GameDetails extends Component {
             statusBarOpacity:0,
             starNumber:bool?starNumber:this.state.starNumber
         },()=>{
-            console.log(this)
+            console.log(this.state.subStar)
             if(bool===true){
                 const  {params} = this.props.navigation.state
                 HttpRequest.score({

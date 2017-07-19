@@ -50,7 +50,16 @@ export default class UserHead extends Component {
             </View>
         );
     }
+
     componentDidMount(){
+        if(global.userId){
+            this.setState({
+                userName:global.userInfo.authenticateRsp.loginAccountName,
+                userIcon:require('../static/img/user_head_icon.jpg')
+            },()=>{
+                console.log('当前已经登陆')
+            })
+        }
         this.LoginStatus = DeviceEventEmitter.addListener('LoginStatus',(listenerMsg) => {
             this.setState({
                 userName:listenerMsg.userName,

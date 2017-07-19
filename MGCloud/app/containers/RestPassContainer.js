@@ -192,6 +192,7 @@ export default class SMSLanding extends Component {
                                 },()=>{
                                     this.setState({
                                         clerPass:this.state.pass.length!==0?34:-100,
+
                                     })
                                 })
                             }}

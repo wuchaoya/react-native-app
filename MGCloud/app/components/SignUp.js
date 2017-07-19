@@ -48,11 +48,13 @@ export default class SignIn extends Component {
             loginErr:false,
             list:[],
             codeText:'获取验证码',
+            isTime:false
         }
     }
 
     render() {
-        const { navigate } = this.props.navigation;
+        const { navigate,goBack } = this.props.navigation;
+        this.goBack=goBack
         return (
             <View style={styles.container}>
                 <View >
@@ -83,7 +85,7 @@ export default class SignIn extends Component {
                         },()=>{
                             this.setState({
                                 clerUser:this.state.user.length!==0?34:-100,
-                                codeButtonDisabled:true
+                                    codeButtonDisabled:true
                             })
                         })
                     }} style={[styles.clear,{right:this.state.clerUser,}]}>
@@ -119,7 +121,8 @@ export default class SignIn extends Component {
                                         this.setState({
                                             user:item,
                                             showList:!this.state.showList,
-                                            clerUser:34
+                                            clerUser:34,
+                                            codeButtonDisabled:this.state.isTime?true:false
                                         })
                                     }}
                                     activeOpacity={0.8} style={styles.item}>
@@ -273,7 +276,8 @@ export default class SignIn extends Component {
             return
         }
         this.setState({
-            codeButtonDisabled:true
+            codeButtonDisabled:true,
+            isTime:true
         },()=>{
             let timeNumber =60
             let time = setInterval(()=>{
@@ -284,7 +288,8 @@ export default class SignIn extends Component {
                     clearInterval(time)
                     this.setState({
                         codeButtonDisabled:false,
-                        codeText:'重新获取'
+                        codeText:'重新获取',
+                        isTime:false
                     })
                 }
             },1000)
@@ -324,7 +329,10 @@ export default class SignIn extends Component {
                 if(response.resultCode==0){
                     this.setState({
                         isShow:false
+                    },()=>{
+                        this.goBack()
                     })
+
                 }
                 else {
                     this.setState({
