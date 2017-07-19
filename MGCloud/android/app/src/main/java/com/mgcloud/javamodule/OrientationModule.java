@@ -1,4 +1,4 @@
-package com.mgcloud;
+package com.mgcloud.javamodule;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

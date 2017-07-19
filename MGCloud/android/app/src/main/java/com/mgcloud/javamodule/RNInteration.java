@@ -1,4 +1,4 @@
-package com.mgcloud;
+package com.mgcloud.javamodule;
 
 import android.content.Intent;
 import android.util.Log;

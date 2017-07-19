@@ -15,7 +15,6 @@ const HttpRequest = {
                 }
             },
             (error)=> {
-                console.log('连不上网鸟')
                 callbackError(error);
             })
     },
@@ -172,7 +171,7 @@ const HttpRequest = {
     score: (parameter, callbackSuccess, callbackError)=> {
         HttpUitl.post('/v2/game/score', parameter,
             (response)=> {
-                console.log(response)
+                console.log(response);
                 // 解析处理成页面需要的数据格式,如list
                 if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
@@ -185,7 +184,7 @@ const HttpRequest = {
     ygPay: (parameter, callbackSuccess, callbackError)=> {
         HttpUitl.post('/v2/pay/yg_pay', parameter,
             (response)=> {
-                console.log(response)
+                console.log(response);
                 // 解析处理成页面需要的数据格式,如list
                 if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
@@ -196,12 +195,12 @@ const HttpRequest = {
             })
     },
 
-    serviceList:(parameter, callbackSuccess, callbackError)=> {
+    serviceList: (parameter, callbackSuccess, callbackError)=> {
         HttpUitl.post('/v2/user/service_list', parameter,
             (response)=> {
-                console.log(response)
+                console.log(response);
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -209,12 +208,12 @@ const HttpRequest = {
                 callbackError(error);
             })
     },
-    serviceList:(parameter, callbackSuccess, callbackError)=> {
+    serviceList: (parameter, callbackSuccess, callbackError)=> {
         HttpUitl.post('/v2/user/service_list', parameter,
             (response)=> {
-                console.log(response)
+                console.log(response);
                 // 解析处理成页面需要的数据格式,如list
-                if(response.state==200&&response.data){
+                if (response.state == 200 && response.data) {
                     callbackSuccess(response.data);
                 }
             },
@@ -222,6 +221,22 @@ const HttpRequest = {
                 callbackError(error);
             })
     },
-
-}
-module.exports = HttpRequest
+    versionCheck: (parameter, callbackSuccess, callbackError)=> {
+        // TODO by L.jinzhu for 待服务器提供更新接口后修改
+        callbackSuccess(2);
+        if (1 == 1)
+            return;
+        HttpUitl.post('/v2/user/service_list', parameter,
+            (response)=> {
+                console.log(response);
+                // 解析处理成页面需要的数据格式,如list
+                if (response.state == 200 && response.data) {
+                    callbackSuccess(response.data);
+                }
+            },
+            (error)=> {
+                callbackError(error);
+            })
+    },
+};
+module.exports = HttpRequest;

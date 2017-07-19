@@ -21,6 +21,7 @@ import RestPass from '../containers/RestPassContainer'
 import Game from '../containers/GameContainer'
 import Pact from '../containers/PactContainer'
 import HttpRequest from '../common/HttpRequest'
+import Configs from '../const/Configs'
 class BaseApp extends Component {
     static navigationOptions = {
         title: 'Welcome',//设置标题内容
@@ -44,49 +45,54 @@ class BaseApp extends Component {
      * 版本检查
      */
     versionCheck() {
-        // TODO by L.jinzhu for 先用普通接口模拟版本更新接口,待服务器提供更新接口后修改
-        // HttpRequest.getHomeData('',
-        //     (responseData)=> {
-        let version = 1;
-        if (version != 1) {
-            if (Platform.OS == 'android') {
-                Alert.alert(
-                    '发现新版本,是否升级?',
-                    '版本号: ${version.versionName}\n版本描述: ${version.description}',
-                    [
-                        {
-                            text: '是',
-                            onPress: () => {
-                                this.setState({
-                                    currProgress: Math.random() * 80,
-                                    modalVisible: true
-                                });
+        // TODO by L.jinzhu for 待服务器提供更新接口后修改
+        HttpRequest.versionCheck('',
+            (newVersion)=> {
+                if (Platform.OS != 'android') {
+                    return;
+                }
+                if (newVersion != Configs.appData.versionCode) {
+                    Alert.alert(
+                        '发现新版本,是否升级?',
+                        '版本号: ${version.versionName}\n版本描述: ${version.description}',
+                        [
+                            {
+                                text: '是',
+                                onPress: () => {
+                                    this.setState({
+                                        currProgress: Math.random() * 80,
+                                        modalVisible: true
+                                    });
 
-                                NativeModules.UpdateAndroid.doUpdate('index.android.bundle_2.0', (progress)=> {
-                                    let pro = Number.parseFloat('' + progress);
-                                    if (pro >= 100) {
-                                        this.setState({
-                                            modalVisible: false,
-                                            currProgress: 100
-                                        });
-                                    } else {
-                                        this.setState({
-                                            currProgress: pro
-                                        });
-                                    }
-                                });
+                                    NativeModules.UpdateAndroid.doUpdate('', (progress)=> {
+                                        let pro = Number.parseFloat('' + progress);
+                                        if (pro >= 100) {
+                                            this.setState({
+                                                modalVisible: false,
+                                                currProgress: 100
+                                            });
+                                        } else {
+                                            this.setState({
+                                                currProgress: pro
+                                            });
+                                        }
+                                    });
+                                }
+                            },
+                            {
+                                text: '否'
                             }
-                        },
-                        {
-                            text: '否'
-                        }
-                    ]
-                )
-            }
-        }
-        // },
-        // (error)=> {
-        // });
+                        ]
+                    )
+                } else {
+                    Alert.alert(
+                        '已经升级成最新版本',
+                        '我暂时只用于测试版本升级,不能用于测试其他功能'
+                    )
+                }
+            },
+            (error)=> {
+            });
     }
 }
 
