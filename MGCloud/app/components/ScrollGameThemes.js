@@ -20,9 +20,11 @@ export default class extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            height:0
+            height:0,
+            isTouchDetails:false
         }
     }
+
     render () {
         const { navigate } = this.props.navigation;
         return (
@@ -31,7 +33,21 @@ export default class extends Component {
                     {this.props.data.map((obj,i)=>{
                      return ( <View style={[styles.slide,i==0?{ marginLeft:12}:null]} key={i} title={<Text numberOfLines={1}></Text>}>
                             <TouchableOpacity activeOpacity={0.8}
-                                              onPress={() => navigate('TopicDetails',{did:obj.did,name:obj.title})} style={styles.image}>
+                                              onPress={() => {
+                                                  if(this.state.isTouchDetails){
+                                                      return
+                                                  }
+                                                  this.setState({
+                                                      isTouchDetails:true
+                                                  },()=>{
+                                                      navigate('TopicDetails',{did:obj.did,name:obj.title})
+                                                      setTimeout(()=>{
+                                                         this.setState({
+                                                             isTouchDetails:false
+                                                         })
+                                                      },1000)
+                                                  })
+                                              }} style={styles.image}>
                                 <View style={styles.image}>
                                     <Image resizeMode='stretch' style={{flex: 1,width:this.state.width,height:350/2}} source={{uri:obj.cover}}  />
                                     <View style={{height:52,justifyContent:'center',marginTop:-3}}>

@@ -267,7 +267,7 @@ export default class SignIn extends Component {
                                 alignItems: 'center'
                             }}>
                                 <Image style={{width: 27, height: 29}} source={require('../static/img/loading.gif')}/>
-                                <Text style={{fontSize: 10, marginTop: 6, letterSpacing: 1000}}>登陆中</Text>
+                                <Text style={{fontSize: 10, marginTop: 6, letterSpacing: 1000}}>登录中</Text>
                             </View>
                         }
                     </View>

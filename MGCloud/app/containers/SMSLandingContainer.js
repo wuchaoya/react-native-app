@@ -225,7 +225,7 @@ export default class SMSLanding extends Component {
                             :
                             <View style={{width:100,height:100,backgroundColor:'#fff',borderRadius:15,justifyContent:'center',alignItems:'center'}}>
                                 <Image style={{width:27,height:29}} source={require('../static/img/loading.gif')}/>
-                                <Text style={{fontSize:10,marginTop:6,letterSpacing:1000}}>登陆中</Text>
+                                <Text style={{fontSize:10,marginTop:6,letterSpacing:1000}}>登录中</Text>
                             </View>
                         }
                     </View>

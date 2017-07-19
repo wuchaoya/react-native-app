@@ -62,7 +62,7 @@ export default class GameContainer extends Component {
                                     height:72,width:265,
                                     justifyContent:'center',alignItems:'center',
                                 }}>
-                                <Text>您尚️未登陆，是否登陆</Text>
+                                <Text>您尚️未登录，是否登录</Text>
                             </View>
                             <View style={{
                                 borderTopWidth:1,

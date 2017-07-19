@@ -5,7 +5,8 @@ import {
     StatusBar,
     Button,
     NativeModules,
-    Alert
+    Alert,
+    Platform
 } from 'react-native';
 import {StackNavigator} from 'react-navigation';
 import TabNav from '../components/TabNav'

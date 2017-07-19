@@ -19,7 +19,8 @@ export default class HomeComponent extends Component {
         super(props);
         this.state = {
             height: 0,
-            imgList: []
+            imgList: [],
+            isTouchBanner:false
         }
     }
 
@@ -46,7 +47,21 @@ export default class HomeComponent extends Component {
                                     key={i}
                                     activeOpacity={0.8}
                                     onPress={
-                                        () => navigate('GameDetails', {gid: obj.gid})}
+                                        () => {
+                                            if(this.state.isTouchBanner){
+                                                return
+                                            }
+                                            this.setState({
+                                                isTouchBanner:true
+                                            },()=>{
+                                                navigate('GameDetails', {gid: obj.gid})
+                                                setTimeout(()=>{
+                                                    this.setState({
+                                                        isTouchBanner:false
+                                                    })
+                                                },1000)
+                                            })
+                                           }}
                                     style={[this.state.imgList[i] == '' ? {backgroundColor: '#ddd'} : {}, styles.slide1]}
                                 >
                                     <Image

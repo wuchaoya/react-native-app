@@ -79,7 +79,7 @@ export default class Settings extends Component {
                                     height:72,width:265,
                                     justifyContent:'center',alignItems:'center',
                                 }}>
-                                <Text onPress={()=>this.subStar()}>是否退出登陆</Text>
+                                <Text>是否退出登录</Text>
                             </View>
                             <View style={{
                                 borderTopWidth:1,

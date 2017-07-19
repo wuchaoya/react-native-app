@@ -22,7 +22,7 @@ export default class ScrollGameHighlights extends Component {
         super(props);
         this.state = {
             height:0,
-
+            isTouchHighlights:false
         }
     }
     render() {
@@ -38,7 +38,19 @@ export default class ScrollGameHighlights extends Component {
                                 activeOpacity={0.9}
                                 onPress={() =>{
                                     if(obj.gid){
-                                        this.props.navigation.navigate('GameDetails',{gid:obj.gid})
+                                        if(this.state.isTouchHighlights){
+                                            return
+                                        }
+                                        this.setState({
+                                           isTouchHighlights:true
+                                        },()=>{
+                                            this.props.navigation.navigate('GameDetails',{gid:obj.gid})
+                                            setTimeout(()=>{
+                                                this.setState({
+                                                    isTouchHighlights:false
+                                                })
+                                            },1000)
+                                        })
                                     }
                                    else {
                                         ToastAndroid.show('该游戏已下架', ToastAndroid.SHORT);

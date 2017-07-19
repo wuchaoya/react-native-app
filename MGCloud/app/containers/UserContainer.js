@@ -151,7 +151,7 @@ export default class user extends Component {
                                             height:72,width:265,
                                             justifyContent:'center',alignItems:'center',
                                         }}>
-                                        <Text>您尚️未登陆，是否登陆</Text>
+                                        <Text>您尚️未登录，是否登录</Text>
                                     </View>
                                     <View style={{
                                         borderTopWidth:1,
@@ -249,7 +249,7 @@ export default class user extends Component {
             (response)=>{
                 console.log(response)
                 console.log(response.yg_url)
-               this.navigate('Pact',{url:this.state.url,title:'开通包月'})
+               //this.navigate('Pact',{url:this.state.url,title:'开通包月'})
             },
             (error)=>{
 
@@ -271,8 +271,8 @@ export default class user extends Component {
         )
     }
     componentWillMount(){
-        // this.open()
-        // this.getService()
+         this.open()
+         this.getService()
     }
 }
 

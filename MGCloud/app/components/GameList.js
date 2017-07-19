@@ -39,7 +39,8 @@ export default class GameList extends Component {
             hotPlayEnable:false,
             newProductsEnable:false,
             reserveEnable:false,
-            gameListEnable:false
+            gameListEnable:false,
+            isTouchReserver:false
         };
         this.renderHeader = this.renderHeader.bind(this);
         this._renderRow = this._renderRow.bind(this);
@@ -92,7 +93,7 @@ export default class GameList extends Component {
                         </View>
 
                             <TouchableOpacity
-                                style={[styles.buttonStyle,rowData.reserve==1?{borderColor:'#eee'}:null]}
+                                style={[styles.buttonStyle,rowData.reserve==1&&this.props.name=="预约榜"?{borderColor:'#eee'}:null]}
                                 onPress={
                                     () => {
                                         console.log("-------------------")
@@ -114,6 +115,12 @@ export default class GameList extends Component {
                                             if(rowData.reserve==1){
                                                return
                                             }
+                                            if(this.state.isTouchReserver){
+                                                return
+                                            }
+                                            this.setState({
+                                                isTouchReserver:true
+                                            })
                                            HttpRequest.reserve({
                                                    type:1,
                                                    user_id:global.userId,
@@ -126,6 +133,12 @@ export default class GameList extends Component {
                                                    this.setState({
                                                        data:data,
                                                        dataSource: ds.cloneWithRows(data)
+                                                   },()=>{
+                                                       setTimeout(()=>{
+                                                           this.setState({
+                                                               isTouchReserver:false
+                                                           },1000)
+                                                       })
                                                    })
 
                                                },

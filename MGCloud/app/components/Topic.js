@@ -25,6 +25,7 @@ export default class Topic extends Component {
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows(this.props.data),
+            isGameDetails:false
         };
     }
     _render(rowData,sectionID, rowID,highlightRow,navigate){
@@ -47,7 +48,24 @@ export default class Topic extends Component {
                         </View>
                     </View>
                 </View>
-                <TouchableHighlight style={[{justifyContent:'center',alignItems:'center',width:width-12,height:202},data.cover==''?{backgroundColor:'#ddd'}:{}]} onPress={() => navigate('GameDetails',{gid:rowData.gid})}>
+                <TouchableHighlight style={[{justifyContent:'center',alignItems:'center',width:width-12,height:202},data.cover==''?{backgroundColor:'#ddd'}:{}]}
+                                    onPress={() =>{
+                                        if(this.state.isGameDetails){
+                                            return
+                                        }
+                                        this.setState({
+                                            isGameDetails:true
+                                        },()=>{
+
+                                            navigate('GameDetails',{gid:rowData.gid})
+                                            setTimeout(()=>{
+                                                this.setState({
+                                                    isGameDetails:false
+                                                })
+                                            },1000)
+
+                                        })
+                                    } }>
                     <Image style={data.cover==''?{width:40,height:30}:{width:width-12,height:202}}  resizeMode="cover"  source={data.cover==''?require('../static/img/error.png'):{uri:data.cover}}></Image>
                 </TouchableHighlight>
                 <View style={{marginLeft:10,marginBottom:18,marginTop:18,marginRight:10}}>
