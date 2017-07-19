@@ -1,7 +1,7 @@
 /**
  * 首页顶部轮播图
  */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
@@ -18,12 +18,13 @@ export default class HomeComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            height:0,
-            imgList:[]
+            height: 0,
+            imgList: []
         }
     }
+
     render() {
-        const { navigate } = this.props.navigation;
+        const {navigate} = this.props.navigation;
 
         return (
             <View style={styles.container}>
@@ -32,29 +33,33 @@ export default class HomeComponent extends Component {
                         loop
                         autoplay
                         showsButtons={false}
-                        paginationStyle={{bottom: 9,right:15,justifyContent:'flex-end'}}
+                        paginationStyle={{bottom: 9, right: 15, justifyContent: 'flex-end'}}
                         autoplayTimeout={3}
-                        dot={<View style={[styles.dot,{backgroundColor:ColorStyle.colorSlateGray}]}></View>}
-                        activeDot={<View style={[styles.dot,{backgroundColor:ColorStyle.colorGreenYellow}]}></View>}
+                        dot={<View style={[styles.dot, {backgroundColor: ColorStyle.colorSlateGray}]}></View>}
+                        activeDot={<View style={[styles.dot, {backgroundColor: ColorStyle.colorGreenYellow}]}></View>}
                 >
                     {
-                        this.props.data.map((obj,i)=>{
+                        this.props.data.map((obj, i)=> {
 
-                         return (
-                             <TouchableOpacity
-                                 key={i}
-                                 activeOpacity={0.8}
-                                 onPress={
-                                     () => navigate('GameDetails',{gid:obj.gid})}
-                                 style={[this.state.imgList[i]==''?{backgroundColor:'#ddd'}:{},styles.slide1]}
-                             >
-                                <Image
-                                    style={[this.state.imgList[i]==''?{width:40,height:30}:{width:width,height:144}]}
-                                    resizeMode='stretch'  source={this.state.imgList[i]==''?require('../static/img/error.png'):{uri:obj.cover}}
+                            return (
+                                <TouchableOpacity
+                                    key={i}
+                                    activeOpacity={0.8}
+                                    onPress={
+                                        () => navigate('GameDetails', {gid: obj.gid})}
+                                    style={[this.state.imgList[i] == '' ? {backgroundColor: '#ddd'} : {}, styles.slide1]}
                                 >
+                                    <Image
+                                        style={[this.state.imgList[i] == '' ? {width: 40, height: 30} : {
+                                            width: width,
+                                            height: 144
+                                        }]}
+                                        resizeMode='stretch'
+                                        source={this.state.imgList[i] == '' ? require('../static/img/error.png') : {uri: obj.cover}}
+                                    >
 
-                                </Image>
-                            </TouchableOpacity>)
+                                    </Image>
+                                </TouchableOpacity>)
                         })
                     }
 
@@ -62,21 +67,21 @@ export default class HomeComponent extends Component {
             </View>
         );
     }
-    componentDidMount(){
-        this.props.data.map((item,i)=>{
+
+    componentDidMount() {
+        this.props.data.map((item, i)=> {
             Image.getSize(item.cover, (width, height) => {
-                    console.log('成功了'+i)
-                let arr = this.state.imgList
-                arr[i]=item.cover
-               this.setState({
-                   imgList: arr
-               })
-                },
-                (error)=>{
                     let arr = this.state.imgList
-                    arr[i]=''
+                    arr[i] = item.cover
                     this.setState({
-                        imgList:arr
+                        imgList: arr
+                    })
+                },
+                (error)=> {
+                    let arr = this.state.imgList
+                    arr[i] = ''
+                    this.setState({
+                        imgList: arr
                     })
                 }
             );
@@ -89,11 +94,10 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#F5FCFF',
     },
-    wrapper: {
-    },
+    wrapper: {},
     slide1: {
-       width:width,
-        height:144,
+        width: width,
+        height: 144,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -102,12 +106,12 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
     },
-    dot:{
-        width:8,
-        height:8,
-        backgroundColor:'rgba(0,0,0,.2)',
-        borderRadius:4,
-        marginLeft:3,
-        marginRight:3
+    dot: {
+        width: 8,
+        height: 8,
+        backgroundColor: 'rgba(0,0,0,.2)',
+        borderRadius: 4,
+        marginLeft: 3,
+        marginRight: 3
     }
 });

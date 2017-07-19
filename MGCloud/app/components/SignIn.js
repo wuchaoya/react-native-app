@@ -188,6 +188,9 @@ export default class SignIn extends Component {
                     }}
                 />
                 <LoginButton text="中国移动用户一键登录" disabled={false} style={{marginTop: 12}} onPress={()=> {
+                     this.setState({
+                         onLogin: true
+                     });
                     // 网络请求,获取验证码
                     RNInteraction.sendSms('').then((result)=> {
                         // 获取一键登录需要提交的验证码(result)
@@ -196,6 +199,9 @@ export default class SignIn extends Component {
                         this.loginQuick(result);
                     }).catch((error)=> {
                         console.log('短信发送返回 失败:' + error);
+                        this.setState({
+                            onLogin: false
+                        });
                     });
                 }}/>
                 <View style={styles.foot}>
@@ -278,7 +284,7 @@ export default class SignIn extends Component {
         }
         this.setState({
             onLogin: true
-        })
+        });
         HttpRequest.login({
                 phone: this.state.user,
                 //先不加密，因为我以前注册的账号都没加密
@@ -291,7 +297,7 @@ export default class SignIn extends Component {
                 console.log(response)
                 if (response.resultCode == 0) {
                     if (response.authenticateRsp.userInfo.identityID) {
-                        global.userInfo = response
+                        global.userInfo = response.authenticateRsp;
                         global.userId = response.authenticateRsp.userInfo.identityID
                     }
                     let arr = []
@@ -332,36 +338,54 @@ export default class SignIn extends Component {
     }
 
     loginQuick(veritycode) {
-        HttpRequest.loginQuick(
-            {
-                veritycode: veritycode
-            },
-            (response)=> {
-                if (response.resultCode == 0) {
-                    if (response.authenticateRsp.userInfo.identityID) {
-                        global.userInfo = response;
-                        global.userId = response.authenticateRsp.userInfo.identityID;
-                        DeviceEventEmitter.emit('LoginStatus', {userName: this.state.user});
-                        this.goBack()
-                    } else {
+        // 延时2秒处理
+        this.timer = setTimeout(
+            () => {
+                console.log('收到短信发送成功请求,延时2秒处理后续逻辑');
+                HttpRequest.loginQuick(
+                    {
+                        veritycode: veritycode,
+                        phone: ''
+                    },
+                    (response)=> {
+                        if (response.resultCode == 0) {
+                            if (response.implicitLoginRsp.userInfo.identityID) {
+                                global.userInfo = response.implicitLoginRsp;
+                                global.userId = response.implicitLoginRsp.userInfo.identityID;
+                                DeviceEventEmitter.emit('LoginStatus', {userName: this.state.user});
+                                this.goBack()
+                            } else {
+                                this.setState({
+                                    loginErr: true
+                                })
+                            }
+                        }
+                        else {
+                            this.setState({
+                                loginErr: true
+                            })
+                        }
+                    },
+                    (error)=> {
                         this.setState({
                             loginErr: true
                         })
                     }
-                }
-                else {
-                    this.setState({
-                        loginErr: true
-                    })
-                }
+                )
+
             },
-            (error)=> {
-                this.setState({
-                    loginErr: true
-                })
-            }
-        )
+            1000 * 2
+        );
     }
+
+    componentWillUnmount() {
+        // 请注意Un"m"ount的m是小写
+
+        // 如果存在this.timer，则使用clearTimeout清空。
+        // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
+        this.timer && clearTimeout(this.timer);
+    }
+
 }
 
 
