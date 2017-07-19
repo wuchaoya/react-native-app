@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.mgcloud.activity.CloudPlayActivity;
 import com.mgcloud.activity.FullScreenVideoActivity;
+import com.mgcloud.activity.WebViewActivity;
 import com.mgcloud.common.Constant;
 import com.mgcloud.utils.SendMessage;
 
@@ -52,14 +53,35 @@ public class RNInteration extends ReactContextBaseJavaModule {
 
     /**
      * 调用native视频播放器功能
-     * @author: todo:需要增加参数信息 shisheng.zhao
+     * @author:
      */
     @ReactMethod
     public void playVideoByUrl(String videoUrl) {
         Intent intent = new Intent();
         intent.setClass(getReactApplicationContext(), FullScreenVideoActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("videoUrl", "http://resource-jijia.haimawan.com/video/anzhuang720pAPUS.mp4");
+        intent.putExtra("videoUrl", videoUrl);
+        getReactApplicationContext().startActivity(intent);
+    }
+
+    /**
+     * 调用native视频播放器功能
+     * @author: todo:需要增加参数信息 shisheng.zhao
+     */
+    @ReactMethod
+    public void openMGServer(ReadableMap readableMap) {
+        String userId = "";
+        try {
+            userId = readableMap.getString("userId");
+            Log.e("RNInteration","userId:"+userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(getReactApplicationContext(), WebViewActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("userId", userId);
         getReactApplicationContext().startActivity(intent);
     }
 

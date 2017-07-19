@@ -16,7 +16,7 @@ import {
 import HeadNav from '../components/HeadNav'
 import TransparentStatusBar    from '../components/TransparentStatusBar'
 
-let url ='http://www.migu.cn/about.html'
+let url ='https://wap.myrunners.com/Public/registerAgreement'
 export default class Settings extends Component {
     constructor(props) {
         super(props);

@@ -271,8 +271,8 @@ export default class user extends Component {
         )
     }
     componentWillMount(){
-        this.open()
-        this.getService()
+        // this.open()
+        // this.getService()
     }
 }
 
