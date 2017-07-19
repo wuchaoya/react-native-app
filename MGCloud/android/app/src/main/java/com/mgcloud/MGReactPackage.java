@@ -5,6 +5,7 @@ import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
+import com.mgcloud.javamodule.UpdateAndroidModule;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +29,7 @@ public class MGReactPackage implements ReactPackage {
         List<NativeModule> modules = new ArrayList<>();
         modules.add(new RNInteration(reactContext));
         modules.add(new OrientationModule(reactContext));
+        modules.add(new UpdateAndroidModule(reactContext));
         return modules;
     }
 

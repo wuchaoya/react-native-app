@@ -3,9 +3,11 @@ import {
     StyleSheet,
     View,
     StatusBar,
-    Button
+    Button,
+    NativeModules,
+    Alert
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import {StackNavigator} from 'react-navigation';
 import TabNav from '../components/TabNav'
 import TopicDetails from '../containers/TopicDetails'
 import Settings from '../containers/Settings'
@@ -18,18 +20,73 @@ import SMSLanding from  '../containers/SMSLandingContainer'
 import RestPass from '../containers/RestPassContainer'
 import Game from '../containers/GameContainer'
 import Pact from '../containers/PactContainer'
+import HttpRequest from '../common/HttpRequest'
 class BaseApp extends Component {
     static navigationOptions = {
         title: 'Welcome',//设置标题内容
     };
+
     render() {
-        const { navigate } = this.props.navigation;
+        const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
                 <TransparentStatusBar/>
                 <TabNav navigation={this.props.navigation}/>
             </View>
         );
+    }
+
+    componentDidMount() {
+        this.versionCheck();
+    }
+
+    /**
+     * 版本检查
+     */
+    versionCheck() {
+        // TODO by L.jinzhu for 先用普通接口模拟版本更新接口,待服务器提供更新接口后修改
+        // HttpRequest.getHomeData('',
+        //     (responseData)=> {
+        let version = 1;
+        if (version != 1) {
+            if (Platform.OS == 'android') {
+                Alert.alert(
+                    '发现新版本,是否升级?',
+                    '版本号: ${version.versionName}\n版本描述: ${version.description}',
+                    [
+                        {
+                            text: '是',
+                            onPress: () => {
+                                this.setState({
+                                    currProgress: Math.random() * 80,
+                                    modalVisible: true
+                                });
+
+                                NativeModules.UpdateAndroid.doUpdate('index.android.bundle_2.0', (progress)=> {
+                                    let pro = Number.parseFloat('' + progress);
+                                    if (pro >= 100) {
+                                        this.setState({
+                                            modalVisible: false,
+                                            currProgress: 100
+                                        });
+                                    } else {
+                                        this.setState({
+                                            currProgress: pro
+                                        });
+                                    }
+                                });
+                            }
+                        },
+                        {
+                            text: '否'
+                        }
+                    ]
+                )
+            }
+        }
+        // },
+        // (error)=> {
+        // });
     }
 }
 
@@ -42,77 +99,77 @@ const styles = StyleSheet.create({
 const SimpleApp = StackNavigator(
     {
         Home: {
-        screen: BaseApp,
-        navigationOptions:{
-            title:'',//设置标题
-            header:null,//设置一些导航的属性,null为隐藏
-            headerTitle:'详情',//设置导航栏标题
-            headerBackTitle:null,//设置跳转页面左侧返回箭头后面的文字
-            headerTruncatedBackTitle:'返回',
-            // headerRight:null,
-            // headerLeft:null,
-            // headerStyle:CommonStyle.headerStyle,
-            // headerTitleStyle:CommonStyle.headerTitleStyle
-        }
-    },
-        RankingContainer:{screen:RankingContainer},
-        TopicDetails:{
-            screen:TopicDetails,
-            navigationOptions:{
-                title:'',//设置标题
-                headerTitle:'详情',//设置导航栏标题
-                headerBackTitle:null,//设置跳转页面左侧返回箭头后面的文字
-                header:null,
+            screen: BaseApp,
+            navigationOptions: {
+                title: '',//设置标题
+                header: null,//设置一些导航的属性,null为隐藏
+                headerTitle: '详情',//设置导航栏标题
+                headerBackTitle: null,//设置跳转页面左侧返回箭头后面的文字
+                headerTruncatedBackTitle: '返回',
+                // headerRight:null,
+                // headerLeft:null,
+                // headerStyle:CommonStyle.headerStyle,
+                // headerTitleStyle:CommonStyle.headerTitleStyle
             }
         },
-        Settings:{
-            screen:Settings,
-            navigationOptions:{
-                header:null,
+        RankingContainer: {screen: RankingContainer},
+        TopicDetails: {
+            screen: TopicDetails,
+            navigationOptions: {
+                title: '',//设置标题
+                headerTitle: '详情',//设置导航栏标题
+                headerBackTitle: null,//设置跳转页面左侧返回箭头后面的文字
+                header: null,
             }
         },
-        GameDetails:{
-            screen:GameDetails,
-            navigationOptions:{
-                header:null,
+        Settings: {
+            screen: Settings,
+            navigationOptions: {
+                header: null,
+            }
+        },
+        GameDetails: {
+            screen: GameDetails,
+            navigationOptions: {
+                header: null,
             }
 
         },
-        HeadNav:{
-            screen:HeadNav,
+        HeadNav: {
+            screen: HeadNav,
         },
-        Login:{
-            screen:Login,
-            navigationOptions:{
-                header:null,
+        Login: {
+            screen: Login,
+            navigationOptions: {
+                header: null,
             }
         },
-        SMSLanding:{
-            screen:SMSLanding,
-            navigationOptions:{
-                header:null,
+        SMSLanding: {
+            screen: SMSLanding,
+            navigationOptions: {
+                header: null,
             }
         },
-        RestPass:{
-            screen:RestPass,
-            navigationOptions:{
-                header:null,
+        RestPass: {
+            screen: RestPass,
+            navigationOptions: {
+                header: null,
             }
         },
-        Game:{
-            screen:Game,
-            navigationOptions:{
-                header:null,
+        Game: {
+            screen: Game,
+            navigationOptions: {
+                header: null,
             }
         },
-        Pact:{
-            screen:Pact,
-            navigationOptions:{
-                header:null,
+        Pact: {
+            screen: Pact,
+            navigationOptions: {
+                header: null,
             }
         },
 
     },
-    {initialRouteName:'Home'});
+    {initialRouteName: 'Home'});
 
 export default SimpleApp;
