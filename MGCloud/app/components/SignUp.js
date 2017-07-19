@@ -30,8 +30,8 @@ export default class SignIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            secretOff:require('../static/img/secret-off.png'),
-            secretOn:require('../static/img/secret-on.png'),
+            secretOff:require('../static/img/secret-on.png'),
+            secretOn:require('../static/img/secret-off.png'),
             off:require('../static/img/off_icon.png'),
             on:require('../static/img/on_icon.png'),
             showList:false,
@@ -72,10 +72,22 @@ export default class SignIn extends Component {
                                 user:text},()=>{
                                 this.setState({
                                     clerUser:this.state.user.length!==0?34:-100,
-                                    codeButtonDisabled:this.state.user.length===0,
-                                    loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
+
+                                    loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)
+                                },()=>{
+                                    console.log(!this.state.isTime,this.state.user.length===0,)
+                                    if(!this.state.isTime){
+                                        this.setState({
+                                            codeButtonDisabled:this.state.user.length===0,
+                                        })
+                                    }
+
+                                    console.log(this.state.codeButtonDisabled+' codebutton')
+                                }
+                                    )
 
                             },()=>{
+
                                 console.log(this.state.codeButtonDisabled+' codebutton')
                             })}}
                     />
@@ -84,14 +96,14 @@ export default class SignIn extends Component {
                             user:'',
                         },()=>{
                             this.setState({
-                                clerUser:this.state.user.length!==0?34:-100,
+                                clerUser:this.state.user.length!==0?0:-100,
                                     codeButtonDisabled:true
                             })
                         })
-                    }} style={[styles.clear,{right:this.state.clerUser,}]}>
+                    }} style={[styles.clear,{right:this.state.user.length!==0?0:-100,}]}>
                         <Text style={{fontSize:10}}>╳</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
+                   {/* <TouchableOpacity
                         onPress={
                             ()=>{
                                 this.setState({
@@ -111,7 +123,7 @@ export default class SignIn extends Component {
                         }
                         style={styles.off}>
                         <Image style={{ width:24,height:24,}} source={this.state.showList?this.state.on:this.state.off}></Image>
-                    </TouchableOpacity>
+                    </TouchableOpacity>*/}
                     <View style={[styles.list,this.state.showList?{top:44,}:{top:-10000}]}>
                         {this.state.list.map((item,i)=>{
                             return(
@@ -287,7 +299,7 @@ export default class SignIn extends Component {
                 if(timeNumber==0){
                     clearInterval(time)
                     this.setState({
-                        codeButtonDisabled:false,
+                        codeButtonDisabled:this.state.user.length==0?true:false,
                         codeText:'重新获取',
                         isTime:false
                     })
@@ -329,8 +341,10 @@ export default class SignIn extends Component {
                 if(response.resultCode==0){
                     this.setState({
                         isShow:false
+
                     },()=>{
                         this.goBack()
+
                     })
 
                 }
@@ -364,7 +378,8 @@ const styles = StyleSheet.create({
         height:44,
         borderBottomWidth:1,
         borderBottomColor:'#ddd',
-        color:'#666'
+        color:'#666',
+
     },
     off:{
         position: 'absolute',
@@ -394,9 +409,9 @@ const styles = StyleSheet.create({
         width:44,
         height:44,
         position: 'absolute',
-        right:34,
+        right:0,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
     },
     list:{
         position: 'absolute',

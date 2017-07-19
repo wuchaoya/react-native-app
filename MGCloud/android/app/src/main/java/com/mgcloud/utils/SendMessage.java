@@ -103,6 +103,7 @@ public class SendMessage {
                 }
             }
         } else {
+            updateStatus("0");
             Toast.makeText(context, "该功能只针对移动用户可用，谢谢～～", Toast.LENGTH_LONG).show();
         }
     }

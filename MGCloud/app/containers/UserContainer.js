@@ -11,7 +11,8 @@ import {
     ScrollView,
     Modal,
     TouchableOpacity,
-    WebView
+    WebView,
+    Dimensions
 } from 'react-native';
 import ColorStyle from '../style/ColorStyle'
 import UserHead from '../components/UserHead'
@@ -20,7 +21,7 @@ import Title from '../components/Title'
 import VipBuy from '../components/VipBuy'
 import GiftBag from '../components/GiftBag'
 import HttpRequest from '../common/HttpRequest'
-
+const {width, height} = Dimensions.get('window');
 export default class user extends Component {
 
     constructor(props) {
@@ -29,7 +30,9 @@ export default class user extends Component {
            showOpen:false,
             isLogin:false,
             isOpen:false,
-            data:[]
+            data:[],
+            url:'http://localhost:8081/debugger-ui',
+            openWeb:false
         }
     }
 
@@ -63,6 +66,9 @@ export default class user extends Component {
     }
 
     render() {
+        const { goBack,navigate } = this.props.navigation;
+        this.goBack = goBack
+        this.navigate=navigate
         return (
             <ScrollView>
                 <View style={styles.centering}>
@@ -229,7 +235,7 @@ export default class user extends Component {
     open(){
         HttpRequest.ygPay({
                 uId:"1100823869",
-                channelCode:'40288000',
+                channelCode:'41638000',
                 serviceID:"500230544000",
                 monthStatus:'1',
                 productDescribe:'testido',
@@ -242,6 +248,8 @@ export default class user extends Component {
             },
             (response)=>{
                 console.log(response)
+                console.log(response.yg_url)
+               this.navigate('Pact',{url:this.state.url,title:'开通包月'})
             },
             (error)=>{
 

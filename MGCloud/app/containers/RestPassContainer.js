@@ -23,8 +23,8 @@ export default class SMSLanding extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            secretOff:require('../static/img/secret-off.png'),
-            secretOn:require('../static/img/secret-on.png'),
+            secretOff:require('../static/img/secret-on.png'),
+            secretOn:require('../static/img/secret-off.png'),
             off:require('../static/img/off_icon.png'),
             on:require('../static/img/on_icon.png'),
             secureTextEntry:true,
@@ -41,6 +41,7 @@ export default class SMSLanding extends Component {
             codeText:'获取验证码',
             list:[],
             showList:false,
+            isTime:false
         }
     }
     render() {
@@ -67,8 +68,18 @@ export default class SMSLanding extends Component {
                                     user:text},()=>{
                                     this.setState({
                                         clerUser:this.state.user.length!==0?34:-100,
-                                        codeButtonDisabled:this.state.user.length===0,
-                                        loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)})
+                                        loginButtonDisabled:!(this.state.user.length!==0&&this.state.pass.length!==0&&this.state.code.length!==0)
+                                    },()=>{
+                                            console.log(!this.state.isTime,this.state.user.length===0,)
+                                            if(!this.state.isTime){
+                                                this.setState({
+                                                    codeButtonDisabled:this.state.user.length===0,
+                                                })
+                                            }
+
+                                            console.log(this.state.codeButtonDisabled+' codebutton')
+                                        }
+                                        )
                                 })}}
                         />
                         <TouchableOpacity onPress={()=>{
@@ -77,6 +88,7 @@ export default class SMSLanding extends Component {
                             },()=>{
                                 this.setState({
                                     clerUser:this.state.user.length!==0?34:-100,
+                                    codeButtonDisabled:true
                                 })
                             })
                         }} style={[styles.clear,{right:this.state.clerUser,}]}>
@@ -112,7 +124,8 @@ export default class SMSLanding extends Component {
                                             this.setState({
                                                 user:item,
                                                 showList:!this.state.showList,
-                                                clerUser:34
+                                                clerUser:34,
+                                                codeButtonDisabled:this.state.isTime?true:false
                                             })
                                         }}
                                         activeOpacity={0.8} style={styles.item}>
@@ -255,7 +268,8 @@ export default class SMSLanding extends Component {
             return
         }
         this.setState({
-            codeButtonDisabled:true
+            codeButtonDisabled:true,
+            isTime:true
         },()=>{
             let timeNumber =60
             let time = setInterval(()=>{
@@ -265,8 +279,9 @@ export default class SMSLanding extends Component {
                 if(timeNumber==0){
                     clearInterval(time)
                     this.setState({
-                        codeButtonDisabled:false,
-                        codeText:'重新获取'
+                        codeButtonDisabled:this.state.user.length==0?true:false,
+                        codeText:'重新获取',
+                        isTime:false
                     })
                 }
             },1000)
@@ -284,6 +299,9 @@ export default class SMSLanding extends Component {
         )
     }
    restPass(){
+       if(this.state.user.length==0&&this.state.code.length==0&&this.state.pass.length==0){
+           return
+       }
        this.setState({
            onLogin:true
        })

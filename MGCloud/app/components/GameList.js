@@ -92,8 +92,6 @@ export default class GameList extends Component {
                         </View>
 
                             <TouchableOpacity
-                                rounded
-                                success
                                 style={[styles.buttonStyle,rowData.reserve==1?{borderColor:'#eee'}:null]}
                                 onPress={
                                     () => {
@@ -140,11 +138,13 @@ export default class GameList extends Component {
                                 }
 
                             >
+
                                 <Text style={[{fontSize: 12, margin: 0, padding: 0,color:'#83b233'},rowData.reserve==1 ?{color:'#aaa'}:null]}>
                                     {
                                         this.props.name!=='预约榜' ?
                                             (rowData.gamePlayed ? '云玩结束' : '云玩') :
                                             (rowData.reserve==1 ? '已预约' : '预约')
+
                                     }
                                 </Text>
                             </TouchableOpacity>
@@ -459,7 +459,7 @@ export default class GameList extends Component {
          }
      }
     render() {
-         console.log('登陆成功预约页面从新渲染了')
+
         return (
         <View style={{flex:1,backgroundColor:'#fff'}}>
             <Display enable={this.state[this.returnName()]}

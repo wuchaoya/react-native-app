@@ -25,8 +25,8 @@ export default class SMSLanding extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            secretOff:require('../static/img/secret-off.png'),
-            secretOn:require('../static/img/secret-on.png'),
+            secretOff:require('../static/img/secret-on.png'),
+            secretOn:require('../static/img/secret-off.png'),
             off:require('../static/img/off_icon.png'),
             on:require('../static/img/on_icon.png'),
             secureTextEntry:true,
@@ -41,12 +41,13 @@ export default class SMSLanding extends Component {
             loginErr:false,
             list:[],
             showList:false,
-            codeText:'获取验证码'
+            codeText:'获取验证码',
+            isTime:false
         }
     }
     render() {
-        const { goBack } = this.props.navigation;
-        console.log( global.isLogin)
+        const { goBack ,navigate} = this.props.navigation;
+        this.navigate = navigate
         return (
             <View style={{flex:1}}>
                 <HeadNav leftColor="#222" color="#f5f5f5" onPress={() => goBack()}/>
@@ -69,8 +70,18 @@ export default class SMSLanding extends Component {
                                     user:text},()=>{
                                     this.setState({
                                         clerUser:this.state.user.length!==0?34:-100,
-                                        codeButtonDisabled:this.state.user.length===0,
-                                        loginButtonDisabled:!(this.state.user.length!==0&&this.state.code.length!==0)})
+                                        loginButtonDisabled:!(this.state.user.length!==0&&this.state.code.length!==0)
+                                    },()=>{
+                                            console.log(!this.state.isTime,this.state.user.length===0,)
+                                            if(!this.state.isTime){
+                                                this.setState({
+                                                    codeButtonDisabled:this.state.user.length===0,
+                                                })
+                                            }
+
+                                            console.log(this.state.codeButtonDisabled+' codebutton')
+                                        }
+                                        )
                                 })}}
                         />
                         <TouchableOpacity onPress={()=>{
@@ -115,7 +126,8 @@ export default class SMSLanding extends Component {
                                             this.setState({
                                                 user:item,
                                                 showList:!this.state.showList,
-                                                clerUser:34
+                                                clerUser:34,
+                                                codeButtonDisabled:this.state.isTime?true:false
                                             })
                                         }}
                                         activeOpacity={0.8} style={styles.item}>
@@ -152,7 +164,6 @@ export default class SMSLanding extends Component {
                                     code:text},()=>{
                                     this.setState({
                                         clerCode :this.state.code.length!==0?120:-100,
-                                        codeButtonDisabled:this.state.user.length===0,
                                         loginButtonDisabled:!(this.state.user.length!==0&&this.state.code.length!==0)})
                                 })}}
 
@@ -229,18 +240,20 @@ export default class SMSLanding extends Component {
             return
         }
         this.setState({
-            codeButtonDisabled:true
+            codeButtonDisabled:true,
+            isTime:true
         },()=>{
             let timeNumber =60
-            let time = setInterval(()=>{
+            this. time = setInterval(()=>{
                 this.setState({
                     codeText:'重新获取('+--timeNumber+')'
                 })
                 if(timeNumber==0){
-                    clearInterval(time)
+                    clearInterval(this.time)
                     this.setState({
                         codeButtonDisabled:false,
-                        codeText:'重新获取'
+                        codeText:'重新获取',
+                        isTime:false
                     })
                 }
             },1000)
@@ -258,6 +271,9 @@ export default class SMSLanding extends Component {
         )
     }
     smlLogin(){
+        if(this.state.user.length==0&&this.state.code.length==0){
+            return
+        }
         this.setState({
             onLogin:true
         })
@@ -275,7 +291,7 @@ export default class SMSLanding extends Component {
                     this.setState({
                         onLogin:false
                     },()=>{
-
+                        this.navigate('Home')
                     })
                 }
                 else {
@@ -288,6 +304,10 @@ export default class SMSLanding extends Component {
 
             }
         )
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.time)
     }
 }
 

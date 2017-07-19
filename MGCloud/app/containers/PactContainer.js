@@ -27,18 +27,31 @@ export default class extends Component {
 
     render() {
         let  {params} = this.props.navigation.state
+        console.log(params)
         return(
                 <View style={styles.container}>
                     <TransparentStatusBar/>
                     <HeadNav header={params.title} onPress={() => {BackHandler.exitApp()}}/>
                     <View style={styles.container}>
                         <WebView
-                            style={{width:width,height:height-20,backgroundColor:'gray',}}
-                            source={{uri:params.url,method: 'GET'}}
+                            style={{width:width,height:height-20,backgroundColor:'#fff',}}
+                            source={{uri:params.url,}}
                             javaScriptEnabled={true}
                             domStorageEnabled={true}
                             scalesPageToFit={false}
                             startInLoadingState={true}
+                            onLoadStart={()=>{
+                                console.log('网页开始加载')
+                            }}
+                            onError={()=>{
+                                console.log('加载错误')
+                            }}
+                            renderError={()=>{
+                                console.log('渲染错误')
+                            }}
+                            onLoadEnd={()=>{
+                                console.log('加载结束')
+                            }}
                         />
                     </View>
                 </View>
