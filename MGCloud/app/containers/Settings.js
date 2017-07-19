@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import HeadNav from '../components/HeadNav'
 import TransparentStatusBar    from '../components/TransparentStatusBar'
+import RNInteraction from '../common/RNInteraction'
 
 let url ='https://wap.myrunners.com/Public/registerAgreement'
 export default class Settings extends Component {
@@ -43,7 +44,9 @@ export default class Settings extends Component {
                         onPress={() => navigate('Pact',{url:url,title:'联系客服'})}
                         activeOpacity={0.9}
                         style={[styles.conter,{marginTop:0,borderTopWidth: 1,borderTopColor:'#ededed'}]}>
-                        <Text style={styles.text}>联系客服</Text>
+                        <Text style={styles.text} onPress={()=>{
+                            RNInteraction.openMGServer(global.userId?global.userId:null)
+                        }}>联系客服</Text>
                         <Image style={styles.nextImg} source={require('../static/img/next_icon.png')}/>
                     </TouchableOpacity>
                 </View>

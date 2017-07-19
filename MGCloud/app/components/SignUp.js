@@ -330,7 +330,7 @@ export default class SignIn extends Component {
         HttpRequest.loginRegister(
             {
                 phone:this.state.user,
-                password:md5(this.state.pass),
+                password:this.state.pass,
                 veritycode:Number(this.state.code),
                 ip:'',
                 location:''

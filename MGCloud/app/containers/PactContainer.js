@@ -27,11 +27,12 @@ export default class extends Component {
 
     render() {
         let  {params} = this.props.navigation.state
+        const { navigate,goBack } = this.props.navigation;
         console.log(params)
         return(
                 <View style={styles.container}>
                     <TransparentStatusBar/>
-                    <HeadNav header={params.title} onPress={() => {BackHandler.exitApp()}}/>
+                    <HeadNav header={params.title} onPress={() => goBack()}/>
                     <View style={styles.container}>
                         <WebView
                             style={{width:width,height:height-20,backgroundColor:'#fff',}}
