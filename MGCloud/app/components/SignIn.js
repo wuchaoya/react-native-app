@@ -40,9 +40,43 @@ export default class SignIn extends Component {
             clerPass: -100,
             onLogin: false,//是否弹出弹框
             loginErr: false,//是否登陆失败
-            list: []
+            list: [],
+            isTocuhSMSLanding:false,
+            isTocuhRestPass:false
         }
     }
+
+    touchSMSLanding(){
+        if(this.state.isTocuhSMSLanding){
+            return
+        }
+        this.setState({
+            isTocuhSMSLanding:true
+        },()=>{
+            this.props.navigation.navigate('SMSLanding')
+            setTimeout(()=>{
+                this.setState({
+                    isTocuhSMSLanding:false
+                })
+            },1000)
+        })
+    }
+    touchRestPass(){
+        if(this.state.isTocuhRestPass){
+            return
+        }
+        this.setState({
+            isTocuhRestPass:true
+        },()=>{
+            this.props.navigation.navigate('RestPass')
+            setTimeout(()=>{
+                this.setState({
+                    isTocuhRestPass:false
+                })
+            },1000)
+        })
+    }
+
 
     render() {
 
@@ -205,8 +239,8 @@ export default class SignIn extends Component {
                     });
                 }}/>
                 <View style={styles.foot}>
-                    <Text onPress={() => navigate('SMSLanding')} style={styles.text}>短信登录</Text>
-                    <Text onPress={() => navigate('RestPass')} style={styles.text}>忘记密码</Text>
+                    <Text onPress={() => this.touchSMSLanding()} style={styles.text}>短信登录</Text>
+                    <Text onPress={() => this.touchRestPass()} style={styles.text}>忘记密码</Text>
                 </View>
                 <Modal
                     transparent={true}

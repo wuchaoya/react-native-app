@@ -22,8 +22,45 @@ export default class UserHead extends Component {
         super(props);
         this.state = {
             userName:'未登陆',
-            userIcon:require('../static/img/user.png')
+            userIcon:require('../static/img/user.png'),
+            isTouchUserHead:false,
+            isTouchSetting:false
         }
+    }
+    touchUserHead(){
+        if(!global.userId){
+            if(this.state.isTouchUserHead){
+                return
+            }
+            this.setState({
+                isTouchUserHead:true
+            },()=>{
+                this.props.navigation.navigate('Login',{route:''})
+                setTimeout(()=>{
+                    this.setState({
+                        isTouchUserHead:false
+                    })
+                },1000)
+            })
+
+        }
+    }
+    touchSetting(){
+        if(this.state.isTouchSetting){
+            return
+        }
+        this.setState({
+            isTouchSetting:true,
+        },()=>{
+            this.props.navigation.navigate('Settings')
+            setTimeout(()=>{
+                this.setState({
+                    isTouchSetting:false
+                })
+            },1000)
+
+        },)
+
     }
     render() {
         const { navigate } = this.props.navigation;
@@ -32,21 +69,14 @@ export default class UserHead extends Component {
                 <TouchableHighlight onPress={() =>{BackHandler.exitApp()}}  style={styles.back} >
                     <Image  style={{height:33,width:33}} source={require('../static/img/back_icon.png')} />
                 </TouchableHighlight>
-                <TouchableHighlight onPress={() => navigate('Settings')}  style={styles.iconSetup} >
+                <TouchableHighlight onPress={() => this.touchSetting()}  style={styles.iconSetup} >
                     <Image  style={{height:22,width:22}} source={require('../static/img/setting_icon.png')} />
                 </TouchableHighlight>
-                <TouchableOpacity activeOpacity={0.8} onPress={() => {
-                    if(!global.userId){
-                        navigate('Login',{route:''})
-                    }
-                }} style={styles.headImgBorder}>
+                <TouchableOpacity activeOpacity={0.8} onPress={() =>this.touchUserHead()
+                } style={styles.headImgBorder}>
                     <Image style={styles.headImg} source={this.state.userIcon}/>
                 </TouchableOpacity>
-                <Text onPress={() => {
-                    if(!global.userId){
-                        navigate('Login',{route:''})
-                    }
-                }}  style={styles.userNameText}>{this.state.userName}</Text>
+                <Text onPress={() => this.touchUserHead()}  style={styles.userNameText}>{this.state.userName}</Text>
             </View>
         );
     }

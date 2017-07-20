@@ -55,6 +55,7 @@ export default class SignIn extends Component {
     render() {
         const { navigate,goBack } = this.props.navigation;
         this.goBack=goBack
+        this.navigate= navigate
         return (
             <View style={styles.container}>
                 <View >
@@ -343,7 +344,7 @@ export default class SignIn extends Component {
                         isShow:false
 
                     },()=>{
-                        this.goBack()
+                        this.navigate('Login')
 
                     })
 

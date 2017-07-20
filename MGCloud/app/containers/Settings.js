@@ -19,34 +19,69 @@ import RNInteraction from '../common/RNInteraction'
 
 let url ='https://wap.myrunners.com/Public/registerAgreement'
 export default class Settings extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
             isShow:false,
-            isLogin:global.userId?true:false
+            isLogin:global.userId?true:false,
+            isTouchPact:false,
+            isTouchMGServer:false
         }
     }
 
+    touchSetTimeOut(navName,name,obj){
+        if(this.state[name]){
+            return
+        }
+        this.setState({
+            name:true,
+        },()=>{
+            this.props.navigation. navigate(navName,obj)
+            setTimeout(()=>{
+                this.setState({
+                    name:false
+                })
+            },1000)
+
+        },)
+
+    }
+    touchMGServer(){
+        if(this.state.isTouchMGServer){
+            return
+        }
+        this.setState({
+            isTouchMGServer:true
+        },()=>{
+             RNInteraction.openMGServer(global.userId?global.userId:null)
+            setTimeout(()=>{
+                this.setState({
+                    isTouchMGServer:false
+                })
+            })
+
+        })
+    }
     render() {
         const { goBack,navigate } = this.props.navigation;
         this.goBack = goBack
+
         return (
             <View style={styles.container}>
                 <TransparentStatusBar/>
                 <HeadNav header="设置"  onPress={() => goBack()} />
                 <View style={{  paddingLeft:12,paddingRight:12,backgroundColor:'#fff',}}>
                     <TouchableOpacity
-                        activeOpacity={0.9} style={styles.conter} onPress={() => navigate('Pact',{url:url,title:'用户服务协议'})}>
+                        activeOpacity={0.9} style={styles.conter} onPress={() => this.touchSetTimeOut('Pact','isTouchPact',{url:url,title:'用户服务协议'})}>
                         <Text style={styles.text} >用户服务协议</Text>
                         <Image style={styles.nextImg} source={require('../static/img/next_icon.png')}/>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => navigate('Pact',{url:url,title:'联系客服'})}
+                        onPress={() => this.touchMGServer()}
                         activeOpacity={0.9}
                         style={[styles.conter,{marginTop:0,borderTopWidth: 1,borderTopColor:'#ededed'}]}>
-                        <Text style={styles.text} onPress={()=>{
-                            RNInteraction.openMGServer(global.userId?global.userId:null)
-                        }}>联系客服</Text>
+                        <Text style={styles.text}>联系客服</Text>
                         <Image style={styles.nextImg} source={require('../static/img/next_icon.png')}/>
                     </TouchableOpacity>
                 </View>

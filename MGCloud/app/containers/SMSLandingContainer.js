@@ -9,7 +9,8 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    Modal
+    Modal,
+    DeviceEventEmitter
 } from 'react-native';
 import HeadNav from '../components/HeadNav'
 import CodeButton from '../components/CodeButton'
@@ -287,18 +288,42 @@ export default class SMSLanding extends Component {
             },
             (response)=>{
                 console.log(response)
-                if(response.resultCode==0){
-                    this.setState({
-                        onLogin:false
-                    },()=>{
-                        this.navigate('Home')
+                if (response.resultCode == 0) {
+                    if (response.authenticateRsp.userInfo.identityID) {
+                        global.userInfo = response.authenticateRsp;
+                        global.userId = response.authenticateRsp.userInfo.identityID
+                    }
+                    let arr = []
+                    DeviceStorage.get('userList').then((v)=> {
+                        console.log(v)
+                        if (v) {
+                            arr = v
+
+                        }
+                        else {
+                            arr = []
+                        }
+                        if (arr.indexOf(this.state.user) == -1) {
+                            arr.push(this.state.user)
+
+                        }
+                        DeviceStorage.save('userList', arr).then(
+                            this.setState({
+                                onLogin: false
+                            }, ()=> {
+
+                                DeviceEventEmitter.emit('LoginStatus', {userName: this.state.user})
+                                this.navigate('Home')
+                            })
+                        )
                     })
                 }
                 else {
                     this.setState({
-                        loginErr:true
+                        loginErr: true
                     })
                 }
+
             },
             (error)=>{
 

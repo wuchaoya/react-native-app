@@ -44,7 +44,8 @@ export default class GameDetails extends Component {
             isLogin:false,
             starDisable:false,
             isStar:false,
-            starNumber:0
+            starNumber:0,
+            isTouchHiden:false
 
         }
     }
@@ -57,9 +58,21 @@ export default class GameDetails extends Component {
     }
 
     heiden(){
+        if(this.state.isTouchHiden){
+            return
+        }
         this.setState({
-            isShow:false,
-            statusBarOpacity:0
+            isTouchHiden:true
+        },()=>{
+            this.setState({
+                isShow:false,
+                statusBarOpacity:0
+            })
+            setTimeout(()=>{
+                this.setState({
+                    isTouchHiden:false
+                })
+            },2000)
         })
     }
 
@@ -212,7 +225,7 @@ export default class GameDetails extends Component {
                             </View>
                         </View>
                     </Modal>
-                        <Modal
+                    <Modal
                             transparent={true}
                             animationType={"slide"}
                             visible={this.state.isLogin}

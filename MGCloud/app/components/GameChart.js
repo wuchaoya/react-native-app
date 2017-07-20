@@ -22,12 +22,24 @@ export default class GameChart extends Component{
         this.state = {
             dataSource: ds.cloneWithRows(this.props.data.images),
             modalVisible:false,
-            isShow:false
+            isShow:false,
+            isTouchGallery:false
         };
     }
-    hiden(){
-        this.setState({
 
+    touchGallery(){
+        if(this.state.isTouchGallery){
+            return
+        }
+        this.setState({
+            isTouchGallery:true
+        },()=>{
+            DeviceEventEmitter.emit('Gallery', true)
+            setTimeout(()=>{
+                this.setState({
+                    isTouchGallery:false
+                })
+            },2000)
         })
     }
 
@@ -36,9 +48,7 @@ export default class GameChart extends Component{
         return (
             <TouchableOpacity
                 style={{width:this.state.imgwidth,height:this.state.imgheight}}
-                onPress={()=>{
-                    DeviceEventEmitter.emit('Gallery', true)
-                }}
+                onPress={()=>this.touchGallery()}
                 activeOpacity={0.7}
             >
 

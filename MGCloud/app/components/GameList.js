@@ -40,7 +40,8 @@ export default class GameList extends Component {
             newProductsEnable:false,
             reserveEnable:false,
             gameListEnable:false,
-            isTouchReserver:false
+            isTouchReserver:false,
+            isTouchGameDetails:false
         };
         this.renderHeader = this.renderHeader.bind(this);
         this._renderRow = this._renderRow.bind(this);
@@ -48,7 +49,24 @@ export default class GameList extends Component {
         this.loadMore = this.loadMore.bind(this);
         this.topIndicatorRender = this.topIndicatorRender.bind(this);
     }
+    touchGameDetails(gid){
+        if(gid){
+            if(this.state.isTouchGameDetails){
+                return
+            }
+            this.setState({
+                isTouchGameDetails:true
+            },()=>{
+                this.props.navigation.navigate('GameDetails',{gid:gid})
+                setTimeout(()=>{
+                    this.setState({
+                        isTouchGameDetails:false
+                    })
+                },2000)
+            })
 
+        }
+    }
     _renderNumber(isShow,ID){
         if(isShow===true){
             return ( <Text style={[{fontSize:20,alignSelf:'center'},Number(ID)<3?{color:'#ff8800'}:{color:'#999',fontSize:15}]}>{Number(ID)+1}</Text>
@@ -59,7 +77,7 @@ export default class GameList extends Component {
     _renderRow(rowData, sectionID, rowID, highlightRow) {
         const {navigate} = this.props.navigation;
         return (
-            <TouchableOpacity onPress={() => navigate('GameDetails',{gid:rowData.gid})}>
+            <TouchableOpacity onPress={() => this.touchGameDetails(rowData.gid)}>
                 <View>
                     <View style={[styles.row,{justifyContent:'space-between',}]}>
                         <View style={{width:this.props.showNumber?30:0,}}>
