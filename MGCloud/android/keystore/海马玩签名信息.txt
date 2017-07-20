@@ -1,0 +1,8 @@
+keystroe password:Person123456
+alias:android.keystore
+key password:Person123456
+first and last name:haimawan
+
+
+phone:
+key password:Person123456
